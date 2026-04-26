@@ -8,8 +8,10 @@ import {
   Platform, 
   ScrollView,
   ActivityIndicator,
-  Image
+  Image,
+  Alert
 } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
@@ -23,7 +25,7 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert('Please fill in all fields');
+      Alert.alert('Error', 'Please fill in all fields');
       return;
     }
     try {
@@ -44,7 +46,7 @@ export default function LoginScreen({ navigation }: any) {
              <Text style={styles.logoText}>t</Text>
           </View>
           <Text style={styles.title}>Login Account</Text>
-          <Text style={styles.subtitle}>Welcome back, login to your account (v2)</Text>
+          <Text style={styles.subtitle}>Welcome back, login to your account</Text>
         </View>
 
         <View style={styles.form}>
@@ -93,14 +95,17 @@ export default function LoginScreen({ navigation }: any) {
           </View>
 
           <View style={styles.socialButtonsContainer}>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
-              <Text style={styles.socialIcon}>G</Text>
+            <TouchableOpacity 
+              style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
+              onPress={() => alert('Google login coming soon!')}
+            >
+              <FontAwesome name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
-              <Text style={styles.socialIcon}>f</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
-              <Text style={styles.socialIcon}>GH</Text>
+            <TouchableOpacity 
+              style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
+              onPress={() => alert('Facebook login coming soon!')}
+            >
+              <FontAwesome name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>
           </View>
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { 
   View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, 
-  Platform, ScrollView, ActivityIndicator
+  Platform, ScrollView, ActivityIndicator, Alert
 } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
@@ -22,6 +23,10 @@ export default function RegisterScreen({ navigation }: any) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
+    if (password.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long');
+      return;
+    }
     try { 
       await register({ name, email, password, role, designation }); 
     } catch (err) { /* Error handled by store */ }
@@ -39,7 +44,7 @@ export default function RegisterScreen({ navigation }: any) {
           {authError && (<View style={styles.errorContainer}><Text style={styles.errorText}>{authError}</Text></View>)}
           <CustomInput label="Full Name" placeholder="Enter your full name" value={name} onChangeText={setName} />
           <CustomInput label="Email Address" placeholder="Enter your email" value={email} onChangeText={setEmail} keyboardType="email-address" />
-          <CustomInput label="Password" placeholder="Create a password" value={password} onChangeText={setPassword} secureTextEntry />
+          <CustomInput label="Password" placeholder="Create a password (min 8 chars)" value={password} onChangeText={setPassword} secureTextEntry />
           
           <Text style={styles.label}>I am a...</Text>
           <View style={styles.roleContainer}>
@@ -75,9 +80,12 @@ export default function RegisterScreen({ navigation }: any) {
             <View style={styles.dividerLine} /><Text style={styles.dividerText}>OR CONTINUE WITH</Text><View style={styles.dividerLine} />
           </View>
           <View style={styles.socialButtonsContainer}>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}><Text style={styles.socialIcon}>G</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}><Text style={styles.socialIcon}>f</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}><Text style={styles.socialIcon}>GH</Text></TouchableOpacity>
+            <TouchableOpacity style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} onPress={() => alert('Google login coming soon!')}>
+              <FontAwesome name="google" size={24} color="#DB4437" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} onPress={() => alert('Facebook login coming soon!')}>
+              <FontAwesome name="facebook" size={24} color="#ffffff" />
+            </TouchableOpacity>
           </View>
           <View style={styles.footer}>
             <Text style={styles.footerText}>Already have an account? </Text>

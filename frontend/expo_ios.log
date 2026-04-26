@@ -1246,3 +1246,200 @@ We recommend you instead use a development build to avoid limitations. Learn mor
  ERROR  [Error: Exception in HostFunction: <unknown>]
  ERROR  [ReferenceError: Property '__reanimatedLoggerConfig' doesn't exist]
  ERROR  [ReferenceError: Property '__reanimatedLoggerConfig' doesn't exist]
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundled 93ms index.ts (1 module)
+ WARN  expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Read more at https://docs.expo.dev/develop/development-builds/introduction/.
+ WARN  `expo-notifications` functionality is not fully supported in Expo Go:
+We recommend you instead use a development build to avoid limitations. Learn more: https://expo.fyi/dev-client.
+ ERROR  [runtime not ready]: ReferenceError: Property '__reanimatedLoggerConfig' doesn't exist
+ WARN  🚨 React Native's New Architecture is always enabled in Expo Go, but it is explicitly disabled in your project's app config. This may lead to unexpected behavior when creating a production or development build. Remove "newArchEnabled": false from your app.json.
+Learn more: https://docs.expo.dev/guides/new-architecture/
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundled 88ms index.ts (1 module)
+ WARN  expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Read more at https://docs.expo.dev/develop/development-builds/introduction/.
+ WARN  `expo-notifications` functionality is not fully supported in Expo Go:
+We recommend you instead use a development build to avoid limitations. Learn more: https://expo.fyi/dev-client.
+ ERROR  [runtime not ready]: ReferenceError: Property '__reanimatedLoggerConfig' doesn't exist
+ WARN  🚨 React Native's New Architecture is always enabled in Expo Go, but it is explicitly disabled in your project's app config. This may lead to unexpected behavior when creating a production or development build. Remove "newArchEnabled": false from your app.json.
+Learn more: https://docs.expo.dev/guides/new-architecture/
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+Unable to resolve "./cjs/scheduler.native.development.js" from "node_modules/react-native/node_modules/scheduler/index.native.js"
+[0m [90m 4 |[39m   module[33m.[39mexports [33m=[39m require([32m'./cjs/scheduler.native.production.min.js'[39m)[33m;[39m
+ [90m 5 |[39m } [36melse[39m {
+[31m[1m>[22m[39m[90m 6 |[39m   module[33m.[39mexports [33m=[39m require([32m'./cjs/scheduler.native.development.js'[39m)[33m;[39m
+ [90m   |[39m                             [31m[1m^[22m[39m
+ [90m 7 |[39m }
+ [90m 8 |[39m[0m
+
+Import stack (2000):
+
+ node_modules/react-native/node_modules/scheduler/index.native.js
+ | import "./cjs/scheduler.native.development.js"
+
+ node_modules/react-native/Libraries/Renderer/implementations/ReactNativeRenderer-dev.js
+ | import "scheduler"
+
+ node_modules/react-native/Libraries/Renderer/shims/ReactNative.js
+ | import "../implementations/ReactNativeRenderer-dev"
+
+ node_modules/react-native/Libraries/ReactNative/RendererImplementation.js
+ | import "../Renderer/shims/ReactNative"
+
+ node_modules/react-native/Libraries/ReactNative/RendererProxy.js
+ | import "./RendererImplementation"
+
+ node_modules/react-native/index.js
+ | import "./Libraries/ReactNative/RendererProxy"
+
+ node_modules/expo/src/Expo.fx.tsx
+ | import "react-native"
+
+ node_modules/expo/src/Expo.ts
+ | import "./Expo.fx"
+
+ index.ts
+ | import "expo"
+
+ 
+ | import "./index.ts"
+
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/react-native/package.json'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at getContent (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro-file-map/src/worker.js:36:22)
+    at Worker.processFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro-file-map/src/worker.js:73:22)
+    at FileProcessor.processRegularFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro-file-map/src/lib/FileProcessor.js:81:32)
+    at TreeFS.processFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro-file-map/src/index.js:212:46)
+    at TreeFS.getOrComputeSha1 (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro-file-map/src/lib/TreeFS.js:124:49)
+    at DependencyGraph.getOrComputeSha1 (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/node-haste/DependencyGraph.js:189:43)
+    at Transformer.getOrComputeSha1 [as _getSha1] (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/Bundler.js:27:28)
+    at Transformer.transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Transformer.js:102:33)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  Error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js'
+    at Object.openSync (node:fs:556:18)
+    at Object.readFileSync (node:fs:440:35)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:38:24)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
