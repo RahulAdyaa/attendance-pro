@@ -12,3 +12,5 @@ iOS ./index.ts ▓▓▓▓░░░░░░░░░░░░ 30.3% (239/434)
 iOS ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 66.6% ( 705/2530)
 iOS ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 92.3% (2916/3062)
 iOS Bundled 12423ms index.ts (3228 modules)
+ ERROR  Error fetching stats: [AxiosError: Request failed with status code 404]
+ ERROR  Error fetching history: [AxiosError: Request failed with status code 404]
