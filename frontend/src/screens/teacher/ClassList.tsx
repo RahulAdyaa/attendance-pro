@@ -89,18 +89,20 @@ export default function ClassList({ navigation }: any) {
         studentName: studentName.trim(),
         rollNumber: studentSection ? `SEC-${studentSection.toUpperCase()}` : undefined
       });
-      alert('Student added successfully!');
+      setIsAddingStudent(false);
       setStudentEmail('');
       setStudentName('');
       setStudentSection('');
+      
       if (closeAfterAdd) {
         setStudentModalVisible(false);
       }
+      
+      // Update list in background
       fetchClasses();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to add student');
-    } finally {
       setIsAddingStudent(false);
+      alert(error.response?.data?.error || 'Failed to add student');
     }
   };
 
@@ -193,7 +195,7 @@ export default function ClassList({ navigation }: any) {
             <Text style={styles.label}>Subject</Text>
             <TextInput style={styles.input} placeholder="e.g. Calculus" placeholderTextColor={colors.textMuted} value={newClassSubject} onChangeText={setNewClassSubject} />
             <View style={styles.modalButtons}>
-              <TouchableOpacity style={[styles.modalButton, styles.cancelButton, { flex: 1, marginRight: 10 }]} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setModalVisible(false)}>
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.modalButton, styles.createButton, isCreating && styles.disabledButton]} onPress={handleAddClass} disabled={isCreating}>
@@ -311,11 +313,11 @@ const useStyles = () => {
     label: { color: colors.text, fontSize: 14, fontWeight: '600', marginBottom: 8, marginTop: 15, marginLeft: 4 },
     labelForm: { color: colors.text, fontSize: 13, fontWeight: '600', marginBottom: 6, marginLeft: 4 },
     input: { backgroundColor: colors.background, color: colors.text, borderRadius: 12, padding: 15, fontSize: 15, borderWidth: 1, borderColor: colors.border },
-    modalButtons: { flexDirection: 'row', marginTop: 35, marginBottom: 10 },
-    modalButton: { padding: 18, borderRadius: 16, alignItems: 'center' },
-    cancelButton: { backgroundColor: colors.background, borderWidth: 1, borderColor: colors.border },
-    cancelButtonText: { color: colors.text, fontWeight: '600', fontSize: 16 },
-    createButton: { shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 },
+    modalButtons: { flexDirection: 'row', marginTop: 25, gap: 12 },
+    modalButton: { flex: 1, padding: 16, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+    cancelButton: { backgroundColor: colors.danger },
+    cancelButtonText: { color: colors.white, fontWeight: '700', fontSize: 16 },
+    createButton: { backgroundColor: colors.success, shadowColor: colors.success, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 },
     createButtonText: { color: colors.white, fontWeight: 'bold', fontSize: 16 },
     disabledButton: { opacity: 0.7 }
   });

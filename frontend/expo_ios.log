@@ -1443,3 +1443,75 @@ Import stack (2000):
     at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
     at process.emit (node:events:509:20)
     at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: UnableToResolveError Unable to resolve module ./cjs/scheduler.native.development.js from /Users/rahuladya/attendance pro/frontend/node_modules/react-native/node_modules/scheduler/index.native.js: 
+
+None of these files exist:
+  * node_modules/react-native/node_modules/scheduler/cjs/scheduler.native.development.js(.ios.ts|.native.ts|.ts|.ios.tsx|.native.tsx|.tsx|.ios.mjs|.native.mjs|.mjs|.ios.js|.native.js|.js|.ios.jsx|.native.jsx|.jsx|.ios.json|.native.json|.json|.ios.cjs|.native.cjs|.cjs|.ios.scss|.native.scss|.scss|.ios.sass|.native.sass|.sass|.ios.css|.native.css|.css)
+  * node_modules/react-native/node_modules/scheduler/cjs/scheduler.native.development.js
+[0m [90m 4 |[39m   module[33m.[39mexports [33m=[39m require([32m'./cjs/scheduler.native.production.min.js'[39m)[33m;[39m
+ [90m 5 |[39m } [36melse[39m {
+[31m[1m>[22m[39m[90m 6 |[39m   module[33m.[39mexports [33m=[39m require([32m'./cjs/scheduler.native.development.js'[39m)[33m;[39m
+ [90m   |[39m                             [31m[1m^[22m[39m
+ [90m 7 |[39m }
+ [90m 8 |[39m[0m]
+ ERROR  [Error: InternalError Metro has encountered an error: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/react-native/package.json': node:fs (556:18)
+
+]
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+ ERROR  [Error: TransformError node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js: ENOENT: no such file or directory, open '/Users/rahuladya/attendance pro/frontend/node_modules/expo-notifications/node_modules/expo-constants/build/Constants.js']
+Unable to resolve "invariant" from "node_modules/react-native/Libraries/ActionSheetIOS/ActionSheetIOS.js"
+
+Import stack (2000):
+
+ node_modules/react-native/Libraries/ActionSheetIOS/ActionSheetIOS.js
+ | import "invariant"
+
+ node_modules/react-native/index.js
+ | import "./Libraries/ActionSheetIOS/ActionSheetIOS"
+
+ node_modules/expo/src/Expo.fx.tsx
+ | import "react-native"
+
+ node_modules/expo/src/Expo.ts
+ | import "./Expo.fx"
+
+ index.ts
+ | import "expo"
+
+ 
+ | import "./index.ts"
+
+Unable to resolve "../platform-specific/RNRenderer" from "node_modules/react-native-reanimated/src/createAnimatedComponent/createAnimatedComponent.tsx"
+[0m [90m 13 |[39m [36mimport[39m invariant [36mfrom[39m [32m'invariant'[39m[33m;[39m
+ [90m 14 |[39m [36mimport[39m { adaptViewConfig } [36mfrom[39m [32m'../ConfigHelper'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m { [33mRNRenderer[39m } [36mfrom[39m [32m'../platform-specific/RNRenderer'[39m[33m;[39m
+ [90m    |[39m                             [31m[1m^[22m[39m
+ [90m 16 |[39m [36mimport[39m { enableLayoutAnimations } [36mfrom[39m [32m'../core'[39m[33m;[39m
+ [90m 17 |[39m [36mimport[39m { [33mSharedTransition[39m[33m,[39m [33mLayoutAnimationType[39m } [36mfrom[39m [32m'../layoutReanimation'[39m[33m;[39m
+ [90m 18 |[39m [36mimport[39m type { [33mStyleProps[39m[33m,[39m [33mShadowNodeWrapper[39m } [36mfrom[39m [32m'../commonTypes'[39m[33m;[39m[0m
+
+Import stack (2000):
+
+ node_modules/react-native-reanimated/src/createAnimatedComponent/createAnimatedComponent.tsx
+ | import "../platform-specific/RNRenderer"
+
+ node_modules/react-native-reanimated/src/createAnimatedComponent/index.ts
+ | import "./createAnimatedComponent"
+
+ node_modules/react-native-reanimated/src/Animated.ts
+ | import "./createAnimatedComponent"
+
+ 
+ | import "./node_modules/react-native-reanimated/src/Animated"
+
