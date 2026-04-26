@@ -24,6 +24,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useDataStore } from '../../store/useDataStore';
 import { 
   Users, 
   CheckCircle, 
@@ -45,13 +46,14 @@ export default function TeacherDashboard({ navigation }: any) {
   const { user } = useAuthStore();
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
-  const [stats, setStats] = useState({
+  const { stats: cachedStats, fetchStats: fetchStatsCached, fetchClasses: fetchClassesCached } = useDataStore();
+  const [stats, setStats] = useState(cachedStats || {
     totalStudents: 0,
     attendanceRate: 0,
     totalPresent: 0,
     totalAbsent: 0
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!cachedStats); // Only load if no cache
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeDate, setActiveDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -60,7 +62,7 @@ export default function TeacherDashboard({ navigation }: any) {
   // Modal states
   const [isClassSelectorOpen, setIsClassSelectorOpen] = useState(false);
   const [selectorType, setSelectorType] = useState<'ALL' | 'PRESENT' | 'ABSENT' | 'MARK'>('ALL');
-  const [classes, setClasses] = useState<any[]>([]);
+  const { classes, fetchClasses: refreshClasses } = useDataStore(); // Use global classes
   
   // Students list state
   const [isStudentsListOpen, setIsStudentsListOpen] = useState(false);
@@ -72,8 +74,8 @@ export default function TeacherDashboard({ navigation }: any) {
     const targetDate = date || activeDate;
     const dateString = targetDate.toISOString().split('T')[0];
     try {
-      const response = await api.get(`/classes/teacher/stats?date=${dateString}`);
-      setStats(response.data);
+      await fetchStatsCached(dateString);
+      // Sync local state with cache if needed, but Zustand handles it
     } catch (error) {
       console.error('Error fetching stats:', error);
     } finally {
@@ -82,17 +84,17 @@ export default function TeacherDashboard({ navigation }: any) {
     }
   };
 
-  const fetchClasses = async () => {
-    try {
-      const response = await api.get('/classes/teacher');
-      setClasses(response.data);
-    } catch (error) { console.error('Error fetching classes:', error); }
-  };
+  // Sync local stats when global store updates
+  useEffect(() => {
+    if (cachedStats) {
+      setStats(cachedStats);
+    }
+  }, [cachedStats]);
 
   useFocusEffect(
     useCallback(() => {
       fetchStats(activeDate);
-      fetchClasses();
+      refreshClasses();
     }, [])
   );
 

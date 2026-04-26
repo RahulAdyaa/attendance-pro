@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { useAppTheme } from '../../hooks/useAppTheme';
+import { useDataStore } from '../../store/useDataStore';
 import { Plus, Search, BookOpen, Users, UserPlus, Copy, Check, Trash2 } from 'lucide-react-native';
 import api from '../../utils/api';
 import { FadeInUp, AnimatedModal } from '../../components/CustomUI';
@@ -14,8 +15,8 @@ interface ClassItem { id: string; name: string; subject: string; studentCount: n
 export default function ClassList({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
-  const [classes, setClasses] = useState<ClassItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { classes, fetchClasses: fetchClassesCached } = useDataStore();
+  const [isLoading, setIsLoading] = useState(classes.length === 0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,8 +39,7 @@ export default function ClassList({ navigation }: any) {
 
   const fetchClasses = async () => {
     try {
-      const response = await api.get('/classes/teacher');
-      setClasses(response.data.map((c: any) => ({ ...c, studentCount: c._count?.students || 0 })));
+      await fetchClassesCached();
     } catch (error) { console.error('Error fetching classes:', error); }
     finally { setIsLoading(false); setIsRefreshing(false); }
   };
