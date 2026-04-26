@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert, Platform, Modal } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Animated, { FadeInDown, Layout, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { Check, X, Clock, AlertCircle, Save } from 'lucide-react-native';
+import { Save, ChevronLeft } from 'lucide-react-native';
 import api from '../../utils/api';
 
-interface Student { id: string; name: string; status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED'; }
+type Status = 'PRESENT' | 'ABSENT' | 'NOT_AVAILABLE';
+interface Student { id: string; name: string; status: Status; }
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function MarkAttendance({ route, navigation }: any) {
   const { classId, className } = route.params;
@@ -24,42 +28,32 @@ export default function MarkAttendance({ route, navigation }: any) {
     try {
       const response = await api.get(`/classes/${classId}`);
       let studentsData = response.data.students.map((student: any) => ({
-        id: student.id, name: student.user?.name || 'Unknown', status: 'PRESENT'
+        id: student.id, name: student.user?.name || 'Unknown', status: 'PRESENT' as Status
       }));
 
-      // Check if there is an existing session for the selected date
       const historyResponse = await api.get(`/attendance/history/${classId}`);
       const sessions = historyResponse.data;
-      
-      const isSameDate = (date1: string, date2: Date) => {
-        const d1 = new Date(date1);
-        return d1.getFullYear() === date2.getFullYear() && 
-               d1.getMonth() === date2.getMonth() && 
-               d1.getDate() === date2.getDate();
-      };
+      const dateStr = selectedDate.toISOString().split('T')[0];
+      const session = sessions.find((s: any) => s.date.startsWith(dateStr));
 
-      const sessionForDate = sessions.find((s: any) => isSameDate(s.date, selectedDate));
-
-      if (sessionForDate) {
+      if (session) {
         const recordMap = new Map();
-        sessionForDate.records.forEach((r: any) => recordMap.set(r.studentId, r.status));
-        
+        session.records.forEach((r: any) => recordMap.set(r.studentId, r.status));
         studentsData = studentsData.map((s: any) => ({
           ...s,
           status: recordMap.has(s.id) ? recordMap.get(s.id) : s.status
         }));
       }
-
       setStudents(studentsData);
-    } catch (error) { console.error('Error fetching students:', error); Alert.alert('Error', 'Failed to load student list'); }
+    } catch (error) { Alert.alert('Error', 'Failed to load student list'); }
     finally { setIsLoading(false); }
   };
 
-  const updateStatus = (studentId: string, status: Student['status']) => {
+  const updateStatus = (studentId: string, status: Status) => {
     setStudents(prev => prev.map(s => s.id === studentId ? { ...s, status } : s));
   };
 
-  const handleBulkAction = (status: Student['status']) => {
+  const handleBulkAction = (status: Status) => {
     setStudents(prev => prev.map(s => ({ ...s, status })));
   };
 
@@ -77,26 +71,46 @@ export default function MarkAttendance({ route, navigation }: any) {
     finally { setIsSaving(false); }
   };
 
-  const renderStudentItem = ({ item }: { item: Student }) => {
-    const statusColors = { PRESENT: colors.present, ABSENT: colors.absent, LATE: colors.late, EXCUSED: colors.secondary };
+  const StatusButton = ({ studentId, currentStatus, targetStatus, label, color }: any) => {
+    const isActive = currentStatus === targetStatus;
+    const scale = useSharedValue(1);
+    
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ scale: scale.value }],
+      backgroundColor: isActive ? color : colors.background,
+      borderColor: isActive ? color : colors.border,
+    }));
+
+    const onPressIn = () => { scale.value = withSpring(0.9); };
+    const onPressOut = () => { scale.value = withSpring(1); };
+
     return (
-      <View style={styles.studentCard}>
-        <Text style={styles.studentName}>{item.name}</Text>
-        <View style={styles.statusGroup}>
-          {(['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'] as Student['status'][]).map((status) => (
-            <TouchableOpacity key={status}
-              style={[styles.statusButton, item.status === status && { backgroundColor: statusColors[status] + '20', borderColor: statusColors[status] }]}
-              onPress={() => updateStatus(item.id, status)}>
-              {status === 'PRESENT' && <Check size={18} color={item.status === status ? statusColors.PRESENT : colors.textMuted} />}
-              {status === 'ABSENT' && <X size={18} color={item.status === status ? statusColors.ABSENT : colors.textMuted} />}
-              {status === 'LATE' && <Clock size={18} color={item.status === status ? statusColors.LATE : colors.textMuted} />}
-              {status === 'EXCUSED' && <AlertCircle size={18} color={item.status === status ? statusColors.EXCUSED : colors.textMuted} />}
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+      <AnimatedTouchable
+        activeOpacity={1}
+        style={[styles.statusButton, animatedStyle]}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        onPress={() => updateStatus(studentId, targetStatus)}
+      >
+        <Text style={[styles.statusButtonText, { color: isActive ? colors.white : colors.textMuted }]}>
+          {label}
+        </Text>
+      </AnimatedTouchable>
     );
   };
+
+  const renderStudentItem = ({ item, index }: { item: Student, index: number }) => (
+    <Animated.View entering={FadeInDown.delay(index * 30).springify()} layout={Layout.springify()}>
+      <View style={styles.studentCard}>
+        <Text style={styles.studentName} numberOfLines={1}>{item.name}</Text>
+        <View style={styles.statusGroup}>
+          <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="PRESENT" label="P" color={colors.present} />
+          <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="ABSENT" label="A" color={colors.absent} />
+          <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="NOT_AVAILABLE" label="N/A" color={colors.textMuted} />
+        </View>
+      </View>
+    </Animated.View>
+  );
 
   if (isLoading) {
     return (<View style={[styles.container, styles.centered]}><ActivityIndicator size="large" color={colors.primary} /></View>);
@@ -105,17 +119,20 @@ export default function MarkAttendance({ route, navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <ChevronLeft size={28} color={colors.text} />
+        </TouchableOpacity>
+        <View style={styles.headerInfo}>
           <Text style={styles.classTitle}>{className}</Text>
           <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Text style={[styles.dateText, { color: colors.primary, fontWeight: 'bold' }]}>📅 {selectedDate.toDateString()}</Text>
+            <Text style={styles.dateText}>📅 {selectedDate.toDateString()}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={[styles.saveButton, isSaving && styles.disabledButton]} onPress={handleSave} disabled={isSaving}>
           {isSaving ? <ActivityIndicator color={colors.white} /> : <Save size={20} color={colors.white} />}
-          {!isSaving && <Text style={styles.saveButtonText}>Save</Text>}
         </TouchableOpacity>
       </View>
+
       <View style={styles.bulkActions}>
         <TouchableOpacity style={styles.bulkButton} onPress={() => handleBulkAction('PRESENT')}>
           <Text style={[styles.bulkButtonText, { color: colors.present }]}>All Present</Text>
@@ -125,55 +142,26 @@ export default function MarkAttendance({ route, navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      {showDatePicker && Platform.OS === 'ios' && (
-        <Modal transparent={true} visible={showDatePicker} animationType="slide">
-          <View style={styles.modalOverlay}>
-            <View style={styles.datePickerContainer}>
-              <View style={styles.datePickerHeader}>
-                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
-                  <Text style={styles.doneButtonText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                display="spinner"
-                textColor={colors.text}
-                themeVariant={isDarkMode ? 'dark' : 'light'}
-                onChange={(event, date) => {
-                  if (date) setSelectedDate(date);
-                }}
-              />
-            </View>
-          </View>
-        </Modal>
-      )}
+      <FlatList 
+        data={students} 
+        renderItem={renderStudentItem} 
+        keyExtractor={item => item.id} 
+        contentContainerStyle={styles.listContent}
+        ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No students enrolled in this class.</Text></View>}
+      />
 
-      {showDatePicker && Platform.OS === 'android' && (
+      {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
           mode="date"
-          display="default"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
           onChange={(event, date) => {
             setShowDatePicker(false);
             if (date) setSelectedDate(date);
           }}
+          maximumDate={new Date()}
         />
       )}
-      
-      <View style={styles.columnHeaderContainer}>
-        <Text style={styles.columnHeaderName}>Student Name</Text>
-        <View style={styles.columnHeaderStatusGroup}>
-          <Text style={styles.columnHeaderLabel}>P</Text>
-          <Text style={styles.columnHeaderLabel}>A</Text>
-          <Text style={styles.columnHeaderLabel}>L</Text>
-          <Text style={styles.columnHeaderLabel}>E</Text>
-        </View>
-      </View>
-
-      <FlatList data={students} renderItem={renderStudentItem} keyExtractor={item => item.id} contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No students enrolled in this class yet.</Text></View>}
-      />
     </View>
   );
 }
@@ -182,30 +170,24 @@ const useStyles = () => {
   const { colors } = useAppTheme();
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
-    centered: { justifyContent: 'center', alignItems: 'center' },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, paddingTop: 60, borderBottomWidth: 1, borderBottomColor: colors.border },
-    classTitle: { fontSize: 22, fontWeight: 'bold', color: colors.text },
-    dateText: { fontSize: 14, color: colors.textMuted, marginTop: 4 },
-    saveButton: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8 },
-    saveButtonText: { color: colors.white, fontWeight: 'bold', marginLeft: 8 },
-    bulkActions: { flexDirection: 'row', padding: 15, backgroundColor: colors.surface, justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: colors.border },
-    bulkButton: { paddingVertical: 8, paddingHorizontal: 15 },
-    bulkButtonText: { fontWeight: '600', fontSize: 14 },
-    columnHeaderContainer: { flexDirection: 'row', paddingHorizontal: 15, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.border, backgroundColor: colors.background },
-    columnHeaderName: { flex: 1, color: colors.textMuted, fontSize: 12, fontWeight: 'bold', textTransform: 'uppercase', paddingLeft: 10 },
-    columnHeaderStatusGroup: { flexDirection: 'row', paddingRight: 15 },
-    columnHeaderLabel: { width: 40, marginLeft: 8, textAlign: 'center', color: colors.textMuted, fontSize: 12, fontWeight: 'bold' },
+    centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    header: { flexDirection: 'row', alignItems: 'center', padding: 20, paddingTop: 60, borderBottomWidth: 1, borderBottomColor: colors.border, backgroundColor: colors.surface },
+    backBtn: { padding: 5, marginRight: 10 },
+    headerInfo: { flex: 1 },
+    classTitle: { fontSize: 20, fontWeight: 'bold', color: colors.text },
+    dateText: { fontSize: 13, color: colors.primary, fontWeight: '600', marginTop: 2 },
+    saveButton: { backgroundColor: colors.primary, width: 45, height: 45, borderRadius: 12, justifyContent: 'center', alignItems: 'center', elevation: 4, shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
+    bulkActions: { flexDirection: 'row', padding: 12, backgroundColor: colors.surface, justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: colors.border },
+    bulkButton: { paddingVertical: 6, paddingHorizontal: 15, borderRadius: 20, backgroundColor: colors.background },
+    bulkButtonText: { fontWeight: '700', fontSize: 13 },
     listContent: { padding: 15, paddingBottom: 100 },
-    studentCard: { backgroundColor: colors.surface, borderRadius: 12, padding: 15, marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth: 1, borderColor: colors.border },
-    studentName: { color: colors.text, fontSize: 16, fontWeight: '600', flex: 1, paddingLeft: 5 },
-    statusGroup: { flexDirection: 'row', paddingRight: 15 },
-    statusButton: { width: 40, height: 40, borderRadius: 8, borderWidth: 1, borderColor: 'transparent', backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center', marginLeft: 8 },
-    modalOverlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.4)' },
-    datePickerContainer: { backgroundColor: colors.surface, paddingBottom: 20 },
-    datePickerHeader: { flexDirection: 'row', justifyContent: 'flex-end', padding: 15, borderBottomWidth: 1, borderBottomColor: colors.border },
-    doneButtonText: { color: colors.primary, fontWeight: 'bold', fontSize: 16 },
-    disabledButton: { opacity: 0.7 },
-    emptyContainer: { padding: 40, alignItems: 'center' },
-    emptyText: { color: colors.textMuted, textAlign: 'center' }
+    studentCard: { backgroundColor: colors.surface, borderRadius: 18, padding: 15, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 10, borderWidth: 1, borderColor: colors.border },
+    studentName: { color: colors.text, fontSize: 16, fontWeight: '700', flex: 1, marginRight: 10 },
+    statusGroup: { flexDirection: 'row' },
+    statusButton: { width: 42, height: 42, borderRadius: 12, borderWidth: 1.5, justifyContent: 'center', alignItems: 'center', marginLeft: 8 },
+    statusButtonText: { fontSize: 13, fontWeight: 'bold' },
+    disabledButton: { opacity: 0.6 },
+    emptyContainer: { padding: 60, alignItems: 'center' },
+    emptyText: { color: colors.textMuted, textAlign: 'center', fontSize: 16 }
   });
 };

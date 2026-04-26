@@ -2,10 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
-import { Home, ClipboardList, User, BookOpen } from 'lucide-react-native';
+import CustomDrawerContent from './CustomDrawerContent';
 
 // Auth Screens
 import LoginScreen from '../screens/auth/LoginScreen';
@@ -15,6 +15,7 @@ import RegisterScreen from '../screens/auth/RegisterScreen';
 import TeacherDashboard from '../screens/teacher/TeacherDashboard';
 import AttendanceHistory from '../screens/teacher/AttendanceHistory';
 import ClassList from '../screens/teacher/ClassList';
+import Reports from '../screens/teacher/Reports';
 import ProfileScreen from '../screens/ProfileScreen';
 
 // Student Screens
@@ -27,7 +28,7 @@ import HelpCenterScreen from '../screens/profile/HelpCenterScreen';
 import MarkAttendance from '../screens/teacher/MarkAttendance';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const AuthStack = () => {
   const { colors } = useAppTheme();
@@ -45,98 +46,42 @@ const AuthStack = () => {
   );
 };
 
-const StudentTabs = () => {
-  const { colors } = useAppTheme();
+const TeacherDrawer = () => {
   return (
-  <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: { 
-        backgroundColor: colors.surface, 
-        height: 70,
-        borderTopWidth: 0,
-        elevation: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -10 },
-        shadowOpacity: 0.05,
-        shadowRadius: 15,
-        paddingBottom: 15,
-      },
-      tabBarActiveTintColor: colors.primary,
-      tabBarInactiveTintColor: colors.textMuted,
-      tabBarLabelStyle: {
-        fontSize: 11,
-        fontWeight: '600',
-        marginBottom: 5,
-      }
-    }}
-  >
-    <Tab.Screen 
-      name="Home" 
-      component={StudentHistory} 
-      options={{ tabBarLabel: 'Home', tabBarIcon: ({ color, focused }) => <Home color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-    <Tab.Screen 
-      name="Attendances" 
-      component={StudentHistory} 
-      options={{ tabBarLabel: 'Attendances', tabBarIcon: ({ color, focused }) => <ClipboardList color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-    <Tab.Screen 
-      name="Profile" 
-      component={ProfileScreen} 
-      options={{ tabBarLabel: 'Profile', tabBarIcon: ({ color, focused }) => <User color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-  </Tab.Navigator>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerType: 'slide',
+        overlayColor: 'rgba(0,0,0,0.5)',
+      }}
+    >
+      <Drawer.Screen name="Home" component={TeacherDashboard} />
+      <Drawer.Screen name="Classes" component={ClassList} />
+      <Drawer.Screen name="Attendances" component={AttendanceHistory} />
+      <Drawer.Screen name="Reports" component={Reports} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="HelpCenter" component={HelpCenterScreen} />
+    </Drawer.Navigator>
   );
 };
 
-const TeacherTabs = () => {
-  const { colors } = useAppTheme();
+const StudentDrawer = () => {
   return (
-  <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: { 
-        backgroundColor: colors.surface, 
-        height: 70,
-        borderTopWidth: 0,
-        elevation: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -10 },
-        shadowOpacity: 0.05,
-        shadowRadius: 15,
-        paddingBottom: 15,
-      },
-      tabBarActiveTintColor: colors.primary,
-      tabBarInactiveTintColor: colors.textMuted,
-      tabBarLabelStyle: {
-        fontSize: 11,
-        fontWeight: '600',
-        marginBottom: 5,
-      }
-    }}
-  >
-    <Tab.Screen 
-      name="Home" 
-      component={TeacherDashboard} 
-      options={{ tabBarLabel: 'Home', tabBarIcon: ({ color, focused }) => <Home color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-    <Tab.Screen 
-      name="Classes" 
-      component={ClassList} 
-      options={{ tabBarLabel: 'Classes', tabBarIcon: ({ color, focused }) => <BookOpen color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-    <Tab.Screen 
-      name="Attendances" 
-      component={AttendanceHistory} 
-      options={{ tabBarLabel: 'Attendances', tabBarIcon: ({ color, focused }) => <ClipboardList color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-    <Tab.Screen 
-      name="Profile" 
-      component={ProfileScreen} 
-      options={{ tabBarLabel: 'Profile', tabBarIcon: ({ color, focused }) => <User color={color} size={24} strokeWidth={focused ? 2.5 : 2} /> }}
-    />
-  </Tab.Navigator>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerType: 'slide',
+        overlayColor: 'rgba(0,0,0,0.5)',
+      }}
+    >
+      <Drawer.Screen name="Home" component={StudentHistory} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="HelpCenter" component={HelpCenterScreen} />
+    </Drawer.Navigator>
   );
 };
 
@@ -153,13 +98,11 @@ const AuthenticatedStack = () => {
       }}
     >
       {user?.role === 'TEACHER' ? (
-        <Stack.Screen name="TeacherMain" component={TeacherTabs} />
+        <Stack.Screen name="TeacherMain" component={TeacherDrawer} />
       ) : (
-        <Stack.Screen name="StudentMain" component={StudentTabs} />
+        <Stack.Screen name="StudentMain" component={StudentDrawer} />
       )}
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-      <Stack.Screen name="HelpCenter" component={HelpCenterScreen} />
       <Stack.Screen name="MarkAttendance" component={MarkAttendance} />
     </Stack.Navigator>
   );
@@ -170,7 +113,12 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator 
+        screenOptions={{ 
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid
+        }}
+      >
         {!token ? (
           <Stack.Screen name="Auth" component={AuthStack} />
         ) : (

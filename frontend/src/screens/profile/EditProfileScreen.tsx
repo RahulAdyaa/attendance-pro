@@ -10,11 +10,19 @@ export default function EditProfileScreen({ navigation }: any) {
   const styles = useStyles();
   const [name, setName] = useState(user?.name || '');
   const [schoolName, setSchoolName] = useState(user?.role === 'TEACHER' ? user?.teacher?.schoolName || '' : '');
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState(user?.email || '');
+  const [designation, setDesignation] = useState(user?.teacher?.designation || 'Professor');
+  const { updateProfile, isLoading } = useAuthStore();
 
   const handleSave = async () => {
-    setIsLoading(true);
-    setTimeout(() => { setIsLoading(false); navigation.goBack(); }, 1000);
+    if (!name || !email) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+    const success = await updateProfile({ name, email, designation });
+    if (success) {
+      Alert.alert('Success', 'Profile updated successfully', [{ text: 'OK', onPress: () => navigation.goBack() }]);
+    }
   };
 
   return (
@@ -42,9 +50,30 @@ export default function EditProfileScreen({ navigation }: any) {
             <TextInput style={styles.input} value={schoolName} onChangeText={setSchoolName} placeholder="Enter your school name" placeholderTextColor={colors.textMuted} />
           </View>
         )}
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={isLoading}>
-          {isLoading ? (<ActivityIndicator color={colors.white} />) : (<><Save color={colors.white} size={20} /><Text style={styles.saveButtonText}>Save Changes</Text></>)}
-        </TouchableOpacity>
+          {user?.role === 'TEACHER' && (
+            <View style={styles.designationSection}>
+              <Text style={styles.label}>Designation</Text>
+              <View style={styles.designationGrid}>
+                {['HOD', 'Professor', 'Lecturer', 'Assistant Prof', 'Principal'].map((d) => (
+                  <TouchableOpacity 
+                    key={d} 
+                    style={[styles.designationBtn, designation === d && styles.designationBtnActive]} 
+                    onPress={() => setDesignation(d)}
+                  >
+                    <Text style={[styles.designationText, designation === d && styles.designationTextActive]}>{d}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+
+          <TouchableOpacity 
+            style={[styles.saveButton, isLoading && styles.disabledButton]} 
+            onPress={handleSave}
+            disabled={isLoading}
+          >
+            {isLoading ? <ActivityIndicator color={colors.white} /> : <Text style={styles.saveButtonText}>Save Changes</Text>}
+          </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -59,11 +88,17 @@ const useStyles = () => {
     title: { fontSize: 20, fontWeight: 'bold', color: colors.text },
     content: { padding: 25 },
     formGroup: { marginBottom: 20 },
-    label: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: 8 },
+    label: { fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: 10, marginTop: 15 },
     input: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: 12, padding: 15, fontSize: 16, color: colors.text },
     disabledInput: { backgroundColor: colors.surfaceAlt, color: colors.textMuted },
     helpText: { fontSize: 12, color: colors.textMuted, marginTop: 6 },
-    saveButton: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 16, borderRadius: 12, marginTop: 20 },
-    saveButtonText: { color: colors.white, fontWeight: 'bold', fontSize: 16, marginLeft: 8 },
+    designationSection: { marginBottom: 20 },
+    designationGrid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 5 },
+    designationBtn: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: colors.border, marginRight: 8, marginBottom: 8, backgroundColor: colors.surface },
+    designationBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    designationText: { color: colors.textSecondary, fontSize: 13, fontWeight: '600' },
+    designationTextActive: { color: colors.white },
+    saveButton: { backgroundColor: colors.primary, paddingVertical: 16, borderRadius: 15, alignItems: 'center', marginTop: 10, elevation: 4, shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
+    saveButtonText: { color: colors.white, fontWeight: 'bold', fontSize: 16 },
   });
 };

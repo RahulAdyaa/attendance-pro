@@ -27,6 +27,7 @@ model Teacher {
   userId     String   @unique
   user       User     @relation(fields: [userId], references: [id])
   schoolName String
+  designation String   @default("Teacher") // "HOD", "Principal", etc.
   subjects   String   @default("") // comma-separated subjects
   classes    Class[]
 }

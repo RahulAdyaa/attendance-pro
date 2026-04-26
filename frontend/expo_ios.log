@@ -14,3 +14,1153 @@ iOS ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 92.3% (2916/3062
 iOS Bundled 12423ms index.ts (3228 modules)
  ERROR  Error fetching stats: [AxiosError: Request failed with status code 404]
  ERROR  Error fetching history: [AxiosError: Request failed with status code 404]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching students: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  [ReferenceError: Property 'isDarkMode' doesn't exist]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching classes: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  Error fetching stats: [AxiosError: timeout of 10000ms exceeded]
+ ERROR  [Error: Exception in HostFunction: <unknown>]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+[0m [90m 338 |[39m }[33m;[39m
+ [90m 339 |[39m
+[31m[1m>[22m[39m[90m 340 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 341 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 342 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 343 |[39m     container[33m:[39m {[0m]
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundling failed 59ms index.ts (1 module)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundling failed 327ms index.ts (1 module)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundling failed 47ms index.ts (1 module)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/TeacherDashboard.tsx: Identifier 'useStyles' has already been declared. (340:6)
+
+  338 | };
+  339 |
+> 340 | const useStyles = () => {
+      |       ^
+  341 |   const { colors } = useAppTheme();
+  342 |   return StyleSheet.create({
+  343 |     container: {
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/MarkAttendance.tsx: Identifier 'useStyles' has already been declared. (195:6)
+
+  193 | };
+  194 |
+> 195 | const useStyles = () => {
+      |       ^
+  196 |   const { colors } = useAppTheme();
+  197 |   return StyleSheet.create({
+  198 |     container: { flex: 1, backgroundColor: colors.background },
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: TransformError SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/MarkAttendance.tsx: Identifier 'useStyles' has already been declared. (195:6)
+
+[0m [90m 193 |[39m }[33m;[39m
+ [90m 194 |[39m
+[31m[1m>[22m[39m[90m 195 |[39m [36mconst[39m useStyles [33m=[39m () [33m=>[39m {
+ [90m     |[39m       [31m[1m^[22m[39m
+ [90m 196 |[39m   [36mconst[39m { colors } [33m=[39m useAppTheme()[33m;[39m
+ [90m 197 |[39m   [36mreturn[39m [33mStyleSheet[39m[33m.[39mcreate({
+ [90m 198 |[39m     container[33m:[39m { flex[33m:[39m [35m1[39m[33m,[39m backgroundColor[33m:[39m colors[33m.[39mbackground }[33m,[39m[0m]
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundling failed 35ms index.ts (1 module)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/MarkAttendance.tsx: Identifier 'useStyles' has already been declared. (195:6)
+
+  193 | };
+  194 |
+> 195 | const useStyles = () => {
+      |       ^
+  196 |   const { colors } = useAppTheme();
+  197 |   return StyleSheet.create({
+  198 |     container: { flex: 1, backgroundColor: colors.background },
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundling failed 28ms index.ts (1 module)
+ ERROR  SyntaxError: /Users/rahuladya/attendance pro/frontend/src/screens/teacher/MarkAttendance.tsx: Identifier 'useStyles' has already been declared. (195:6)
+
+  193 | };
+  194 |
+> 195 | const useStyles = () => {
+      |       ^
+  196 |   const { colors } = useAppTheme();
+  197 |   return StyleSheet.create({
+  198 |     container: { flex: 1, backgroundColor: colors.background },
+    at constructor (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+    at TypeScriptParserMixin.raise (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1619:19)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:1585:12)
+    at TypeScriptScopeHandler.declareName (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:4880:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7567:16)
+    at TypeScriptParserMixin.checkIdentifier (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7563:12)
+    at TypeScriptParserMixin.checkLVal (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:7500:12)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13412:10)
+    at TypeScriptParserMixin.parseVarId (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9752:11)
+    at TypeScriptParserMixin.parseVar (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13383:12)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13230:10)
+    at TypeScriptParserMixin.parseVarStatement (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9408:31)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12851:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:9508:18)
+    at TypeScriptParserMixin.parseStatementLike (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+    at TypeScriptParserMixin.parseModuleItem (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+    at TypeScriptParserMixin.parseBlockBody (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+    at TypeScriptParserMixin.parseProgram (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+    at TypeScriptParserMixin.parseTopLevel (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+    at TypeScriptParserMixin.parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:10126:18)
+    at parse (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/parser/lib/index.js:14501:26)
+    at parser (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:251:28)
+    at sync (/Users/rahuladya/attendance pro/frontend/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Object.transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@babel/core/lib/transform.js:40:76)
+    at parseWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:75:18)
+    at transformSync (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transformSync.js:54:16)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/babel-transformer.js:127:58)
+    at transformJSWithBabel (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:468:47)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/metro-transform-worker.js:583:12)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro-config/build/transform-worker/transform-worker.js:178:19)
+    at transformFile (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:67:36)
+    at Object.transform (/Users/rahuladya/attendance pro/frontend/node_modules/@expo/metro/node_modules/metro/src/DeltaBundler/Worker.flow.js:42:10)
+    at execFunction (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:149:17)
+    at execHelper (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:137:5)
+    at execMethod (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:140:5)
+    at process.messageListener (/Users/rahuladya/attendance pro/frontend/node_modules/jest-worker/build/workers/processChild.js:44:7)
+    at process.emit (node:events:509:20)
+    at emit (node:internal/child_process:956:14)
+ ERROR  [Error: Exception in HostFunction: <unknown>]
+ ERROR  [Error: Exception in HostFunction: <unknown>]
+ WARN  expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+ WARN  `expo-notifications` functionality is not fully supported in Expo Go:
+We recommend you instead use a development build to avoid limitations. Learn more: https://expo.fyi/dev-client.
+ ERROR  [TypeError: initAuth is not a function (it is undefined)]
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS Bundled 102ms index.ts (1 module)
+ WARN  expo-notifications: Android Push notifications (remote notifications) functionality provided by expo-notifications was removed from Expo Go with the release of SDK 53. Use a development build instead of Expo Go. Learn more at https://docs.expo.dev/develop/development-builds/introduction/.
+ WARN  `expo-notifications` functionality is not fully supported in Expo Go:
+We recommend you instead use a development build to avoid limitations. Learn more: https://expo.fyi/dev-client.
+ ERROR  [runtime not ready]: Error: Exception in HostFunction: <unknown>

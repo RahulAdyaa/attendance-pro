@@ -12,13 +12,19 @@ export default function RegisterScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<'TEACHER' | 'STUDENT'>('STUDENT');
+  const [designation, setDesignation] = useState('Professor');
   const { register, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
 
   const handleRegister = async () => {
-    if (!name || !email || !password) { alert('Please fill in all fields'); return; }
-    try { await register({ name, email, password, role }); } catch (err) { /* Error handled by store */ }
+    if (!name || !email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+    try { 
+      await register({ name, email, password, role, designation }); 
+    } catch (err) { /* Error handled by store */ }
   };
 
   return (
@@ -34,6 +40,7 @@ export default function RegisterScreen({ navigation }: any) {
           <CustomInput label="Full Name" placeholder="Enter your full name" value={name} onChangeText={setName} />
           <CustomInput label="Email Address" placeholder="Enter your email" value={email} onChangeText={setEmail} keyboardType="email-address" />
           <CustomInput label="Password" placeholder="Create a password" value={password} onChangeText={setPassword} secureTextEntry />
+          
           <Text style={styles.label}>I am a...</Text>
           <View style={styles.roleContainer}>
             <TouchableOpacity style={[styles.roleButton, role === 'STUDENT' && styles.activeRole]} onPress={() => setRole('STUDENT')}>
@@ -43,6 +50,24 @@ export default function RegisterScreen({ navigation }: any) {
               <Text style={[styles.roleText, role === 'TEACHER' && styles.activeRoleText]}>Teacher</Text>
             </TouchableOpacity>
           </View>
+
+          {role === 'TEACHER' && (
+            <View style={styles.designationSection}>
+              <Text style={styles.label}>Select Designation</Text>
+              <View style={styles.designationGrid}>
+                {['HOD', 'Professor', 'Lecturer', 'Assistant Prof', 'Principal'].map((d) => (
+                  <TouchableOpacity 
+                    key={d} 
+                    style={[styles.designationBtn, designation === d && styles.designationBtnActive]} 
+                    onPress={() => setDesignation(d)}
+                  >
+                    <Text style={[styles.designationText, designation === d && styles.designationTextActive]}>{d}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+
           <TouchableOpacity style={[styles.registerButton, isLoading && styles.disabledButton]} onPress={handleRegister} disabled={isLoading}>
             {isLoading ? (<ActivityIndicator color={colors.white} />) : (<Text style={styles.registerButtonText}>Register</Text>)}
           </TouchableOpacity>
@@ -75,13 +100,19 @@ const useStyles = () => {
     title: { fontSize: 28, fontWeight: 'bold', color: colors.text, marginBottom: 8 },
     subtitle: { fontSize: 14, color: colors.textMuted, textAlign: 'center' },
     form: { width: '100%' },
-    label: { color: colors.text, fontSize: 14, fontWeight: '600', marginBottom: 10, marginTop: 5, marginLeft: 4 },
-    roleContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 25 },
-    roleButton: { flex: 1, padding: 15, borderRadius: 15, borderWidth: 1, borderColor: colors.border, alignItems: 'center', marginHorizontal: 5, backgroundColor: colors.surface, elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
-    activeRole: { borderColor: colors.primary, backgroundColor: colors.primary + '15' },
-    roleText: { color: colors.textMuted, fontWeight: '600', fontSize: 15 },
-    activeRoleText: { color: colors.primary, fontWeight: '700' },
-    registerButton: { backgroundColor: colors.primary, borderRadius: 15, padding: 18, alignItems: 'center', elevation: 8, shadowColor: colors.primary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 15, marginTop: 10 },
+    label: { fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: 10, marginTop: 15 },
+    roleContainer: { flexDirection: 'row', marginBottom: 20 },
+    roleButton: { flex: 1, paddingVertical: 12, alignItems: 'center', borderWidth: 1, borderColor: colors.border, borderRadius: 12, marginRight: 10 },
+    activeRole: { backgroundColor: colors.primary + '10', borderColor: colors.primary },
+    roleText: { color: colors.textMuted, fontWeight: '600' },
+    activeRoleText: { color: colors.primary },
+    designationSection: { marginBottom: 20 },
+    designationGrid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 5 },
+    designationBtn: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: colors.border, marginRight: 8, marginBottom: 8, backgroundColor: colors.surface },
+    designationBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    designationText: { color: colors.textSecondary, fontSize: 13, fontWeight: '600' },
+    designationTextActive: { color: colors.white },
+    registerButton: { backgroundColor: colors.primary, paddingVertical: 16, borderRadius: 15, alignItems: 'center', marginTop: 10, elevation: 4, shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
     disabledButton: { opacity: 0.7 },
     registerButtonText: { color: colors.white, fontSize: 16, fontWeight: 'bold' },
     errorContainer: { backgroundColor: colors.danger + '10', padding: 15, borderRadius: 12, marginBottom: 20, borderWidth: 1, borderColor: colors.danger + '20' },

@@ -75,29 +75,47 @@ export const AnimatedModal = ({ visible, children, style }: { visible: boolean, 
 
 
 // 1. New Rounded Blue Header
-export const BlueHeader = ({ title, date, onMenuPress, onNotificationPress, onDatePress }: { title: string, date?: string, onMenuPress?: () => void, onNotificationPress?: () => void, onDatePress?: () => void }) => {
+interface BlueHeaderProps {
+  title: string;
+  date: string;
+  onMenuPress?: () => void;
+  onNotificationPress?: () => void;
+  onDatePress?: () => void;
+  hasNotifications?: boolean;
+}
+
+export const BlueHeader: React.FC<BlueHeaderProps> = ({ 
+  title, 
+  date, 
+  onMenuPress, 
+  onNotificationPress, 
+  onDatePress,
+  hasNotifications = false 
+}) => {
   const styles = useStyles();
   const { colors } = useAppTheme();
   return (
-  <View style={styles.headerBackground}>
-    <View style={styles.headerContent}>
-      <TouchableOpacity style={styles.headerLogoBox} onPress={onMenuPress}>
-        <Menu size={24} color={colors.white} />
-      </TouchableOpacity>
-      <View style={styles.headerTitleBox}>
-        <Text style={styles.headerTitle}>{title}</Text>
-        {date && (
-          <TouchableOpacity onPress={onDatePress}>
-            <Text style={[styles.headerDate, onDatePress && { textDecorationLine: 'underline' }]}>{date}</Text>
-          </TouchableOpacity>
-        )}
+    <View style={styles.header}>
+      <View style={styles.headerTop}>
+        <TouchableOpacity style={styles.iconButton} onPress={onMenuPress}>
+          <Menu color={colors.white} size={24} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton} onPress={onNotificationPress}>
+          <Bell color={colors.white} size={24} />
+          {hasNotifications && <View style={styles.notificationDot} />}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.notificationBtn} onPress={onNotificationPress}>
-        <Bell size={20} color={colors.white} />
-        <View style={styles.notificationDot} />
-      </TouchableOpacity>
+      <View style={styles.headerBottom}>
+        <View>
+          <Text style={styles.headerSubtitle}>Today</Text>
+          <Text style={styles.headerTitle}>{title}</Text>
+        </View>
+        <TouchableOpacity style={styles.dateContainer} onPress={onDatePress}>
+          <Calendar color={colors.white} size={16} />
+          <Text style={styles.dateText}>{date}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
   );
 };
 
