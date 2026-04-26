@@ -72,7 +72,11 @@ export default function TeacherDashboard({ navigation }: any) {
 
   const fetchStats = async (date?: Date) => {
     const targetDate = date || activeDate;
-    const dateString = targetDate.toISOString().split('T')[0];
+    const year = targetDate.getFullYear();
+    const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+    const day = String(targetDate.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
+    
     try {
       await fetchStatsCached(dateString);
       // Sync local state with cache if needed, but Zustand handles it
@@ -100,6 +104,16 @@ export default function TeacherDashboard({ navigation }: any) {
 
   useEffect(() => {
     fetchStats(activeDate);
+    
+    // Midnight reset logic: Check every minute if the day has changed
+    const interval = setInterval(() => {
+      const now = new Date();
+      if (now.getDate() !== activeDate.getDate() || now.getMonth() !== activeDate.getMonth()) {
+        setActiveDate(now);
+      }
+    }, 60000); // Check every 60 seconds
+    
+    return () => clearInterval(interval);
   }, [activeDate]);
 
   const todayStr = activeDate.toLocaleDateString('en-US', {

@@ -33,7 +33,10 @@ export default function MarkAttendance({ route, navigation }: any) {
 
       const historyResponse = await api.get(`/attendance/history/${classId}`);
       const sessions = historyResponse.data;
-      const dateStr = selectedDate.toISOString().split('T')[0];
+      const year = selectedDate.getFullYear();
+      const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+      const day = String(selectedDate.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${month}-${day}`;
       const session = sessions.find((s: any) => s.date.startsWith(dateStr));
 
       if (session) {
