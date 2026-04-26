@@ -1,0 +1,6 @@
+
+> backend@1.0.0 start
+> node dist/index.js
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Server is running on port 5001

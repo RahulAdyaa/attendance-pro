@@ -4,18 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-}
-
-enum Role {
-  TEACHER
-  STUDENT
-}
-
-enum AttendanceStatus {
-  PRESENT
-  ABSENT
-  LATE
-  EXCUSED
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -23,7 +13,7 @@ model User {
   email        String   @unique
   name         String
   passwordHash String
-  role         Role
+  role         String   // "TEACHER" or "STUDENT"
   profilePhoto String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -37,7 +27,7 @@ model Teacher {
   userId     String   @unique
   user       User     @relation(fields: [userId], references: [id])
   schoolName String
-  subjects   String[]
+  subjects   String   @default("") // comma-separated subjects
   classes    Class[]
 }
 
@@ -75,12 +65,12 @@ model AttendanceSession {
 }
 
 model AttendanceRecord {
-  id        String           @id @default(uuid())
+  id        String            @id @default(uuid())
   sessionId String
   session   AttendanceSession @relation(fields: [sessionId], references: [id])
   studentId String
-  student   Student          @relation(fields: [studentId], references: [id])
-  status    AttendanceStatus
+  student   Student           @relation(fields: [studentId], references: [id])
+  status    String            // "PRESENT", "ABSENT", "LATE", "EXCUSED"
   note      String?
-  markedAt  DateTime         @default(now())
+  markedAt  DateTime          @default(now())
 }

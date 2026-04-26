@@ -1,76 +1,73 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useAuthStore } from '../store/useAuthStore';
-import { colors } from '../theme/colors';
+import { useAppTheme } from '../hooks/useAppTheme';
+import { BlueHeader, ProfileCard, MenuItem } from '../components/CustomUI';
+import { User, Settings, HelpCircle, LogOut } from 'lucide-react-native';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }: any) {
   const { user, logout } = useAuthStore();
+  const { colors } = useAppTheme();
+  const styles = useStyles();
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <View style={styles.card}>
-        <Text style={styles.name}>{user?.name}</Text>
-        <Text style={styles.email}>{user?.email}</Text>
-        <Text style={styles.role}>{user?.role}</Text>
-      </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <BlueHeader title="Profile Page" />
+      
+      <ProfileCard 
+        name={user?.name || 'User'} 
+        role={user?.role === 'TEACHER' ? 'Teacher' : 'Student'} 
+        subRole={user?.email || ''} 
+      />
 
-      <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.menuCard}>
+        <MenuItem 
+          label="Personal Information" 
+          icon={User} 
+          onPress={() => navigation.navigate('EditProfile')} 
+        />
+        <MenuItem 
+          label="Settings" 
+          icon={Settings} 
+          onPress={() => navigation.navigate('Settings')} 
+        />
+        <MenuItem 
+          label="Help Center" 
+          icon={HelpCircle} 
+          onPress={() => navigation.navigate('HelpCenter')} 
+        />
+        <MenuItem 
+          label="Log Out" 
+          icon={LogOut} 
+          onPress={logout}
+          color={colors.danger}
+        />
+      </View>
+      
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  card: {
-    backgroundColor: colors.surface,
-    padding: 20,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.text,
-  },
-  email: {
-    fontSize: 16,
-    color: colors.textMuted,
-    marginTop: 4,
-  },
-  role: {
-    marginTop: 10,
-    color: colors.primary,
-    fontWeight: 'bold',
-    backgroundColor: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  logoutButton: {
-    backgroundColor: colors.absent,
-    padding: 18,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  logoutText: {
-    color: colors.white,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    menuCard: {
+      backgroundColor: colors.surface,
+      marginHorizontal: 25,
+      marginTop: 35,
+      borderRadius: 25,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      elevation: 4,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 10 },
+      shadowOpacity: 0.03,
+      shadowRadius: 15,
+    },
+  });
+};

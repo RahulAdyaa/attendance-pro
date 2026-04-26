@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import { 
   View, 
   Text, 
-  TextInput, 
   TouchableOpacity, 
   StyleSheet, 
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  ActivityIndicator 
+  ActivityIndicator,
+  Image
 } from 'react-native';
-import { colors } from '../../theme/colors';
+import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
+import { CustomInput } from '../../components/CustomUI';
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, isLoading, error: authError } = useAuthStore();
+  const { colors } = useAppTheme();
+  const styles = useStyles();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -35,10 +38,13 @@ export default function LoginScreen({ navigation }: any) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>Attendance Marker</Text>
-          <Text style={styles.subtitle}>Welcome back, please login to continue</Text>
+          <View style={styles.logoCircle}>
+             <Text style={styles.logoText}>t</Text>
+          </View>
+          <Text style={styles.title}>Login Account</Text>
+          <Text style={styles.subtitle}>Welcome back, login to your account (v2)</Text>
         </View>
 
         <View style={styles.form}>
@@ -48,26 +54,25 @@ export default function LoginScreen({ navigation }: any) {
             </View>
           )}
 
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
+          <CustomInput
+            label="Email Address"
             placeholder="Enter your email"
-            placeholderTextColor={colors.textMuted}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
-            autoCapitalize="none"
           />
 
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
+          <CustomInput
+            label="Password"
             placeholder="Enter your password"
-            placeholderTextColor={colors.textMuted}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
+
+          <TouchableOpacity style={styles.forgotPass}>
+            <Text style={styles.forgotText}>Forgot Password?</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.loginButton, isLoading && styles.disabledButton]} 
@@ -81,10 +86,28 @@ export default function LoginScreen({ navigation }: any) {
             )}
           </TouchableOpacity>
 
+          <View style={styles.dividerContainer}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>OR CONTINUE WITH</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <View style={styles.socialButtonsContainer}>
+            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
+              <Text style={styles.socialIcon}>G</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
+              <Text style={styles.socialIcon}>f</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton} onPress={() => alert('Coming soon!')}>
+              <Text style={styles.socialIcon}>GH</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.footer}>
             <Text style={styles.footerText}>Don't have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.linkText}>Register</Text>
+              <Text style={styles.linkText}>Create Account</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -93,87 +116,148 @@ export default function LoginScreen({ navigation }: any) {
   );
 }
 
-const styles = StyleSheet.create({
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
-    padding: 20,
+    padding: 25,
+    paddingTop: 80,
   },
   header: {
     marginBottom: 40,
     alignItems: 'center',
   },
-  title: {
+  logoCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 18,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    elevation: 10,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+  },
+  logoText: {
+    color: colors.white,
     fontSize: 32,
     fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
     color: colors.text,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.textMuted,
     textAlign: 'center',
   },
   form: {
     width: '100%',
   },
-  label: {
-    color: colors.text,
-    fontSize: 14,
-    marginBottom: 8,
-    marginTop: 16,
+  forgotPass: {
+    alignSelf: 'flex-end',
+    marginTop: -5,
+    marginBottom: 25,
   },
-  input: {
-    backgroundColor: colors.surface,
-    color: colors.text,
-    borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
+  forgotText: {
+    color: colors.primary,
+    fontSize: 13,
+    fontWeight: '600',
   },
   loginButton: {
     backgroundColor: colors.primary,
-    borderRadius: 8,
+    borderRadius: 15,
     padding: 18,
     alignItems: 'center',
-    marginTop: 30,
+    elevation: 8,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
   },
   disabledButton: {
     opacity: 0.7,
   },
   loginButtonText: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   errorContainer: {
-    backgroundColor: colors.absent + '20',
+    backgroundColor: colors.danger + '10',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: colors.absent + '50',
+    borderColor: colors.danger + '20',
   },
   errorText: {
-    color: colors.absent,
+    color: colors.danger,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontWeight: '600',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
   footerText: {
     color: colors.textMuted,
+    fontSize: 14,
   },
   linkText: {
     color: colors.primary,
-    fontWeight: 'bold',
+    fontWeight: '700',
+    fontSize: 14,
   },
-});
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 25,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.border,
+  },
+  dividerText: {
+    color: colors.textMuted,
+    paddingHorizontal: 15,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 1,
+  },
+  socialButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  socialButton: {
+    width: '30%',
+    height: 50,
+    borderRadius: 12,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialIcon: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  });
+};

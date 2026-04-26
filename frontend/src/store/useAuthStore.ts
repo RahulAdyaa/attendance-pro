@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../utils/api';
+import { tokenManager } from '../utils/tokenManager';
 
 interface User {
   id: string;
@@ -31,6 +32,7 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await api.post('/auth/login', { email, password });
+          tokenManager.setToken(response.data.token);
           set({ user: response.data.user, token: response.data.token, isLoading: false });
         } catch (err: any) {
           set({ error: err.response?.data?.error || 'Login failed', isLoading: false });
@@ -41,17 +43,26 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await api.post('/auth/register', payload);
+          tokenManager.setToken(response.data.token);
           set({ user: response.data.user, token: response.data.token, isLoading: false });
         } catch (err: any) {
           set({ error: err.response?.data?.error || 'Registration failed', isLoading: false });
           throw err;
         }
       },
-      logout: () => set({ user: null, token: null, error: null }),
+      logout: () => {
+        tokenManager.setToken(null);
+        set({ user: null, token: null, error: null });
+      },
     }),
     {
       name: 'attendance-pro-auth',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        if (state?.token) {
+          tokenManager.setToken(state.token);
+        }
+      },
     }
   )
 );

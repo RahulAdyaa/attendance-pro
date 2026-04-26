@@ -10,11 +10,47 @@ export const markAttendance = async (req: AuthRequest, res: Response) => {
     const teacher = await prisma.teacher.findUnique({ where: { userId } });
     if (!teacher) return res.status(403).json({ error: 'Only teachers can mark attendance' });
 
+    const targetDate = new Date(date);
+
+    // Find if a session already exists for this date
+    const sessions = await prisma.attendanceSession.findMany({
+      where: { classId },
+      include: { records: true }
+    });
+
+    const existingSession = sessions.find(s => {
+      return s.date.getFullYear() === targetDate.getFullYear() &&
+             s.date.getMonth() === targetDate.getMonth() &&
+             s.date.getDate() === targetDate.getDate();
+    });
+
+    if (existingSession) {
+      // Delete existing records
+      await prisma.attendanceRecord.deleteMany({
+        where: { sessionId: existingSession.id }
+      });
+      // Add new records
+      const updatedSession = await prisma.attendanceSession.update({
+        where: { id: existingSession.id },
+        data: {
+          records: {
+            create: records.map((r: any) => ({
+              studentId: r.studentId,
+              status: r.status,
+              note: r.note,
+            }))
+          }
+        },
+        include: { records: true }
+      });
+      return res.status(200).json(updatedSession);
+    }
+
     const session = await prisma.attendanceSession.create({
       data: {
         classId,
         teacherId: teacher.id,
-        date: new Date(date),
+        date: targetDate,
         records: {
           create: records.map((r: any) => ({
             studentId: r.studentId,
@@ -33,7 +69,7 @@ export const markAttendance = async (req: AuthRequest, res: Response) => {
 };
 
 export const getAttendanceHistory = async (req: AuthRequest, res: Response) => {
-  const { classId } = req.params;
+  const classId = req.params.classId as string;
 
   try {
     const sessions = await prisma.attendanceSession.findMany({

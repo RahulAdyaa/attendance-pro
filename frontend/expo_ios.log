@@ -1,0 +1,14 @@
+Starting project at /Users/rahuladya/attendance pro/frontend
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+The following packages should be updated for best compatibility with the installed expo version:
+  react-native-worklets@0.8.1 - expected version: 0.5.1
+Your project may not work correctly until you install the expected versions of the packages.
+› Opening exp://192.168.0.2:8081 on iPhone 16 Pro
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+iOS ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS ./index.ts ▓▓▓▓░░░░░░░░░░░░ 30.3% (239/434)
+iOS ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 66.6% ( 705/2530)
+iOS ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 92.3% (2916/3062)
+iOS Bundled 12423ms index.ts (3228 modules)

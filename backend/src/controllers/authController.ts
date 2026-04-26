@@ -37,7 +37,7 @@ export const register = async (req: Request, res: Response) => {
           teacher: {
             create: {
               schoolName: schoolName || '',
-              subjects: subjects || [],
+              subjects: (subjects || []).join(','),
             }
           }
         } : {
