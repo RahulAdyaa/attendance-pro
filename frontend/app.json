@@ -22,8 +22,7 @@
         "backgroundColor": "#4A90E2"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.attendancepro.app",
-      "permissions": ["INTERNET"]
+      "package": "com.attendancepro.app"
     },
     "plugins": [
       "@react-native-community/datetimepicker",
