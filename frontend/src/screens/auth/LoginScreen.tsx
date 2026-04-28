@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   Text, 
@@ -15,6 +15,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
+import * as WebBrowser from 'expo-web-browser';
+import * as AuthSession from 'expo-auth-session';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
@@ -22,6 +26,51 @@ export default function LoginScreen({ navigation }: any) {
   const { login, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+
+  const googleDiscovery = AuthSession.useAutoDiscovery('https://accounts.google.com');
+  const [googleReq, googleRes, promptGoogleAsync] = AuthSession.useAuthRequest({
+      clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || 'dummy-google-client-id.apps.googleusercontent.com',
+      redirectUri: AuthSession.makeRedirectUri(),
+      scopes: ['openid', 'profile', 'email'],
+      responseType: AuthSession.ResponseType.Token,
+    },
+    googleDiscovery
+  );
+
+  const fbDiscovery = {
+    authorizationEndpoint: 'https://www.facebook.com/v17.0/dialog/oauth',
+    tokenEndpoint: 'https://graph.facebook.com/v17.0/oauth/access_token',
+  };
+  const [fbReq, fbRes, promptFbAsync] = AuthSession.useAuthRequest({
+      clientId: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_ID || 'dummy-facebook-client-id',
+      redirectUri: AuthSession.makeRedirectUri(),
+      scopes: ['public_profile', 'email'],
+      responseType: AuthSession.ResponseType.Token,
+    },
+    fbDiscovery
+  );
+
+  useEffect(() => {
+    if (googleRes?.type === 'success') {
+      const { access_token } = googleRes.params;
+      if (access_token) {
+        useAuthStore.getState().loginWithSocial('google', access_token).catch((err) => {
+          Alert.alert('Google Login Failed', err.message);
+        });
+      }
+    }
+  }, [googleRes]);
+
+  useEffect(() => {
+    if (fbRes?.type === 'success') {
+      const { access_token } = fbRes.params;
+      if (access_token) {
+        useAuthStore.getState().loginWithSocial('facebook', access_token).catch((err) => {
+          Alert.alert('Facebook Login Failed', err.message);
+        });
+      }
+    }
+  }, [fbRes]);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -97,13 +146,15 @@ export default function LoginScreen({ navigation }: any) {
           <View style={styles.socialButtonsContainer}>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
-              onPress={() => alert('Google login coming soon!')}
+              onPress={() => promptGoogleAsync()}
+              disabled={!googleReq}
             >
               <FontAwesome name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
-              onPress={() => alert('Facebook login coming soon!')}
+              onPress={() => promptFbAsync()}
+              disabled={!fbReq}
             >
               <FontAwesome name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { 
   View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView,
-  ActivityIndicator, RefreshControl 
+  ActivityIndicator, RefreshControl, Platform, LayoutAnimation, Modal
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { Calendar as CalendarIcon, Filter, ChevronRight, CheckCircle, XCircle, Clock } from 'lucide-react-native';
+import { Calendar as CalendarIcon, Filter, ChevronRight, ChevronDown, CheckCircle, XCircle, Clock, X } from 'lucide-react-native';
 import api from '../../utils/api';
 
 interface Session {
   id: string; date: string; className: string;
   present: number; absent: number; late: number; excused: number;
+  records?: Array<{ studentId: string; name: string; status: string }>;
 }
 
 export default function AttendanceHistory() {
@@ -20,6 +22,9 @@ export default function AttendanceHistory() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [classesList, setClassesList] = useState<string[]>(['ALL']);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [expandedSessionId, setExpandedSessionId] = useState<string | null>(null);
 
   const fetchHistory = async () => {
     try {
@@ -43,12 +48,32 @@ export default function AttendanceHistory() {
     };
   };
 
-  const filteredSessions = activeFilter === 'ALL' ? sessions : sessions.filter(s => s.className === activeFilter);
+  const toggleExpand = (id: string) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpandedSessionId(prev => prev === id ? null : id);
+  };
+
+  const filteredSessions = sessions.filter(s => {
+    if (activeFilter !== 'ALL' && s.className !== activeFilter) return false;
+    if (selectedDate) {
+      const sessionDate = new Date(s.date);
+      if (
+        sessionDate.getFullYear() !== selectedDate.getFullYear() ||
+        sessionDate.getMonth() !== selectedDate.getMonth() ||
+        sessionDate.getDate() !== selectedDate.getDate()
+      ) {
+        return false;
+      }
+    }
+    return true;
+  });
 
   const renderSessionItem = ({ item }: { item: Session }) => {
     const { day, month, time } = formatDate(item.date);
+    const isExpanded = expandedSessionId === item.id;
+    
     return (
-      <TouchableOpacity style={styles.sessionCard}>
+      <TouchableOpacity style={styles.sessionCard} onPress={() => toggleExpand(item.id)} activeOpacity={0.8}>
         <View style={styles.sessionHeader}>
           <View style={styles.dateBadge}>
             <Text style={styles.dateDay}>{day}</Text>
@@ -58,7 +83,7 @@ export default function AttendanceHistory() {
             <Text style={styles.className}>{item.className}</Text>
             <Text style={styles.sessionTime}>Marked at {time}</Text>
           </View>
-          <ChevronRight size={20} color={colors.textMuted} />
+          {isExpanded ? <ChevronDown size={20} color={colors.textMuted} /> : <ChevronRight size={20} color={colors.textMuted} />}
         </View>
         <View style={styles.statsRow}>
           <View style={styles.statDetail}>
@@ -76,6 +101,23 @@ export default function AttendanceHistory() {
             </View>
           )}
         </View>
+
+        {isExpanded && item.records && (
+          <View style={styles.expandedContent}>
+            <Text style={styles.expandedTitle}>Student Details</Text>
+            {item.records.map((record, index) => {
+              const statusColor = record.status === 'PRESENT' ? colors.present : record.status === 'ABSENT' ? colors.absent : record.status === 'LATE' ? colors.late : colors.textMuted;
+              return (
+                <View key={index} style={styles.studentRow}>
+                  <Text style={styles.studentName}>{record.name}</Text>
+                  <View style={[styles.statusBadge, { backgroundColor: statusColor + '15' }]}>
+                    <Text style={[styles.statusBadgeText, { color: statusColor }]}>{record.status}</Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        )}
       </TouchableOpacity>
     );
   };
@@ -84,10 +126,20 @@ export default function AttendanceHistory() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>History</Text>
-        <TouchableOpacity style={styles.calendarBtn}>
-          <CalendarIcon color={colors.primary} size={24} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {selectedDate && (
+            <TouchableOpacity style={styles.clearDateBtn} onPress={() => setSelectedDate(null)}>
+              <X size={16} color={colors.white} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={[styles.calendarBtn, selectedDate && styles.calendarBtnActive]} onPress={() => setShowDatePicker(true)}>
+            <CalendarIcon color={selectedDate ? colors.white : colors.primary} size={24} />
+          </TouchableOpacity>
+        </View>
       </View>
+      {selectedDate && (
+        <Text style={styles.dateFilterLabel}>Showing attendance for: {selectedDate.toDateString()}</Text>
+      )}
       <View style={styles.filterSection}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
           <View style={styles.filterIconContainer}>
@@ -107,8 +159,45 @@ export default function AttendanceHistory() {
           data={filteredSessions} keyExtractor={(item) => item.id} renderItem={renderSessionItem}
           contentContainerStyle={styles.listContainer}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={fetchHistory} tintColor={colors.primary} />}
-          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No sessions found.</Text></View>}
+          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No sessions found for this date.</Text></View>}
         />
+      )}
+
+      {Platform.OS === 'android' && showDatePicker && (
+        <DateTimePicker
+          value={selectedDate || new Date()}
+          mode="date"
+          display="default"
+          onChange={(event, date) => {
+            setShowDatePicker(false);
+            if (date) setSelectedDate(date);
+          }}
+          maximumDate={new Date()}
+        />
+      )}
+
+      {Platform.OS === 'ios' && (
+        <Modal animationType="slide" transparent={true} visible={showDatePicker} onRequestClose={() => setShowDatePicker(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={{ backgroundColor: colors.surface, paddingBottom: 30, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 15, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                  <Text style={{ color: colors.primary, fontWeight: 'bold', fontSize: 16 }}>Done</Text>
+                </TouchableOpacity>
+              </View>
+              <DateTimePicker
+                value={selectedDate || new Date()}
+                mode="date"
+                display="spinner"
+                textColor={colors.text}
+                onChange={(event, date) => {
+                  if (date) setSelectedDate(date);
+                }}
+                maximumDate={new Date()}
+              />
+            </View>
+          </View>
+        </Modal>
       )}
     </View>
   );
@@ -119,9 +208,13 @@ const useStyles = () => {
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingTop: 60, paddingBottom: 20 },
+    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingTop: 60, paddingBottom: 15 },
     title: { fontSize: 28, fontWeight: 'bold', color: colors.text },
-    calendarBtn: { padding: 10, backgroundColor: colors.surface, borderRadius: 12 },
+    calendarBtn: { padding: 10, backgroundColor: colors.surface, borderRadius: 12, borderWidth: 1, borderColor: colors.border },
+    calendarBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+    clearDateBtn: { backgroundColor: colors.danger, padding: 8, borderRadius: 20, marginRight: 10 },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+    dateFilterLabel: { paddingHorizontal: 20, paddingBottom: 15, color: colors.primary, fontWeight: '600', fontSize: 14 },
     filterSection: { marginBottom: 20 },
     filterContent: { paddingHorizontal: 20, alignItems: 'center' },
     filterIconContainer: { marginRight: 15 },
@@ -141,6 +234,12 @@ const useStyles = () => {
     statsRow: { flexDirection: 'row', marginTop: 15, paddingTop: 15, borderTopWidth: 1, borderTopColor: colors.border },
     statDetail: { flexDirection: 'row', alignItems: 'center', marginRight: 20 },
     statText: { fontSize: 12, color: colors.text, marginLeft: 6, fontWeight: '500' },
+    expandedContent: { marginTop: 15, paddingTop: 15, borderTopWidth: 1, borderTopColor: colors.border },
+    expandedTitle: { fontSize: 14, fontWeight: 'bold', color: colors.textMuted, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 },
+    studentRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8 },
+    studentName: { fontSize: 15, color: colors.text, fontWeight: '500' },
+    statusBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
+    statusBadgeText: { fontSize: 12, fontWeight: 'bold' },
     emptyContainer: { marginTop: 100, alignItems: 'center' },
     emptyText: { color: colors.textMuted, fontSize: 16 }
   });

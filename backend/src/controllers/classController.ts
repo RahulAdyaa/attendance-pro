@@ -83,11 +83,9 @@ export const getTeacherStats = async (req: AuthRequest, res: Response) => {
     // Build date range filter if date param is provided
     let sessionDateFilter: any = {};
     if (date) {
-      const targetDate = new Date(date as string);
-      const startOfDay = new Date(targetDate);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(targetDate);
-      endOfDay.setHours(23, 59, 59, 999);
+      const dateObj = new Date(date as string);
+      const startOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 0, 0, 0));
+      const endOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 23, 59, 59, 999));
       sessionDateFilter = {
         date: {
           gte: startOfDay,
@@ -165,7 +163,7 @@ export const joinClass = async (req: AuthRequest, res: Response) => {
 };
 
 export const addStudent = async (req: AuthRequest, res: Response) => {
-  const { classId, studentEmail, studentName, rollNumber } = req.body;
+  const { classId, studentEmail, studentName, rollNumber, fatherName } = req.body;
   const userId = req.user.id;
 
   try {
@@ -185,7 +183,7 @@ export const addStudent = async (req: AuthRequest, res: Response) => {
 
     if (!studentUser) {
       // Create new user for the student
-      const passwordHash = await bcrypt.hash('password123', 10);
+      const passwordHash = await bcrypt.hash('password123', 6);
       studentUser = await prisma.user.create({
         data: {
           email: finalEmail,
@@ -195,6 +193,7 @@ export const addStudent = async (req: AuthRequest, res: Response) => {
           student: {
             create: {
               rollNumber: rollNumber || uuidv4().substring(0, 8),
+              fatherName: fatherName || null,
               classId: cls.id
             }
           }

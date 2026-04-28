@@ -35,10 +35,11 @@ import {
   TrendingUp,
   LogOut,
   Bell,
-  ChevronRight
+  ChevronRight,
+  Calendar
 } from 'lucide-react-native';
 import api from '../../utils/api';
-import { BlueHeader, ProfileCard, StatBox } from '../../components/CustomUI';
+import { BlueHeader, ProfileCard, StatBox, AnimatedTouchable } from '../../components/CustomUI';
 
 const { width } = Dimensions.get('window');
 
@@ -182,18 +183,23 @@ export default function TeacherDashboard({ navigation }: any) {
       >
         <BlueHeader 
           title={todayStr} 
-          date="Change Date" 
+          userName={user?.name?.split(' ')[0] || (user as any)?.teacher?.user?.name?.split(' ')[0] || 'Teacher'}
+          date={activeDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} 
           onMenuPress={() => navigation.openDrawer()}
-          onNotificationPress={() => setHasNotifications(false)}
+          onNotificationPress={() => {
+            setHasNotifications(false);
+            navigation.navigate('Updates');
+          }}
           onDatePress={() => setShowDatePicker(true)}
           hasNotifications={hasNotifications}
         />
         
-        {showDatePicker && (
+        {/* Render Android DatePicker normally (it shows its own modal automatically) */}
+        {Platform.OS === 'android' && showDatePicker && (
           <DateTimePicker
             value={activeDate}
             mode="date"
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            display="default"
             onChange={(event, date) => {
               setShowDatePicker(false);
               if (date) setActiveDate(date);
@@ -224,21 +230,21 @@ export default function TeacherDashboard({ navigation }: any) {
         <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           <View style={styles.actionsGrid}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.actionCard} onPress={() => handleStatClick('MARK')}>
+            <AnimatedTouchable style={styles.actionCard} onPress={() => handleStatClick('MARK')}>
               <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
                 <Plus size={24} color={colors.primary} />
               </View>
               <Text style={styles.actionLabel}>Mark Attendance</Text>
               <Text style={styles.actionDesc}>Start a new session</Text>
-            </TouchableOpacity>
+            </AnimatedTouchable>
 
-            <TouchableOpacity activeOpacity={0.8} style={styles.actionCard} onPress={() => navigation.navigate('Attendances')}>
+            <AnimatedTouchable style={styles.actionCard} onPress={() => navigation.navigate('Attendance')}>
               <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
                 <Clock size={24} color={colors.warning} />
               </View>
               <Text style={styles.actionLabel}>View History</Text>
               <Text style={styles.actionDesc}>Review past logs</Text>
-            </TouchableOpacity>
+            </AnimatedTouchable>
           </View>
         </Animated.View>
 
@@ -258,6 +264,31 @@ export default function TeacherDashboard({ navigation }: any) {
         
         <View style={{ height: 40 }} />
       </ScrollView>
+
+      {/* iOS Date Picker Modal */}
+      {Platform.OS === 'ios' && (
+        <Modal animationType="slide" transparent={true} visible={showDatePicker} onRequestClose={() => setShowDatePicker(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={{ backgroundColor: colors.surface, paddingBottom: 30, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 15, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                  <Text style={{ color: colors.primary, fontWeight: 'bold', fontSize: 16 }}>Done</Text>
+                </TouchableOpacity>
+              </View>
+              <DateTimePicker
+                value={activeDate}
+                mode="date"
+                display="spinner"
+                textColor={colors.text}
+                onChange={(event, date) => {
+                  if (date) setActiveDate(date);
+                }}
+                maximumDate={new Date()}
+              />
+            </View>
+          </View>
+        </Modal>
+      )}
 
       {/* Class Selector Modal */}
       <Modal animationType="fade" transparent={true} visible={isClassSelectorOpen} onRequestClose={() => setIsClassSelectorOpen(false)}>
@@ -298,7 +329,10 @@ export default function TeacherDashboard({ navigation }: any) {
                 studentsList.map((student, index) => (
                   <Animated.View key={index} entering={FadeInDown.delay(index * 30)}>
                     <View style={styles.studentItem}>
-                      <Text style={styles.studentName}>{student.name || student.user?.name || 'Unknown'}</Text>
+                      <Text style={styles.studentName}>
+                        {student.name || student.user?.name || 'Unknown'} 
+                        {student.fatherName ? ` (s/o ${student.fatherName})` : ''}
+                      </Text>
                       {student.rollNumber && <Text style={styles.studentRoll}>{student.rollNumber}</Text>}
                     </View>
                   </Animated.View>

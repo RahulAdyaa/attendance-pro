@@ -8,7 +8,7 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 import { useDataStore } from '../../store/useDataStore';
 import { Plus, Search, BookOpen, Users, UserPlus, Copy, Check, Trash2 } from 'lucide-react-native';
 import api from '../../utils/api';
-import { FadeInUp, AnimatedModal } from '../../components/CustomUI';
+import { FadeInUp, AnimatedModal, AnimatedTouchable } from '../../components/CustomUI';
 
 interface ClassItem { id: string; name: string; subject: string; studentCount: number; classCode: string; }
 
@@ -28,6 +28,7 @@ export default function ClassList({ navigation }: any) {
   const [studentModalVisible, setStudentModalVisible] = useState(false);
   const [studentEmail, setStudentEmail] = useState('');
   const [studentName, setStudentName] = useState('');
+  const [studentFatherName, setStudentFatherName] = useState('');
   const [studentSection, setStudentSection] = useState('');
   const [selectedClass, setSelectedClass] = useState<ClassItem | null>(null);
   const [isAddingStudent, setIsAddingStudent] = useState(false);
@@ -87,11 +88,13 @@ export default function ClassList({ navigation }: any) {
         studentEmail: studentEmail ? studentEmail.toLowerCase().trim() : undefined,
 
         studentName: studentName.trim(),
+        fatherName: studentFatherName ? studentFatherName.trim() : undefined,
         rollNumber: studentSection ? `SEC-${studentSection.toUpperCase()}` : undefined
       });
       setIsAddingStudent(false);
       setStudentEmail('');
       setStudentName('');
+      setStudentFatherName('');
       setStudentSection('');
       
       if (closeAfterAdd) {
@@ -121,17 +124,16 @@ export default function ClassList({ navigation }: any) {
           <View style={styles.cardHeader}>
             <View style={styles.iconContainer}><BookOpen size={24} color={colors.primary} /></View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity activeOpacity={0.7} style={styles.codeBadge} onPress={() => copyToClipboard(item.classCode)}>
+              <AnimatedTouchable style={styles.codeBadge} onPress={() => copyToClipboard(item.classCode)}>
                 <Text style={styles.codeText}>{item.classCode}</Text>
                 <Copy size={12} color={colors.secondary} style={{ marginLeft: 4 }} />
-              </TouchableOpacity>
-              <TouchableOpacity 
-                activeOpacity={0.7} 
+              </AnimatedTouchable>
+              <AnimatedTouchable 
                 style={[styles.iconButton, { marginLeft: 12 }]} 
                 onPress={() => handleDeleteClass(item.id, item.name)}
               >
                 <Trash2 size={20} color={colors.danger} />
-              </TouchableOpacity>
+              </AnimatedTouchable>
             </View>
           </View>
           <Text style={styles.className}>{item.name}</Text>
@@ -142,8 +144,7 @@ export default function ClassList({ navigation }: any) {
               <Text style={styles.statText}>{item.studentCount} Students</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity 
-                activeOpacity={0.8}
+              <AnimatedTouchable 
                 style={[styles.markButton, { backgroundColor: colors.secondary + '15', marginRight: 8 }]} 
                 onPress={() => {
                   setSelectedClass(item);
@@ -151,14 +152,13 @@ export default function ClassList({ navigation }: any) {
                 }}
               >
                 <UserPlus size={16} color={colors.secondary} />
-              </TouchableOpacity>
-              <TouchableOpacity 
-                activeOpacity={0.8} 
+              </AnimatedTouchable>
+              <AnimatedTouchable 
                 style={styles.markButton} 
                 onPress={() => navigation.navigate('MarkAttendance', { classId: item.id, className: item.name })}
               >
                 <Text style={styles.markButtonText}>Mark Now</Text>
-              </TouchableOpacity>
+              </AnimatedTouchable>
             </View>
           </View>
         </View>
@@ -170,9 +170,9 @@ export default function ClassList({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Your Classes</Text>
-        <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={() => setModalVisible(true)}>
+        <AnimatedTouchable style={styles.addButton} onPress={() => navigation.navigate('CreateClass')}>
           <Plus size={24} color={colors.white} />
-        </TouchableOpacity>
+        </AnimatedTouchable>
       </View>
       <View style={styles.searchContainer}>
         <Search size={20} color={colors.textMuted} style={styles.searchIcon} />
@@ -186,26 +186,7 @@ export default function ClassList({ navigation }: any) {
           ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No classes found. Add your first class!</Text></View>}
         />
       )}
-      <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.modalOverlayCenter}>
-          <AnimatedModal visible={modalVisible} style={{ width: '100%' }}>
-          <View style={styles.modalContentCenter}>
-            <Text style={styles.label}>Class Name</Text>
-            <TextInput style={styles.input} placeholder="e.g. 10-A Mathematics" placeholderTextColor={colors.textMuted} value={newClassName} onChangeText={setNewClassName} />
-            <Text style={styles.label}>Subject</Text>
-            <TextInput style={styles.input} placeholder="e.g. Calculus" placeholderTextColor={colors.textMuted} value={newClassSubject} onChangeText={setNewClassSubject} />
-            <View style={styles.modalButtons}>
-              <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.modalButton, styles.createButton, isCreating && styles.disabledButton]} onPress={handleAddClass} disabled={isCreating}>
-                {isCreating ? <ActivityIndicator color={colors.white} /> : <Text style={styles.createButtonText}>Create</Text>}
-              </TouchableOpacity>
-            </View>
-          </View>
-          </AnimatedModal>
-        </KeyboardAvoidingView>
-      </Modal>
+      {/* Modal for adding students remains here */}
       <Modal animationType="fade" transparent={true} visible={studentModalVisible} onRequestClose={() => setStudentModalVisible(false)}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.modalOverlayCenter}>
           <AnimatedModal visible={studentModalVisible} style={{ width: '100%' }}>
@@ -224,7 +205,18 @@ export default function ClassList({ navigation }: any) {
               />
             </View>
 
-            <View style={{ marginBottom: 15, flexDirection: 'row', gap: 15 }}>
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.labelForm}>Father's Name (Optional)</Text>
+              <TextInput 
+                style={styles.input} 
+                placeholder="e.g. Richard Doe" 
+                placeholderTextColor={colors.textMuted} 
+                value={studentFatherName} 
+                onChangeText={setStudentFatherName}
+              />
+            </View>
+
+            <View style={{ marginBottom: 20, flexDirection: 'row', gap: 15 }}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.labelForm}>Section</Text>
                 <TextInput 
@@ -249,24 +241,30 @@ export default function ClassList({ navigation }: any) {
               </View>
             </View>
             
-            <View style={{ marginTop: 15, flexDirection: 'column', gap: 12 }}>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.createButton, { backgroundColor: colors.primary }, isAddingStudent && styles.disabledButton]} 
-                onPress={() => handleAddStudent(false)} 
-                disabled={isAddingStudent}
-              >
-                {isAddingStudent ? <ActivityIndicator color={colors.white} /> : <Text style={styles.createButtonText}>Add & Next (Keep Open)</Text>}
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.createButton, { backgroundColor: colors.secondary }, isAddingStudent && styles.disabledButton]} 
+            <View style={{ marginTop: 10, gap: 12 }}>
+              <AnimatedTouchable 
+                style={[styles.primaryBtn, isAddingStudent && styles.disabledBtn]} 
                 onPress={() => handleAddStudent(true)} 
                 disabled={isAddingStudent}
               >
-                {isAddingStudent ? <ActivityIndicator color={colors.white} /> : <Text style={styles.createButtonText}>Add & Close</Text>}
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setStudentModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Done / Cancel</Text>
-              </TouchableOpacity>
+                {isAddingStudent ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryBtnText}>Add Student</Text>}
+              </AnimatedTouchable>
+              
+              <AnimatedTouchable 
+                style={[styles.secondaryBtn, isAddingStudent && styles.disabledBtn]} 
+                onPress={() => handleAddStudent(false)} 
+                disabled={isAddingStudent}
+              >
+                <Text style={styles.secondaryBtnText}>Add & Add Another</Text>
+              </AnimatedTouchable>
+
+              <AnimatedTouchable 
+                style={styles.cancelBtn} 
+                onPress={() => setStudentModalVisible(false)}
+                disabled={isAddingStudent}
+              >
+                <Text style={styles.cancelBtnText}>Cancel</Text>
+              </AnimatedTouchable>
             </View>
           </View>
           </AnimatedModal>
@@ -311,14 +309,14 @@ const useStyles = () => {
     modalTitle: { fontSize: 24, fontWeight: 'bold', color: colors.text, marginBottom: 10 },
     modalSubtitle: { fontSize: 14, color: colors.textMuted, textAlign: 'center', marginBottom: 20 },
     label: { color: colors.text, fontSize: 14, fontWeight: '600', marginBottom: 8, marginTop: 15, marginLeft: 4 },
-    labelForm: { color: colors.text, fontSize: 13, fontWeight: '600', marginBottom: 6, marginLeft: 4 },
-    input: { backgroundColor: colors.background, color: colors.text, borderRadius: 12, padding: 15, fontSize: 15, borderWidth: 1, borderColor: colors.border },
-    modalButtons: { flexDirection: 'row', marginTop: 25, gap: 12 },
-    modalButton: { flex: 1, padding: 16, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-    cancelButton: { backgroundColor: colors.danger },
-    cancelButtonText: { color: colors.white, fontWeight: '700', fontSize: 16 },
-    createButton: { backgroundColor: colors.success, shadowColor: colors.success, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 },
-    createButtonText: { color: colors.white, fontWeight: 'bold', fontSize: 16 },
-    disabledButton: { opacity: 0.7 }
+    labelForm: { color: colors.textSecondary, fontSize: 13, fontWeight: '700', marginBottom: 8, marginLeft: 4, textTransform: 'uppercase', letterSpacing: 0.5 },
+    input: { backgroundColor: colors.background, color: colors.text, borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: colors.border },
+    primaryBtn: { backgroundColor: colors.primary, padding: 16, borderRadius: 12, alignItems: 'center', shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8, elevation: 4 },
+    primaryBtnText: { color: '#FFFFFF', fontWeight: 'bold', fontSize: 16 },
+    secondaryBtn: { backgroundColor: colors.primary + '15', padding: 16, borderRadius: 12, alignItems: 'center' },
+    secondaryBtnText: { color: colors.primary, fontWeight: 'bold', fontSize: 16 },
+    cancelBtn: { padding: 16, borderRadius: 12, alignItems: 'center' },
+    cancelBtnText: { color: colors.textMuted, fontWeight: '600', fontSize: 16 },
+    disabledBtn: { opacity: 0.6 }
   });
 };

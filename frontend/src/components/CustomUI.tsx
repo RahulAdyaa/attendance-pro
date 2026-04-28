@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, TextInput, LayoutAnimation, Platform, UIManager, Animated, Easing } from 'react-native';
-import { Bell, Edit2, ChevronRight, Menu } from 'lucide-react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, TextInput, LayoutAnimation, Platform, UIManager, Animated, Easing, TouchableWithoutFeedback } from 'react-native';
+import { Bell, Edit2, ChevronRight, Menu, Calendar } from 'lucide-react-native';
 import { useAppTheme } from '../hooks/useAppTheme';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -73,11 +73,48 @@ export const AnimatedModal = ({ visible, children, style }: { visible: boolean, 
   );
 };
 
+// 0.2 Animated Button Wrapper for Scale Effects
+export const AnimatedTouchable = ({ onPress, children, style, disabled }: any) => {
+  const scale = React.useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    if (disabled) return;
+    Animated.spring(scale, {
+      toValue: 0.95,
+      useNativeDriver: true,
+      speed: 20,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      bounciness: 12,
+      speed: 20,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback 
+      onPressIn={handlePressIn} 
+      onPressOut={handlePressOut} 
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Animated.View style={[style, { transform: [{ scale }] }]}>
+        {children}
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+};
+
 
 // 1. New Rounded Blue Header
 interface BlueHeaderProps {
   title: string;
-  date: string;
+  date?: string;
+  userName?: string;
   onMenuPress?: () => void;
   onNotificationPress?: () => void;
   onDatePress?: () => void;
@@ -87,6 +124,7 @@ interface BlueHeaderProps {
 export const BlueHeader: React.FC<BlueHeaderProps> = ({ 
   title, 
   date, 
+  userName,
   onMenuPress, 
   onNotificationPress, 
   onDatePress,
@@ -94,6 +132,14 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
 }) => {
   const styles = useStyles();
   const { colors } = useAppTheme();
+  
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
   return (
     <View style={styles.header}>
       <View style={styles.headerTop}>
@@ -106,9 +152,13 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.headerBottom}>
-        <View>
-          <Text style={styles.headerSubtitle}>Today</Text>
-          <Text style={styles.headerTitle}>{title}</Text>
+        <View style={styles.headerTextContainer}>
+          {userName ? (
+            <Text style={styles.headerTitle}>Hi {userName}, {getGreeting()} 👋</Text>
+          ) : (
+            <Text style={styles.headerTitle}>{title}</Text>
+          )}
+          <Text style={styles.headerSubtitle}>{userName ? 'Have a wonderful day ahead!' : 'Today'}</Text>
         </View>
         <TouchableOpacity style={styles.dateContainer} onPress={onDatePress}>
           <Calendar color={colors.white} size={16} />
@@ -158,13 +208,13 @@ export const ProfileCard = ({ name, role, subRole, image, onEditPress }: { name:
 export const StatBox = ({ label, value, color, icon: Icon, onPress }: { label: string, value: string | number, color: string, icon: any, onPress?: () => void }) => {
   const styles = useStyles();
   return (
-  <TouchableOpacity style={styles.statBox} activeOpacity={0.7} onPress={onPress} disabled={!onPress}>
+  <AnimatedTouchable style={styles.statBox} onPress={onPress} disabled={!onPress}>
     <View style={[styles.iconCircle, { backgroundColor: color + '15' }]}>
       <Icon size={18} color={color} />
     </View>
     <Text style={styles.statLabel}>{label}</Text>
     <Text style={styles.statValue}>{value}</Text>
-  </TouchableOpacity>
+  </AnimatedTouchable>
   );
 };
 
@@ -196,19 +246,39 @@ export const TabSwitcher = ({ tabs, activeTab, onTabPress }: { tabs: string[], a
 export const CustomInput = ({ label, placeholder, value, onChangeText, secureTextEntry, keyboardType }: any) => {
   const styles = useStyles();
   const { colors } = useAppTheme();
+  const [isFocused, setIsFocused] = React.useState(false);
+  const borderAnim = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(borderAnim, {
+      toValue: isFocused ? 1 : 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [isFocused]);
+
+  const borderColor = borderAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [colors.border, colors.primary]
+  });
+
   return (
   <View style={styles.inputContainer}>
-    <Text style={styles.inputLabel}>{label}</Text>
-    <TextInput
-      style={styles.textInput}
-      placeholder={placeholder}
-      placeholderTextColor={colors.textMuted}
-      value={value}
-      onChangeText={onChangeText}
-      secureTextEntry={secureTextEntry}
-      keyboardType={keyboardType}
-      autoCapitalize="none"
-    />
+    <Animated.Text style={[styles.inputLabel, { color: isFocused ? colors.primary : colors.text }]}>{label}</Animated.Text>
+    <Animated.View style={[styles.textInputWrapper, { borderColor }]}>
+      <TextInput
+        style={styles.textInput}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textMuted}
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        autoCapitalize="none"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+      />
+    </Animated.View>
   </View>
   );
 };
@@ -219,13 +289,13 @@ export const MenuItem = ({ label, icon: Icon, onPress, color }: any) => {
   const { colors } = useAppTheme();
   const iconColor = color || colors.text;
   return (
-  <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+  <AnimatedTouchable style={styles.menuItem} onPress={onPress}>
     <View style={styles.menuIconBox}>
       <Icon size={20} color={iconColor} />
     </View>
     <Text style={[styles.menuLabel, { color: iconColor }]}>{label}</Text>
     <ChevronRight size={18} color={colors.textMuted} />
-  </TouchableOpacity>
+  </AnimatedTouchable>
   );
 };
 
@@ -237,7 +307,7 @@ const useStyles = () => {
     alignItems: 'center',
     paddingVertical: 18,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0,0,0,0.02)',
+    borderBottomColor: colors.border,
   },
   menuIconBox: {
     marginRight: 15,
@@ -257,19 +327,20 @@ const useStyles = () => {
     marginBottom: 8,
     marginLeft: 4,
   },
-  textInput: {
+  textInputWrapper: {
     backgroundColor: colors.surface,
-    padding: 16,
     borderRadius: 15,
-    fontSize: 15,
-    color: colors.text,
-    borderWidth: 1,
-    borderColor: colors.border,
+    borderWidth: 1.5,
     elevation: 2,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
+  },
+  textInput: {
+    padding: 16,
+    fontSize: 15,
+    color: colors.text,
   },
   headerBackground: {
     backgroundColor: colors.primary,
@@ -378,7 +449,7 @@ const useStyles = () => {
     marginTop: 6,
   },
   roleTag: {
-    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+    backgroundColor: colors.primary + '1A', // 10% opacity
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -390,7 +461,7 @@ const useStyles = () => {
     fontWeight: '600',
   },
   subRoleTag: {
-    backgroundColor: '#F7F9FC',
+    backgroundColor: colors.surfaceAlt,
   },
   subRoleText: {
     color: colors.textMuted,
@@ -440,9 +511,9 @@ const useStyles = () => {
     borderRadius: 10,
   },
   activeTabItem: {
-    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+    backgroundColor: colors.primary + '1A', // 10% opacity
     borderWidth: 1,
-    borderColor: 'rgba(74, 144, 226, 0.2)',
+    borderColor: colors.primary + '33', // 20% opacity
   },
   tabText: {
     fontSize: 13,
@@ -452,6 +523,58 @@ const useStyles = () => {
   activeTabText: {
     color: colors.primary,
     fontWeight: '700',
+  },
+  header: {
+    backgroundColor: colors.primary,
+    height: 250,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    paddingHorizontal: 25,
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 10,
+  },
+  headerTextContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+
+  headerSubtitle: {
+    color: 'rgba(255,255,255,0.85)',
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 15,
+  },
+  dateText: {
+    color: colors.white,
+    marginLeft: 6,
+    fontSize: 13,
+    fontWeight: '500',
   },
   });
 };

@@ -12,7 +12,8 @@ model User {
   id           String   @id @default(uuid())
   email        String   @unique
   name         String
-  passwordHash String
+  passwordHash String?
+  authProvider String   @default("local") // "local", "google", "facebook"
   role         String   // "TEACHER" or "STUDENT"
   profilePhoto String?
   createdAt    DateTime @default(now())
@@ -37,6 +38,7 @@ model Student {
   userId     String             @unique
   user       User               @relation(fields: [userId], references: [id])
   rollNumber String
+  fatherName String?
   classId    String?
   class      Class?             @relation(fields: [classId], references: [id])
   attendance AttendanceRecord[]

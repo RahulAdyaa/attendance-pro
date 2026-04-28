@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { ArrowLeft, Save } from 'lucide-react-native';
@@ -100,5 +100,6 @@ const useStyles = () => {
     designationTextActive: { color: colors.white },
     saveButton: { backgroundColor: colors.primary, paddingVertical: 16, borderRadius: 15, alignItems: 'center', marginTop: 10, elevation: 4, shadowColor: colors.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
     saveButtonText: { color: colors.white, fontWeight: 'bold', fontSize: 16 },
+    disabledButton: { opacity: 0.7 },
   });
 };

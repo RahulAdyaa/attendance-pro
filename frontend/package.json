@@ -23,6 +23,7 @@
     "expo-clipboard": "~7.0.0",
     "expo-crypto": "~14.0.0",
     "expo-file-system": "~18.0.0",
+    "expo-font": "~13.0.4",
     "expo-notifications": "~0.29.0",
     "expo-sharing": "~13.0.0",
     "expo-status-bar": "~2.0.0",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~18.3.12",
+    "babel-plugin-transform-import-meta": "^2.3.3",
     "typescript": "^5.3.3"
   },
   "private": true

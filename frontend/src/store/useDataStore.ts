@@ -11,6 +11,8 @@ interface DataState {
   setStats: (stats: any) => void;
   fetchClasses: () => Promise<void>;
   fetchStats: (dateString: string) => Promise<void>;
+  createClass: (data: { name: string; subject: string; section?: string }) => Promise<boolean>;
+  updateClass: (id: string, data: { name?: string; subject?: string; section?: string }) => Promise<boolean>;
 }
 
 export const useDataStore = create<DataState>()(
@@ -36,6 +38,26 @@ export const useDataStore = create<DataState>()(
           set({ stats: response.data, lastUpdated: Date.now() });
         } catch (error) {
           console.error('Failed to fetch stats for cache:', error);
+        }
+      },
+      createClass: async (data) => {
+        try {
+          await api.post('/classes', data);
+          await get().fetchClasses();
+          return true;
+        } catch (error) {
+          console.error('Failed to create class:', error);
+          return false;
+        }
+      },
+      updateClass: async (id, data) => {
+        try {
+          await api.put(`/classes/${id}`, data);
+          await get().fetchClasses();
+          return true;
+        } catch (error) {
+          console.error('Failed to update class:', error);
+          return false;
         }
       },
     }),

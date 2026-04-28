@@ -12,7 +12,11 @@ export default function ProfileScreen({ navigation }: any) {
   
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <BlueHeader title="Profile Page" />
+      <BlueHeader 
+        title="Profile Page" 
+        onMenuPress={() => navigation.openDrawer()} 
+        onNotificationPress={() => navigation.navigate('Updates')}
+      />
       
       <ProfileCard 
         name={user?.name || 'User'} 

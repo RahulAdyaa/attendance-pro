@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, 
   Platform, ScrollView, ActivityIndicator, Alert
@@ -7,16 +7,66 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
+import * as WebBrowser from 'expo-web-browser';
+import * as AuthSession from 'expo-auth-session';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function RegisterScreen({ navigation }: any) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fatherName, setFatherName] = useState('');
   const [role, setRole] = useState<'TEACHER' | 'STUDENT'>('STUDENT');
   const [designation, setDesignation] = useState('Professor');
   const { register, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+
+  const googleDiscovery = AuthSession.useAutoDiscovery('https://accounts.google.com');
+  const [googleReq, googleRes, promptGoogleAsync] = AuthSession.useAuthRequest({
+      clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || 'dummy-google-client-id.apps.googleusercontent.com',
+      redirectUri: AuthSession.makeRedirectUri(),
+      scopes: ['openid', 'profile', 'email'],
+      responseType: AuthSession.ResponseType.Token,
+    },
+    googleDiscovery
+  );
+
+  const fbDiscovery = {
+    authorizationEndpoint: 'https://www.facebook.com/v17.0/dialog/oauth',
+    tokenEndpoint: 'https://graph.facebook.com/v17.0/oauth/access_token',
+  };
+  const [fbReq, fbRes, promptFbAsync] = AuthSession.useAuthRequest({
+      clientId: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_ID || 'dummy-facebook-client-id',
+      redirectUri: AuthSession.makeRedirectUri(),
+      scopes: ['public_profile', 'email'],
+      responseType: AuthSession.ResponseType.Token,
+    },
+    fbDiscovery
+  );
+
+  useEffect(() => {
+    if (googleRes?.type === 'success') {
+      const { access_token } = googleRes.params;
+      if (access_token) {
+        useAuthStore.getState().loginWithSocial('google', access_token).catch((err) => {
+          Alert.alert('Google Login Failed', err.message);
+        });
+      }
+    }
+  }, [googleRes]);
+
+  useEffect(() => {
+    if (fbRes?.type === 'success') {
+      const { access_token } = fbRes.params;
+      if (access_token) {
+        useAuthStore.getState().loginWithSocial('facebook', access_token).catch((err) => {
+          Alert.alert('Facebook Login Failed', err.message);
+        });
+      }
+    }
+  }, [fbRes]);
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
@@ -28,7 +78,7 @@ export default function RegisterScreen({ navigation }: any) {
       return;
     }
     try { 
-      await register({ name, email, password, role, designation }); 
+      await register({ name, email, password, role, designation, fatherName: role === 'STUDENT' ? fatherName : undefined }); 
     } catch (err) { /* Error handled by store */ }
   };
 
@@ -56,6 +106,10 @@ export default function RegisterScreen({ navigation }: any) {
             </TouchableOpacity>
           </View>
 
+          {role === 'STUDENT' && (
+            <CustomInput label="Father's Name" placeholder="Enter father's name" value={fatherName} onChangeText={setFatherName} />
+          )}
+
           {role === 'TEACHER' && (
             <View style={styles.designationSection}>
               <Text style={styles.label}>Select Designation</Text>
@@ -80,10 +134,18 @@ export default function RegisterScreen({ navigation }: any) {
             <View style={styles.dividerLine} /><Text style={styles.dividerText}>OR CONTINUE WITH</Text><View style={styles.dividerLine} />
           </View>
           <View style={styles.socialButtonsContainer}>
-            <TouchableOpacity style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} onPress={() => alert('Google login coming soon!')}>
+            <TouchableOpacity 
+              style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
+              onPress={() => promptGoogleAsync()}
+              disabled={!googleReq}
+            >
               <FontAwesome name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} onPress={() => alert('Facebook login coming soon!')}>
+            <TouchableOpacity 
+              style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
+              onPress={() => promptFbAsync()}
+              disabled={!fbReq}
+            >
               <FontAwesome name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>
           </View>

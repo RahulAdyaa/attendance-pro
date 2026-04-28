@@ -1515,3 +1515,4 @@ Import stack (2000):
  
  | import "./node_modules/react-native-reanimated/src/Animated"
 
+› Detected a change in babel.config.js. Restart the server to see the new results. You may need to clear the bundler cache with the --clear flag for your changes to take effect.

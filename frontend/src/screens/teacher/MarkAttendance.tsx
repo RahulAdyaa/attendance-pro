@@ -7,7 +7,7 @@ import { Save, ChevronLeft } from 'lucide-react-native';
 import api from '../../utils/api';
 
 type Status = 'PRESENT' | 'ABSENT' | 'NOT_AVAILABLE';
-interface Student { id: string; name: string; status: Status; }
+interface Student { id: string; name: string; fatherName?: string; status: Status; }
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -28,7 +28,10 @@ export default function MarkAttendance({ route, navigation }: any) {
     try {
       const response = await api.get(`/classes/${classId}`);
       let studentsData = response.data.students.map((student: any) => ({
-        id: student.id, name: student.user?.name || 'Unknown', status: 'PRESENT' as Status
+        id: student.id, 
+        name: student.user?.name || 'Unknown', 
+        fatherName: student.fatherName,
+        status: 'PRESENT' as Status
       }));
 
       const historyResponse = await api.get(`/attendance/history/${classId}`);
@@ -48,7 +51,10 @@ export default function MarkAttendance({ route, navigation }: any) {
         }));
       }
       setStudents(studentsData);
-    } catch (error) { Alert.alert('Error', 'Failed to load student list'); }
+    } catch (error: any) { 
+      console.log("fetchStudents Error:", error);
+      Alert.alert('Error', error.response?.data?.error || error.message || 'Failed to load student list'); 
+    }
     finally { setIsLoading(false); }
   };
 
@@ -67,7 +73,16 @@ export default function MarkAttendance({ route, navigation }: any) {
         classId, date: selectedDate.toISOString(),
         records: students.map(s => ({ studentId: s.id, status: s.status }))
       });
-      Alert.alert('Success', 'Attendance recorded successfully', [{ text: 'OK', onPress: () => navigation.goBack() }]);
+      Alert.alert('Success', 'Attendance recorded successfully', [{ 
+        text: 'OK', 
+        onPress: () => {
+          if (navigation.canGoBack()) {
+            navigation.goBack();
+          } else {
+            navigation.navigate('TeacherMain');
+          }
+        } 
+      }]);
     } catch (error: any) { 
       Alert.alert('Error', error.response?.data?.error || 'Failed to save attendance'); 
     }
@@ -105,7 +120,9 @@ export default function MarkAttendance({ route, navigation }: any) {
   const renderStudentItem = ({ item, index }: { item: Student, index: number }) => (
     <Animated.View entering={FadeInDown.delay(index * 30).springify()} layout={Layout.springify()}>
       <View style={styles.studentCard}>
-        <Text style={styles.studentName} numberOfLines={1}>{item.name}</Text>
+        <Text style={styles.studentName} numberOfLines={1}>
+          {item.name} {item.fatherName ? `(s/o ${item.fatherName})` : ''}
+        </Text>
         <View style={styles.statusGroup}>
           <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="PRESENT" label="P" color={colors.present} />
           <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="ABSENT" label="A" color={colors.absent} />
@@ -122,7 +139,16 @@ export default function MarkAttendance({ route, navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <TouchableOpacity 
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.navigate('TeacherMain');
+            }
+          }} 
+          style={styles.backBtn}
+        >
           <ChevronLeft size={28} color={colors.text} />
         </TouchableOpacity>
         <View style={styles.headerInfo}>

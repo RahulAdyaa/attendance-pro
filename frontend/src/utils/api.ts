@@ -1,15 +1,16 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 import { tokenManager } from './tokenManager';
 
-// Use your machine's LAN IP so the app works on physical devices & emulators.
-// Android emulator uses 10.0.2.2 to reach host localhost.
-// Render cloud backend URL
-const API_BASE_URL = 'https://attendance-pro-i6w9.onrender.com/api';
+import { Platform } from 'react-native';
+
+let API_BASE_URL = 'https://attendance-pro-i6w9.onrender.com/api';
+
+console.log('Using API Base URL:', API_BASE_URL);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 60000,
 });
 
 api.interceptors.request.use((config) => {

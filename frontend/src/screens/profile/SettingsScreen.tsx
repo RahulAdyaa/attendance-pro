@@ -1,14 +1,51 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Modal, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useThemeStore } from '../../store/useThemeStore';
-import { ArrowLeft, Bell, Moon, Shield, CircleHelp } from 'lucide-react-native';
+import { ArrowLeft, Bell, Moon, Shield, CircleHelp, X } from 'lucide-react-native';
+import api from '../../utils/api';
 
 export default function SettingsScreen({ navigation }: any) {
   const [notifications, setNotifications] = useState(true);
   const { isDarkMode, setTheme } = useThemeStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+
+  // Password Modal State
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePasswordChange = async () => {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      Alert.alert('Error', 'New passwords do not match');
+      return;
+    }
+    if (newPassword.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await api.put('/auth/password', { oldPassword, newPassword });
+      Alert.alert('Success', 'Your password has been changed successfully');
+      setShowPasswordModal(false);
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error: any) {
+      Alert.alert('Error', error.response?.data?.error || 'Failed to change password');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const SettingRow = ({ icon: Icon, title, rightElement }: any) => (
     <View style={styles.settingRow}>
@@ -65,7 +102,7 @@ export default function SettingsScreen({ navigation }: any) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account & Security</Text>
           <View style={styles.card}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => setShowPasswordModal(true)}>
               <SettingRow 
                 icon={Shield} 
                 title="Change Password" 
@@ -83,6 +120,64 @@ export default function SettingsScreen({ navigation }: any) {
           </View>
         </View>
       </ScrollView>
+
+      {/* Change Password Modal */}
+      <Modal visible={showPasswordModal} animationType="slide" transparent={true} onRequestClose={() => setShowPasswordModal(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Change Password</Text>
+              <TouchableOpacity onPress={() => setShowPasswordModal(false)}>
+                <X color={colors.text} size={24} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Current Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                placeholder="Enter current password"
+                placeholderTextColor={colors.textMuted}
+                value={oldPassword}
+                onChangeText={setOldPassword}
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>New Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                placeholder="Enter new password"
+                placeholderTextColor={colors.textMuted}
+                value={newPassword}
+                onChangeText={setNewPassword}
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Confirm New Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                placeholder="Confirm new password"
+                placeholderTextColor={colors.textMuted}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.submitButton} onPress={handlePasswordChange} disabled={isLoading}>
+              {isLoading ? (
+                <ActivityIndicator color={colors.white} />
+              ) : (
+                <Text style={styles.submitButtonText}>Update Password</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -165,6 +260,59 @@ const useStyles = () => {
   chevron: {
     fontSize: 24,
     color: colors.textMuted,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: colors.surface,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 24,
+    paddingBottom: 40,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  inputContainer: {
+    marginBottom: 16,
+  },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textMuted,
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    fontSize: 16,
+    color: colors.text,
+  },
+  submitButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  submitButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   });
 };

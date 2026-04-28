@@ -10,7 +10,8 @@ export const markAttendance = async (req: AuthRequest, res: Response) => {
     const teacher = await prisma.teacher.findUnique({ where: { userId } });
     if (!teacher) return res.status(403).json({ error: 'Only teachers can mark attendance' });
 
-    const targetDate = new Date(date);
+    const dateObj = new Date(date);
+    const targetDate = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 12, 0, 0));
 
     // Find if a session already exists for this date
     const sessions = await prisma.attendanceSession.findMany({
@@ -125,7 +126,17 @@ export const getTeacherAttendanceHistory = async (req: AuthRequest, res: Respons
           select: { records: true }
         },
         records: {
-          select: { status: true }
+          select: { 
+            status: true,
+            student: {
+              select: {
+                id: true,
+                user: {
+                  select: { name: true }
+                }
+              }
+            }
+          }
         }
       },
       orderBy: { date: 'desc' }
@@ -144,7 +155,12 @@ export const getTeacherAttendanceHistory = async (req: AuthRequest, res: Respons
         present,
         absent,
         late,
-        excused
+        excused,
+        records: s.records.map((r: any) => ({
+          studentId: r.student?.id,
+          name: r.student?.user?.name || 'Unknown',
+          status: r.status
+        }))
       };
     });
 

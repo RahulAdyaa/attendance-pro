@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   View, Text, StyleSheet, FlatList, Dimensions, ActivityIndicator,
-  RefreshControl, ScrollView, ImageBackground, TouchableOpacity
+  RefreshControl, ScrollView, ImageBackground, TouchableOpacity, Modal, TextInput
 } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { CheckCircle, Clock, AlertTriangle, MinusCircle, Calendar as CalendarIcon } from 'lucide-react-native';
@@ -18,7 +18,7 @@ interface AttendanceRecord {
   session: { date: string; class: { name: string } }
 }
 
-export default function StudentHistory() {
+export default function StudentHistory({ navigation }: any) {
   const { user } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
@@ -118,7 +118,12 @@ export default function StudentHistory() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}
       refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={fetchHistory} tintColor={colors.primary} />}>
-      <BlueHeader title={todayStr} />
+      <BlueHeader 
+        title="Attendance History" 
+        date={todayStr} 
+        onMenuPress={() => navigation.openDrawer()}
+        onNotificationPress={() => navigation.navigate('Updates')}
+      />
       <FadeInUp delay={100}>
         <ProfileCard 
           name={user?.name || 'Student'} 

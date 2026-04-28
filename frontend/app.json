@@ -22,11 +22,13 @@
         "backgroundColor": "#4A90E2"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.attendancepro.app"
+      "package": "com.attendancepro.app",
+      "permissions": ["INTERNET"]
     },
     "plugins": [
       "@react-native-community/datetimepicker",
-      "expo-updates"
+      "expo-updates",
+      "expo-font"
     ],
     "updates": {
       "url": "https://u.expo.dev/55c4030f-c64c-41ca-aa9e-af49c013347d",
@@ -36,6 +38,7 @@
       "policy": "appVersion"
     },
     "extra": {
+      "API_URL": "https://attendance-pro-i6w9.onrender.com/api",
       "eas": {
         "projectId": "55c4030f-c64c-41ca-aa9e-af49c013347d"
       }
