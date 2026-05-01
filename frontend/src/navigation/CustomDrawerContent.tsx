@@ -3,16 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
-import { 
-  Home, 
-  BookOpen, 
-  ClipboardList, 
-  User, 
-  LogOut, 
-  Settings, 
-  HelpCircle,
-  FileText
-} from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
@@ -22,18 +13,18 @@ export default function CustomDrawerContent(props: any) {
   const styles = useStyles();
 
   const menuItems = user?.role === 'TEACHER' ? [
-    { label: 'Dashboard', icon: Home, route: 'Home' },
-    { label: 'My Classes', icon: BookOpen, route: 'Classes' },
-    { label: 'Attendance History', icon: ClipboardList, route: 'Attendances' },
-    { label: 'Generate Reports', icon: FileText, route: 'Reports' },
-    { label: 'Profile', icon: User, route: 'Profile' },
-    { label: 'Settings', icon: Settings, route: 'Settings' },
-    { label: 'Help Center', icon: HelpCircle, route: 'HelpCenter' },
+    { label: 'Dashboard', icon: 'home', route: 'Home' },
+    { label: 'My Classes', icon: 'book-open', route: 'Classes' },
+    { label: 'Attendance History', icon: 'clipboard', route: 'Attendances' },
+    { label: 'Generate Reports', icon: 'file-text', route: 'Reports' },
+    { label: 'Profile', icon: 'user', route: 'Profile' },
+    { label: 'Settings', icon: 'settings', route: 'Settings' },
+    { label: 'Help Center', icon: 'help-circle', route: 'HelpCenter' },
   ] : [
-    { label: 'My Attendance', icon: ClipboardList, route: 'Home' },
-    { label: 'Profile', icon: User, route: 'Profile' },
-    { label: 'Settings', icon: Settings, route: 'Settings' },
-    { label: 'Help Center', icon: HelpCircle, route: 'HelpCenter' },
+    { label: 'My Attendance', icon: 'clipboard', route: 'Home' },
+    { label: 'Profile', icon: 'user', route: 'Profile' },
+    { label: 'Settings', icon: 'settings', route: 'Settings' },
+    { label: 'Help Center', icon: 'help-circle', route: 'HelpCenter' },
   ];
 
   return (
@@ -58,7 +49,7 @@ export default function CustomDrawerContent(props: any) {
             ]}
             onPress={() => props.navigation.navigate(item.route)}
           >
-            <item.icon size={22} color={props.state.routes[props.state.index].name === item.route ? colors.primary : colors.textMuted} />
+            <Feather name={item.icon as any} size={22} color={props.state.routes[props.state.index].name === item.route ? colors.primary : colors.textMuted} />
             <Text style={[
               styles.menuItemText,
               props.state.routes[props.state.index].name === item.route && styles.activeMenuItemText
@@ -70,7 +61,7 @@ export default function CustomDrawerContent(props: any) {
       </ScrollView>
 
       <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
-        <LogOut size={22} color={colors.danger} />
+        <Feather name="log-out" size={22} color={colors.danger} />
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </View>
