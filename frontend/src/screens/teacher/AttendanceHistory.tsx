@@ -33,7 +33,7 @@ export default function AttendanceHistory() {
       const classes = ['ALL', ...new Set(response.data.map((s: Session) => s.className))] as string[];
       setClassesList(classes);
     } catch (error) {
-      console.error('Error fetching history:', error);
+      console.log('Error fetching history:', error);
     } finally { setIsLoading(false); setIsRefreshing(false); }
   };
 

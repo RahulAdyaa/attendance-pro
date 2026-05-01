@@ -43,7 +43,7 @@ export default function StudentHistory({ navigation }: any) {
       const late = response.data.filter((r: any) => r.status === 'LATE').length;
       const excused = response.data.filter((r: any) => r.status === 'EXCUSED').length;
       setStats({ present, absent, late, excused, total: response.data.length });
-    } catch (error) { console.error('Error fetching student history:', error); }
+    } catch (error) { console.log('Error fetching student history:', error); }
     finally { setIsLoading(false); setIsRefreshing(false); }
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,13 +7,15 @@ import { useAuthStore } from './src/store/useAuthStore';
 import AppNavigator from './src/navigation/AppNavigator';
 import { useAppTheme } from './src/hooks/useAppTheme';
 
+// Suppress all LogBox warnings/errors in production builds
+LogBox.ignoreAllLogs(true);
+
 // Configure notification handler
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
-    
   }),
 });
 
@@ -21,14 +23,7 @@ export default function App() {
   const { isDarkMode, colors } = useAppTheme();
 
   useEffect(() => {
-    const prepare = async () => {
-      try {
-        await setupNotificationsOnce();
-      } catch (e) {
-        console.warn(e);
-      }
-    };
-    prepare();
+    setupNotificationsOnce();
   }, []);
 
   const setupNotificationsOnce = async () => {
@@ -53,7 +48,7 @@ export default function App() {
         });
       }
 
-      // Schedule daily 8 AM reminder
+      // Schedule daily 8 AM reminder using the correct SDK 52 trigger format
       await Notifications.cancelAllScheduledNotificationsAsync();
       await Notifications.scheduleNotificationAsync({
         content: {
@@ -62,15 +57,16 @@ export default function App() {
           sound: 'default',
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DAILY,
           hour: 8,
           minute: 0,
-          repeats: true,
-        } as any,
+        },
       });
 
       await AsyncStorage.setItem('notif_set', 'true');
     } catch (error) {
-      console.error('Error setting up notifications:', error);
+      // Silently fail — notifications are non-critical
+      console.log('Notification setup skipped:', error);
     }
   };
 

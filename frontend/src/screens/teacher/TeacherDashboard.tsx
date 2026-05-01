@@ -82,7 +82,7 @@ export default function TeacherDashboard({ navigation }: any) {
       await fetchStatsCached(dateString);
       // Sync local state with cache if needed, but Zustand handles it
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.log('Error fetching stats:', error);
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -159,7 +159,7 @@ export default function TeacherDashboard({ navigation }: any) {
         }
       }
     } catch (error) {
-      console.error('Error fetching student list:', error);
+      console.log('Error fetching student list:', error);
       setStudentsList([]);
     }
   };

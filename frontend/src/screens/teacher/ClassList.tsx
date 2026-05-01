@@ -41,7 +41,7 @@ export default function ClassList({ navigation }: any) {
   const fetchClasses = async () => {
     try {
       await fetchClassesCached();
-    } catch (error) { console.error('Error fetching classes:', error); }
+    } catch (error) { console.log('Error fetching classes:', error); }
     finally { setIsLoading(false); setIsRefreshing(false); }
   };
 

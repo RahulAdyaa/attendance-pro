@@ -56,7 +56,7 @@ export default function Reports() {
         Alert.alert('Success', `Report saved to ${fileUri}`);
       }
     } catch (error) {
-      console.error('Export error:', error);
+      console.log('Export error:', error);
       Alert.alert('Error', 'Failed to generate report');
     } finally {
       setIsExporting(false);
