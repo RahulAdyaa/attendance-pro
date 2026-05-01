@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware';
 import prisma from '../utils/prisma';
-import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 export const createClass = async (req: AuthRequest, res: Response) => {
   const { name, subject } = req.body;
@@ -12,7 +12,7 @@ export const createClass = async (req: AuthRequest, res: Response) => {
     const teacher = await prisma.teacher.findUnique({ where: { userId } });
     if (!teacher) return res.status(403).json({ error: 'Only teachers can create classes' });
 
-    const classCode = uuidv4().substring(0, 6).toUpperCase();
+    const classCode = crypto.randomUUID().substring(0, 6).toUpperCase();
 
     const newClass = await prisma.class.create({
       data: {
@@ -174,7 +174,7 @@ export const addStudent = async (req: AuthRequest, res: Response) => {
     if (!cls) return res.status(404).json({ error: 'Class not found' });
     if (cls.teacherId !== teacher.id) return res.status(403).json({ error: 'You do not own this class' });
 
-    const finalEmail = studentEmail ? studentEmail : `student_${uuidv4().substring(0, 8)}@attendance.local`;
+    const finalEmail = studentEmail ? studentEmail : `student_${crypto.randomUUID().substring(0, 8)}@attendance.local`;
 
     let studentUser = await prisma.user.findUnique({
       where: { email: finalEmail },
@@ -192,7 +192,7 @@ export const addStudent = async (req: AuthRequest, res: Response) => {
           role: 'STUDENT',
           student: {
             create: {
-              rollNumber: rollNumber || uuidv4().substring(0, 8),
+              rollNumber: rollNumber || crypto.randomUUID().substring(0, 8),
               fatherName: fatherName || null,
               classId: cls.id
             }

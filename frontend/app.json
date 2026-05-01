@@ -37,7 +37,7 @@
       "policy": "appVersion"
     },
     "extra": {
-      "API_URL": "https://attendance-pro-i6w9.onrender.com/api",
+      "API_URL": "https://backend-theta-two-72.vercel.app/api",
       "eas": {
         "projectId": "55c4030f-c64c-41ca-aa9e-af49c013347d"
       }

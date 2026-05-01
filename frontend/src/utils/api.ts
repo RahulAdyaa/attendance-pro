@@ -4,7 +4,7 @@ import { tokenManager } from './tokenManager';
 
 import { Platform } from 'react-native';
 
-let API_BASE_URL = 'https://attendance-pro-i6w9.onrender.com/api';
+let API_BASE_URL = 'https://backend-theta-two-72.vercel.app/api';
 
 console.log('Using API Base URL:', API_BASE_URL);
 

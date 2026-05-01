@@ -29,7 +29,7 @@ export const useDataStore = create<DataState>()(
           const data = response.data.map((c: any) => ({ ...c, studentCount: c._count?.students || 0 }));
           set({ classes: data, lastUpdated: Date.now() });
         } catch (error) {
-          console.error('Failed to fetch classes for cache:', error);
+          console.log('Failed to fetch classes for cache:', error);
         }
       },
       fetchStats: async (dateString: string) => {
@@ -37,7 +37,7 @@ export const useDataStore = create<DataState>()(
           const response = await api.get(`/classes/teacher/stats?date=${dateString}`);
           set({ stats: response.data, lastUpdated: Date.now() });
         } catch (error) {
-          console.error('Failed to fetch stats for cache:', error);
+          console.log('Failed to fetch stats for cache:', error);
         }
       },
       createClass: async (data) => {
@@ -46,7 +46,7 @@ export const useDataStore = create<DataState>()(
           await get().fetchClasses();
           return true;
         } catch (error) {
-          console.error('Failed to create class:', error);
+          console.log('Failed to create class:', error);
           return false;
         }
       },
@@ -56,7 +56,7 @@ export const useDataStore = create<DataState>()(
           await get().fetchClasses();
           return true;
         } catch (error) {
-          console.error('Failed to update class:', error);
+          console.log('Failed to update class:', error);
           return false;
         }
       },
