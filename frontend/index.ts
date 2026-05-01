@@ -20,12 +20,10 @@ class RootErrorBoundary extends React.Component<any, { hasError: boolean, error:
 
   render() {
     if (this.state.hasError) {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: 'red' }}>
-          <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 10 }}>CRITICAL CRASH</Text>
-          <Text style={{ color: 'white', textAlign: 'center', marginBottom: 10 }}>{this.state.error?.message}</Text>
-          <Text style={{ color: 'white', textAlign: 'center', fontSize: 10 }}>{this.state.error?.stack}</Text>
-        </View>
+      return React.createElement(View, { style: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: 'red' } },
+        React.createElement(Text, { style: { color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 10 } }, "CRITICAL CRASH"),
+        React.createElement(Text, { style: { color: 'white', textAlign: 'center', marginBottom: 10 } }, this.state.error?.message),
+        React.createElement(Text, { style: { color: 'white', textAlign: 'center', fontSize: 10 } }, this.state.error?.stack)
       );
     }
     return this.props.children;
@@ -34,20 +32,13 @@ class RootErrorBoundary extends React.Component<any, { hasError: boolean, error:
 
 function Root() {
   try {
-    // Dynamically require App so that module evaluation errors are caught
     const App = require('./App').default;
-    return (
-      <RootErrorBoundary>
-        <App />
-      </RootErrorBoundary>
-    );
+    return React.createElement(RootErrorBoundary, null, React.createElement(App));
   } catch (e: any) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: 'red' }}>
-        <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 10 }}>IMPORT CRASH</Text>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{e?.message}</Text>
-        <Text style={{ color: 'white', textAlign: 'center', fontSize: 10 }}>{e?.stack}</Text>
-      </View>
+    return React.createElement(View, { style: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: 'red' } },
+      React.createElement(Text, { style: { color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 10 } }, "IMPORT CRASH"),
+      React.createElement(Text, { style: { color: 'white', textAlign: 'center' } }, e?.message),
+      React.createElement(Text, { style: { color: 'white', textAlign: 'center', fontSize: 10 } }, e?.stack)
     );
   }
 }
