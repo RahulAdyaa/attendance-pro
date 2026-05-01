@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, Platform, LogBox } from 'react-native';
+import { StatusBar, Platform, LogBox, View, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,6 +18,34 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true,
   }),
 });
+
+class ErrorBoundary extends React.Component<any, { hasError: boolean, error: Error | null }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.log('FATAL CRASH CAUGHT:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: 'red' }}>
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>App Crashed</Text>
+          <Text style={{ color: 'white', textAlign: 'center' }}>{this.state.error?.message}</Text>
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 10, fontSize: 10 }}>{this.state.error?.stack}</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
   const { isDarkMode, colors } = useAppTheme();
@@ -48,7 +76,6 @@ export default function App() {
         });
       }
 
-      // Schedule daily 8 AM reminder using the correct SDK 52 trigger format
       await Notifications.cancelAllScheduledNotificationsAsync();
       await Notifications.scheduleNotificationAsync({
         content: {
@@ -57,23 +84,24 @@ export default function App() {
           sound: 'default',
         },
         trigger: {
-          type: Notifications.SchedulableTriggerInputTypes.DAILY,
           hour: 8,
           minute: 0,
-        },
+          repeats: true,
+        } as any,
       });
 
       await AsyncStorage.setItem('notif_set', 'true');
     } catch (error) {
-      // Silently fail — notifications are non-critical
       console.log('Notification setup skipped:', error);
     }
   };
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.surface} />
-      <AppNavigator />
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.surface} />
+        <AppNavigator />
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }
