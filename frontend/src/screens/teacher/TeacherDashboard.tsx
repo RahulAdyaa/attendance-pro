@@ -22,6 +22,7 @@ import Animated, {
   useSharedValue,
   withSpring
 } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useDataStore } from '../../store/useDataStore';
@@ -35,6 +36,7 @@ export default function TeacherDashboard({ navigation }: any) {
   const { user } = useAuthStore();
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
+  const { t, i18n } = useTranslation();
   const { stats: cachedStats, fetchStats: fetchStatsCached, fetchClasses: fetchClassesCached } = useDataStore();
   const [stats, setStats] = useState(cachedStats || {
     totalStudents: 0,
@@ -105,7 +107,12 @@ export default function TeacherDashboard({ navigation }: any) {
     return () => clearInterval(interval);
   }, [activeDate]);
 
-  const todayStr = activeDate.toLocaleDateString('en-US', {
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'pa' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
+  const todayStr = activeDate.toLocaleDateString(i18n.language === 'pa' ? 'pa-IN' : 'en-US', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -171,8 +178,8 @@ export default function TeacherDashboard({ navigation }: any) {
       >
         <BlueHeader 
           title={todayStr} 
-          userName={user?.name?.split(' ')[0] || (user as any)?.teacher?.user?.name?.split(' ')[0] || 'Teacher'}
-          date={activeDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} 
+          userName={user?.name?.split(' ')[0] || (user as any)?.teacher?.user?.name?.split(' ')[0] || t('teacher')}
+          date={activeDate.toLocaleDateString(i18n.language === 'pa' ? 'pa-IN' : 'en-US', { month: 'short', day: 'numeric' })} 
           onMenuPress={() => navigation.openDrawer()}
           onNotificationPress={() => {
             setHasNotifications(false);
@@ -196,33 +203,46 @@ export default function TeacherDashboard({ navigation }: any) {
           />
         )}
 
+        {/* Language Toggle Button */}
+        <Animated.View entering={FadeInDown.delay(50).springify()}>
+          <TouchableOpacity 
+            style={[styles.langToggle, { backgroundColor: colors.primary + '20' }]} 
+            onPress={toggleLanguage}
+          >
+            <Feather name="globe" size={18} color={colors.primary} />
+            <Text style={[styles.langToggleText, { color: colors.primary }]}>
+              {i18n.language === 'en' ? t('switchLanguage') : t('switchLanguageEn')}
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+
         <Animated.View entering={FadeInDown.delay(100).springify()}>
           <ProfileCard 
-            name={user?.name || 'Teacher'} 
-            role="Teacher" 
+            name={user?.name || t('teacher')} 
+            role={t('teacher')} 
             subRole={user?.teacher?.designation || 'HOD'} 
             onEditPress={() => navigation.navigate('EditProfile')}
           />
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
-          <Text style={styles.sectionTitle}>Overview Stats</Text>
+          <Text style={styles.sectionTitle}>{t('dashboardTitle')}</Text>
           <View style={styles.statsRow}>
-            <StatBox label="Students" value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
-            <StatBox label="Present" value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
-            <StatBox label="Absent" value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
+            <StatBox label={t('student')} value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
+            <StatBox label={t('present')} value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
+            <StatBox label={t('absent')} value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
             <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
           </View>
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <Text style={styles.sectionTitle}>{t('quickActions')}</Text>
           <View style={styles.actionsGrid}>
             <AnimatedTouchable style={styles.actionCard} onPress={() => handleStatClick('MARK')}>
               <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
                 <Feather name="plus" size={24} color={colors.primary} />
               </View>
-              <Text style={styles.actionLabel}>Mark Attendance</Text>
+              <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
               <Text style={styles.actionDesc}>Start a new session</Text>
             </AnimatedTouchable>
 
@@ -230,7 +250,7 @@ export default function TeacherDashboard({ navigation }: any) {
               <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
                 <Feather name="clock" size={24} color={colors.warning} />
               </View>
-              <Text style={styles.actionLabel}>View History</Text>
+              <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
               <Text style={styles.actionDesc}>Review past logs</Text>
             </AnimatedTouchable>
           </View>
@@ -245,7 +265,7 @@ export default function TeacherDashboard({ navigation }: any) {
             Your class attendance is currently at **{stats.attendanceRate}%**. Keep monitoring the trends to maintain high engagement.
           </Text>
           <TouchableOpacity style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
-            <Text style={styles.alertBtnText}>Detailed Report</Text>
+            <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
             <Feather name="arrow-right" size={16} color={colors.primary} />
           </TouchableOpacity>
         </Animated.View>
@@ -355,6 +375,8 @@ const useStyles = () => {
     alertTitle: { fontSize: 16, fontWeight: '700', color: colors.text, marginLeft: 10 },
     alertText: { fontSize: 14, color: colors.textSecondary, lineHeight: 20 },
     alertBtn: { flexDirection: 'row', alignItems: 'center', marginTop: 15 },
+    langToggle: { flexDirection: 'row', alignItems: 'center', alignSelf: 'center', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 20, marginVertical: 10 },
+    langToggleText: { fontSize: 14, fontWeight: '700', marginLeft: 8 },
     alertBtnText: { color: colors.primary, fontWeight: '700', fontSize: 14, marginRight: 8 },
     modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
     centerModalContent: { backgroundColor: colors.surface, marginHorizontal: 20, marginBottom: 40, borderRadius: 30, padding: 25, alignItems: 'center', maxHeight: Dimensions.get('window').height * 0.6 },

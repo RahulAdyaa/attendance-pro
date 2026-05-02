@@ -3,8 +3,10 @@ import {
   View, Text, StyleSheet, FlatList, Dimensions, ActivityIndicator,
   RefreshControl, ScrollView, ImageBackground, TouchableOpacity, Modal, TextInput
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, TabSwitcher, CustomInput, FadeInUp } from '../../components/CustomUI';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -22,6 +24,7 @@ export default function StudentHistory({ navigation }: any) {
   const { user } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t, i18n } = useTranslation();
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -33,6 +36,11 @@ export default function StudentHistory({ navigation }: any) {
   const [classCode, setClassCode] = useState('');
   const [isJoining, setIsJoining] = useState(false);
   const [currentClass, setCurrentClass] = useState<any>(null);
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'pa' : 'en';
+    i18n.changeLanguage(newLang);
+  };
 
   const fetchHistory = async () => {
     try {
@@ -79,14 +87,14 @@ export default function StudentHistory({ navigation }: any) {
 
   const renderHistoryItem = ({ item }: { item: AttendanceRecord }) => {
     const statusConfig = {
-      PRESENT: { label: 'Arrived on time', color: colors.success, icon: 'check-circle' },
-      ABSENT: { label: 'Absent', color: colors.danger, icon: 'minus-circle' },
-      LATE: { label: 'Arrived late', color: colors.warning, icon: 'clock' },
+      PRESENT: { label: t('present'), color: colors.success, icon: 'check-circle' },
+      ABSENT: { label: t('absent'), color: colors.danger, icon: 'minus-circle' },
+      LATE: { label: t('late'), color: colors.warning, icon: 'clock' },
       EXCUSED: { label: 'Excused', color: colors.primary, icon: 'alert-triangle' },
     };
     const config = statusConfig[item.status];
     const iconName = config.icon;
-    const dateStr = new Date(item.session.date).toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const dateStr = new Date(item.session.date).toLocaleDateString(i18n.language === 'pa' ? 'pa-IN' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const timeStr = '09:00';
 
     return (
@@ -113,21 +121,35 @@ export default function StudentHistory({ navigation }: any) {
     return (<View style={[styles.container, styles.centered]}><ActivityIndicator size="large" color={colors.primary} /></View>);
   }
 
-  const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const todayStr = new Date().toLocaleDateString(i18n.language === 'pa' ? 'pa-IN' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}
       refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={fetchHistory} tintColor={colors.primary} />}>
       <BlueHeader 
-        title="Attendance History" 
+        title={t('attendanceHistory')} 
         date={todayStr} 
         onMenuPress={() => navigation.openDrawer()}
         onNotificationPress={() => navigation.navigate('Updates')}
       />
+
+      {/* Language Toggle Button */}
+      <Animated.View entering={FadeInDown.delay(50).springify()}>
+        <TouchableOpacity 
+          style={[styles.langToggle, { backgroundColor: colors.primary + '20' }]} 
+          onPress={toggleLanguage}
+        >
+          <Feather name="globe" size={18} color={colors.primary} />
+          <Text style={[styles.langToggleText, { color: colors.primary }]}>
+            {i18n.language === 'en' ? t('switchLanguage') : t('switchLanguageEn')}
+          </Text>
+        </TouchableOpacity>
+      </Animated.View>
+
       <FadeInUp delay={100}>
         <ProfileCard 
-          name={user?.name || 'Student'} 
-          role="Student" 
+          name={user?.name || t('student')} 
+          role={t('student')} 
           subRole={currentClass ? currentClass.name : "No Class Joined"} 
         />
       </FadeInUp>
@@ -233,6 +255,8 @@ const useStyles = () => {
     historyImage: { width: '100%', height: 180, justifyContent: 'center', alignItems: 'center' },
     imageOverlayBtn: { backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 12 },
     imageOverlayText: { color: colors.text, fontSize: 13, fontWeight: '600' },
+    langToggle: { flexDirection: 'row', alignItems: 'center', alignSelf: 'center', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 20, marginVertical: 10 },
+    langToggleText: { fontSize: 14, fontWeight: '700', marginLeft: 8 },
     emptyContainer: { padding: 60, alignItems: 'center' },
     emptyText: { color: colors.textMuted, fontSize: 14 },
     joinButton: {

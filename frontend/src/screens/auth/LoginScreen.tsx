@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
@@ -8,11 +8,11 @@ import {
   Platform, 
   ScrollView,
   ActivityIndicator,
-  Image,
-  Alert,
-  Linking
+  Alert
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
@@ -33,13 +33,17 @@ export default function LoginScreen({ navigation }: any) {
   const { login, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'pa' : 'en';
+    i18n.changeLanguage(newLang);
+  };
 
   const handleGoogleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      
-      // Get the tokens
       const tokens = await GoogleSignin.getTokens();
       
       if (tokens.accessToken) {
@@ -49,54 +53,61 @@ export default function LoginScreen({ navigation }: any) {
       }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // User cancelled the login flow
         console.log('Login cancelled');
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // Operation in progress already
         console.log('Login in progress');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert('Error', 'Google Play Services are not available on this device');
+        Alert.alert(t('error'), 'Google Play Services are not available on this device');
       } else {
-        Alert.alert('Google Login Error', error.message || 'Something went wrong');
+        Alert.alert(t('error'), error.message || 'Something went wrong');
         console.error('Google Sign-In Error:', error);
       }
     }
   };
 
   const handleFacebookLogin = () => {
-    Alert.alert(
-      'Facebook Login', 
-      'Facebook Login requires a Facebook Developer App. Please use Google or Email/Password login for now.',
-      [{ text: 'OK' }]
-    );
+    Alert.alert("Coming Soon", "Facebook login will be available in the next update.");
   };
+
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert(t('error'), 'Please fill in all fields');
       return;
     }
     try {
       await login(email, password);
-    } catch (err) {
-      // Error handled by store
+    } catch (err: any) {
+      Alert.alert(t('error'), err.message || 'Login failed');
     }
   };
 
   return (
     <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View style={styles.logoCircle}>
-             <Text style={styles.logoText}>t</Text>
-          </View>
-          <Text style={styles.title}>Login Account</Text>
-          <Text style={styles.subtitle}>Welcome back, login to your account</Text>
-        </View>
+        <Animated.View entering={FadeInDown.delay(50).springify()} style={styles.langToggleContainer}>
+          <TouchableOpacity 
+            style={[styles.langToggle, { backgroundColor: colors.primary + '20' }]} 
+            onPress={toggleLanguage}
+          >
+            <Feather name="globe" size={18} color={colors.primary} />
+            <Text style={[styles.langToggleText, { color: colors.primary }]}>
+              {i18n.language === 'en' ? t('switchLanguage') : t('switchLanguageEn')}
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
 
-        <View style={styles.form}>
+        <Animated.View entering={FadeInDown.delay(100).springify()} style={styles.header}>
+          <View style={styles.logoCircle}>
+             <Text style={styles.logoText}>A</Text>
+          </View>
+          <Text style={styles.title}>{t('welcome')}</Text>
+          <Text style={styles.subtitle}>{t('loginSubtitle')}</Text>
+        </Animated.View>
+
+        <Animated.View entering={FadeInUp.delay(200).springify()} style={styles.form}>
           {authError && (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>{authError}</Text>
@@ -104,16 +115,17 @@ export default function LoginScreen({ navigation }: any) {
           )}
 
           <CustomInput
-            label="Email Address"
-            placeholder="Enter your email"
+            icon="mail"
+            placeholder={t('email')}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            autoCapitalize="none"
           />
 
           <CustomInput
-            label="Password"
-            placeholder="Enter your password"
+            icon="lock"
+            placeholder={t('password')}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -127,14 +139,17 @@ export default function LoginScreen({ navigation }: any) {
             style={[styles.loginButton, isLoading && styles.disabledButton]} 
             onPress={handleLogin}
             disabled={isLoading}
+            activeOpacity={0.8}
           >
             {isLoading ? (
-              <ActivityIndicator color={colors.white} />
+              <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.loginButtonText}>Login</Text>
+              <>
+                <Text style={styles.loginButtonText}>{t('login')}</Text>
+              </>
             )}
           </TouchableOpacity>
-
+          
           <View style={styles.dividerContainer}>
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>OR CONTINUE WITH</Text>
@@ -146,23 +161,23 @@ export default function LoginScreen({ navigation }: any) {
               style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
               onPress={handleGoogleLogin}
             >
-              <FontAwesome name="google" size={24} color="#DB4437" />
+              <FontAwesome5 name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
               onPress={handleFacebookLogin}
             >
-              <FontAwesome name="facebook" size={24} color="#ffffff" />
+              <FontAwesome5 name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>
           </View>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account? </Text>
+            <Text style={styles.footerText}>{t('noAccount')} </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.linkText}>Create Account</Text>
+              <Text style={styles.linkText}>{t('register')}</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
