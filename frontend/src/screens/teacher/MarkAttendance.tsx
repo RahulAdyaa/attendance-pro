@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Animated, { FadeInDown, Layout, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { Save, ChevronLeft } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 
 type Status = 'PRESENT' | 'ABSENT' | 'NOT_AVAILABLE';
-interface Student { id: string; name: string; fatherName?: string; status: Status; }
+interface Student { id: string; name: string; fatherName?: string; gender?: string; status: Status; }
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -31,6 +31,7 @@ export default function MarkAttendance({ route, navigation }: any) {
         id: student.id, 
         name: student.user?.name || 'Unknown', 
         fatherName: student.fatherName,
+        gender: student.gender,
         status: 'PRESENT' as Status
       }));
 
@@ -121,7 +122,7 @@ export default function MarkAttendance({ route, navigation }: any) {
     <Animated.View entering={FadeInDown.delay(index * 30).springify()} layout={Layout.springify()}>
       <View style={styles.studentCard}>
         <Text style={styles.studentName} numberOfLines={1}>
-          {item.name} {item.fatherName ? `(s/o ${item.fatherName})` : ''}
+          {item.name} {item.fatherName ? `(${item.gender === 'FEMALE' ? 'D/O' : 'S/O'} ${item.fatherName})` : ''}
         </Text>
         <View style={styles.statusGroup}>
           <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="PRESENT" label="P" color={colors.present} />
@@ -149,7 +150,7 @@ export default function MarkAttendance({ route, navigation }: any) {
           }} 
           style={styles.backBtn}
         >
-          <ChevronLeft size={28} color={colors.text} />
+          <Feather name="chevron-left" size={28} color={colors.text} />
         </TouchableOpacity>
         <View style={styles.headerInfo}>
           <Text style={styles.classTitle}>{className}</Text>
@@ -158,7 +159,7 @@ export default function MarkAttendance({ route, navigation }: any) {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={[styles.saveButton, isSaving && styles.disabledButton]} onPress={handleSave} disabled={isSaving}>
-          {isSaving ? <ActivityIndicator color={colors.white} /> : <Save size={20} color={colors.white} />}
+          {isSaving ? <ActivityIndicator color={colors.white} /> : <Feather name="save" size={20} color={colors.white} />}
         </TouchableOpacity>
       </View>
 

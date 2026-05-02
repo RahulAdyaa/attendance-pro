@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { Calendar as CalendarIcon, Filter, ChevronRight, ChevronDown, CheckCircle, XCircle, Clock, X } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 
 interface Session {
@@ -83,20 +83,20 @@ export default function AttendanceHistory() {
             <Text style={styles.className}>{item.className}</Text>
             <Text style={styles.sessionTime}>Marked at {time}</Text>
           </View>
-          {isExpanded ? <ChevronDown size={20} color={colors.textMuted} /> : <ChevronRight size={20} color={colors.textMuted} />}
+          {isExpanded ? <Feather name="chevron-down" size={20} color={colors.textMuted} /> : <Feather name="chevron-right" size={20} color={colors.textMuted} />}
         </View>
         <View style={styles.statsRow}>
           <View style={styles.statDetail}>
-            <CheckCircle size={14} color={colors.present} />
+            <Feather name="check-circle" size={14} color={colors.present} />
             <Text style={styles.statText}>{item.present} Present</Text>
           </View>
           <View style={styles.statDetail}>
-            <XCircle size={14} color={colors.absent} />
+            <Feather name="x-circle" size={14} color={colors.absent} />
             <Text style={styles.statText}>{item.absent} Absent</Text>
           </View>
           {item.late > 0 && (
             <View style={styles.statDetail}>
-              <Clock size={14} color={colors.late} />
+              <Feather name="clock" size={14} color={colors.late} />
               <Text style={styles.statText}>{item.late} Late</Text>
             </View>
           )}
@@ -129,11 +129,11 @@ export default function AttendanceHistory() {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {selectedDate && (
             <TouchableOpacity style={styles.clearDateBtn} onPress={() => setSelectedDate(null)}>
-              <X size={16} color={colors.white} />
+              <Feather name="x" size={16} color={colors.white} />
             </TouchableOpacity>
           )}
           <TouchableOpacity style={[styles.calendarBtn, selectedDate && styles.calendarBtnActive]} onPress={() => setShowDatePicker(true)}>
-            <CalendarIcon color={selectedDate ? colors.white : colors.primary} size={24} />
+            <Feather name="calendar" color={selectedDate ? colors.white : colors.primary} size={24} />
           </TouchableOpacity>
         </View>
       </View>
@@ -143,7 +143,7 @@ export default function AttendanceHistory() {
       <View style={styles.filterSection}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
           <View style={styles.filterIconContainer}>
-            <Filter size={20} color={colors.textMuted} />
+            <Feather name="filter" size={20} color={colors.textMuted} />
           </View>
           {classesList.map((f) => (
             <TouchableOpacity key={f} style={[styles.filterChip, activeFilter === f && styles.activeChip]} onPress={() => setActiveFilter(f)}>

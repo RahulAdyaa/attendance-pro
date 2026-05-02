@@ -9,16 +9,23 @@ import {
   ScrollView,
   ActivityIndicator,
   Image,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
-import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
 
-WebBrowser.maybeCompleteAuthSession();
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+const GOOGLE_WEB_CLIENT_ID = '463145998751-ph0v3ia5mh9kmmi4i0cp62v7ftdhgnoj.apps.googleusercontent.com';
+
+GoogleSignin.configure({
+  webClientId: GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: false,
+  scopes: ['profile', 'email']
+});
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
@@ -27,51 +34,42 @@ export default function LoginScreen({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
 
-  const googleDiscovery = AuthSession.useAutoDiscovery('https://accounts.google.com');
-  const [googleReq, googleRes, promptGoogleAsync] = AuthSession.useAuthRequest({
-      clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || 'dummy-google-client-id.apps.googleusercontent.com',
-      redirectUri: AuthSession.makeRedirectUri(),
-      scopes: ['openid', 'profile', 'email'],
-      responseType: AuthSession.ResponseType.Token,
-    },
-    googleDiscovery
-  );
-
-  const fbDiscovery = {
-    authorizationEndpoint: 'https://www.facebook.com/v17.0/dialog/oauth',
-    tokenEndpoint: 'https://graph.facebook.com/v17.0/oauth/access_token',
+  const handleGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      
+      // Get the tokens
+      const tokens = await GoogleSignin.getTokens();
+      
+      if (tokens.accessToken) {
+        await useAuthStore.getState().loginWithSocial('google', tokens.accessToken);
+      } else {
+        throw new Error('No access token returned from Google');
+      }
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // User cancelled the login flow
+        console.log('Login cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // Operation in progress already
+        console.log('Login in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('Error', 'Google Play Services are not available on this device');
+      } else {
+        Alert.alert('Google Login Error', error.message || 'Something went wrong');
+        console.error('Google Sign-In Error:', error);
+      }
+    }
   };
-  const [fbReq, fbRes, promptFbAsync] = AuthSession.useAuthRequest({
-      clientId: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_ID || 'dummy-facebook-client-id',
-      redirectUri: AuthSession.makeRedirectUri(),
-      scopes: ['public_profile', 'email'],
-      responseType: AuthSession.ResponseType.Token,
-    },
-    fbDiscovery
-  );
 
-  useEffect(() => {
-    if (googleRes?.type === 'success') {
-      const { access_token } = googleRes.params;
-      if (access_token) {
-        useAuthStore.getState().loginWithSocial('google', access_token).catch((err) => {
-          Alert.alert('Google Login Failed', err.message);
-        });
-      }
-    }
-  }, [googleRes]);
-
-  useEffect(() => {
-    if (fbRes?.type === 'success') {
-      const { access_token } = fbRes.params;
-      if (access_token) {
-        useAuthStore.getState().loginWithSocial('facebook', access_token).catch((err) => {
-          Alert.alert('Facebook Login Failed', err.message);
-        });
-      }
-    }
-  }, [fbRes]);
-
+  const handleFacebookLogin = () => {
+    Alert.alert(
+      'Facebook Login', 
+      'Facebook Login requires a Facebook Developer App. Please use Google or Email/Password login for now.',
+      [{ text: 'OK' }]
+    );
+  };
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert('Error', 'Please fill in all fields');
@@ -146,15 +144,13 @@ export default function LoginScreen({ navigation }: any) {
           <View style={styles.socialButtonsContainer}>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
-              onPress={() => promptGoogleAsync()}
-              disabled={!googleReq}
+              onPress={handleGoogleLogin}
             >
               <FontAwesome name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
-              onPress={() => promptFbAsync()}
-              disabled={!fbReq}
+              onPress={handleFacebookLogin}
             >
               <FontAwesome name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>

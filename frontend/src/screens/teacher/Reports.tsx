@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, 
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { Download, FileText, ChevronRight, Calendar } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import api from '../../utils/api';
 
@@ -71,13 +71,13 @@ export default function Reports() {
         activeOpacity={0.7}
       >
         <View style={styles.cardIconBox}>
-          <FileText color={colors.primary} size={24} />
+          <Feather name="file-text" color={colors.primary} size={24} />
         </View>
         <View style={styles.cardInfo}>
           <Text style={styles.className}>{item.name}</Text>
           <Text style={styles.subjectText}>{item.subject}</Text>
         </View>
-        <Download color={colors.textMuted} size={20} />
+        <Feather name="download" color={colors.textMuted} size={20} />
       </TouchableOpacity>
     </Animated.View>
   );
@@ -100,7 +100,7 @@ export default function Reports() {
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Calendar size={48} color={colors.textMuted} />
+            <Feather name="calendar" size={48} color={colors.textMuted} />
             <Text style={styles.emptyText}>No classes found. Create a class first to see reports.</Text>
           </View>
         }

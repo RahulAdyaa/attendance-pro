@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useDataStore } from '../../store/useDataStore';
-import { ArrowLeft, BookOpen, Layers, Users } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 
 export default function CreateClassScreen({ navigation }: any) {
   const { colors } = useAppTheme();
@@ -51,7 +51,7 @@ export default function CreateClassScreen({ navigation }: any) {
     >
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <ArrowLeft color={colors.text} size={24} />
+          <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
         <Text style={styles.title}>Create New Class</Text>
         <View style={{ width: 40 }} />
@@ -60,7 +60,7 @@ export default function CreateClassScreen({ navigation }: any) {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.infoCard}>
           <View style={[styles.iconContainer, { backgroundColor: colors.primary + '15' }]}>
-            <BookOpen color={colors.primary} size={30} />
+            <Feather name="book-open" color={colors.primary} size={30} />
           </View>
           <Text style={styles.infoTitle}>Setup your classroom</Text>
           <Text style={styles.infoSubtitle}>Students will be able to join using this class name and subject.</Text>
@@ -70,7 +70,7 @@ export default function CreateClassScreen({ navigation }: any) {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Class Name (e.g. CS-2024)</Text>
             <View style={styles.inputWrapper}>
-              <Layers size={20} color={colors.textMuted} style={styles.inputIcon} />
+              <Feather name="layers" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={name} 
@@ -84,7 +84,7 @@ export default function CreateClassScreen({ navigation }: any) {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Subject</Text>
             <View style={styles.inputWrapper}>
-              <BookOpen size={20} color={colors.textMuted} style={styles.inputIcon} />
+              <Feather name="book-open" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={subject} 
@@ -98,7 +98,7 @@ export default function CreateClassScreen({ navigation }: any) {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Section (Optional)</Text>
             <View style={styles.inputWrapper}>
-              <Users size={20} color={colors.textMuted} style={styles.inputIcon} />
+              <Feather name="users" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={section} 

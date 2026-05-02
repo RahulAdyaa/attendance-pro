@@ -25,19 +25,7 @@ import Animated, {
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useDataStore } from '../../store/useDataStore';
-import { 
-  Users, 
-  CheckCircle, 
-  Clock, 
-  Plus, 
-  ArrowRight,
-  TrendingDown,
-  TrendingUp,
-  LogOut,
-  Bell,
-  ChevronRight,
-  Calendar
-} from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, AnimatedTouchable } from '../../components/CustomUI';
 
@@ -220,10 +208,10 @@ export default function TeacherDashboard({ navigation }: any) {
         <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>Overview Stats</Text>
           <View style={styles.statsRow}>
-            <StatBox label="Students" value={stats.totalStudents} color={colors.primary} icon={Users} onPress={() => handleStatClick('ALL')} />
-            <StatBox label="Present" value={stats.totalPresent} color={colors.success} icon={CheckCircle} onPress={() => handleStatClick('PRESENT')} />
-            <StatBox label="Absent" value={stats.totalAbsent} color={colors.danger} icon={TrendingDown} onPress={() => handleStatClick('ABSENT')} />
-            <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon={TrendingUp} />
+            <StatBox label="Students" value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
+            <StatBox label="Present" value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
+            <StatBox label="Absent" value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
+            <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
           </View>
         </Animated.View>
 
@@ -232,7 +220,7 @@ export default function TeacherDashboard({ navigation }: any) {
           <View style={styles.actionsGrid}>
             <AnimatedTouchable style={styles.actionCard} onPress={() => handleStatClick('MARK')}>
               <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
-                <Plus size={24} color={colors.primary} />
+                <Feather name="plus" size={24} color={colors.primary} />
               </View>
               <Text style={styles.actionLabel}>Mark Attendance</Text>
               <Text style={styles.actionDesc}>Start a new session</Text>
@@ -240,7 +228,7 @@ export default function TeacherDashboard({ navigation }: any) {
 
             <AnimatedTouchable style={styles.actionCard} onPress={() => navigation.navigate('Attendance')}>
               <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
-                <Clock size={24} color={colors.warning} />
+                <Feather name="clock" size={24} color={colors.warning} />
               </View>
               <Text style={styles.actionLabel}>View History</Text>
               <Text style={styles.actionDesc}>Review past logs</Text>
@@ -250,7 +238,7 @@ export default function TeacherDashboard({ navigation }: any) {
 
         <Animated.View entering={FadeInDown.delay(400).springify()} style={styles.alertBanner}>
           <View style={styles.alertTop}>
-            <TrendingUp size={20} color={colors.success} />
+            <Feather name="trending-up" size={20} color={colors.success} />
             <Text style={styles.alertTitle}>Performance Audit</Text>
           </View>
           <Text style={styles.alertText}>
@@ -258,7 +246,7 @@ export default function TeacherDashboard({ navigation }: any) {
           </Text>
           <TouchableOpacity style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
             <Text style={styles.alertBtnText}>Detailed Report</Text>
-            <ArrowRight size={16} color={colors.primary} />
+            <Feather name="arrow-right" size={16} color={colors.primary} />
           </TouchableOpacity>
         </Animated.View>
         
@@ -304,7 +292,7 @@ export default function TeacherDashboard({ navigation }: any) {
                       <Text style={styles.className}>{cls.name}</Text>
                       <Text style={styles.subjectTextModal}>{cls.subject}</Text>
                     </View>
-                    <ChevronRight color={colors.textMuted} size={20} />
+                    <Feather name="chevron-right" color={colors.textMuted} size={20} />
                   </TouchableOpacity>
                 </Animated.View>
               ))}

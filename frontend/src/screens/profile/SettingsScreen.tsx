@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Modal, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useThemeStore } from '../../store/useThemeStore';
-import { ArrowLeft, Bell, Moon, Shield, CircleHelp, X } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 
 export default function SettingsScreen({ navigation }: any) {
@@ -47,11 +47,11 @@ export default function SettingsScreen({ navigation }: any) {
     }
   };
 
-  const SettingRow = ({ icon: Icon, title, rightElement }: any) => (
+  const SettingRow = ({ icon, title, rightElement }: any) => (
     <View style={styles.settingRow}>
       <View style={styles.settingLeft}>
         <View style={styles.iconBox}>
-          <Icon size={20} color={colors.primary} />
+          <Feather name={icon} size={20} color={colors.primary} />
         </View>
         <Text style={styles.settingTitle}>{title}</Text>
       </View>
@@ -63,7 +63,7 @@ export default function SettingsScreen({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <ArrowLeft color={colors.text} size={24} />
+          <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
         <View style={{ width: 40 }} />
@@ -74,7 +74,7 @@ export default function SettingsScreen({ navigation }: any) {
           <Text style={styles.sectionTitle}>Preferences</Text>
           <View style={styles.card}>
             <SettingRow 
-              icon={Bell} 
+              icon="bell" 
               title="Push Notifications" 
               rightElement={
                 <Switch 
@@ -86,7 +86,7 @@ export default function SettingsScreen({ navigation }: any) {
             />
             <View style={styles.divider} />
             <SettingRow 
-              icon={Moon} 
+              icon="moon" 
               title="Dark Mode" 
               rightElement={
                 <Switch 
@@ -104,7 +104,7 @@ export default function SettingsScreen({ navigation }: any) {
           <View style={styles.card}>
             <TouchableOpacity onPress={() => setShowPasswordModal(true)}>
               <SettingRow 
-                icon={Shield} 
+                icon="shield" 
                 title="Change Password" 
                 rightElement={<Text style={styles.chevron}>›</Text>} 
               />
@@ -112,7 +112,7 @@ export default function SettingsScreen({ navigation }: any) {
             <View style={styles.divider} />
             <TouchableOpacity onPress={() => navigation.navigate('HelpCenter')}>
               <SettingRow 
-                icon={CircleHelp} 
+                icon="help-circle" 
                 title="Help & Support" 
                 rightElement={<Text style={styles.chevron}>›</Text>} 
               />
@@ -128,7 +128,7 @@ export default function SettingsScreen({ navigation }: any) {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Change Password</Text>
               <TouchableOpacity onPress={() => setShowPasswordModal(false)}>
-                <X color={colors.text} size={24} />
+                <Feather name="x" color={colors.text} size={24} />
               </TouchableOpacity>
             </View>
 

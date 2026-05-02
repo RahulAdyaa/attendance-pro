@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
-import { ArrowLeft, Save } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 
 export default function EditProfileScreen({ navigation }: any) {
   const { user } = useAuthStore();
@@ -29,7 +29,7 @@ export default function EditProfileScreen({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <ArrowLeft color={colors.text} size={24} />
+          <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
         <Text style={styles.title}>Edit Profile</Text>
         <View style={{ width: 40 }} />

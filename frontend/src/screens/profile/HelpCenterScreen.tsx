@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { ArrowLeft, Mail, MessageCircle, FileText } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 
 export default function HelpCenterScreen({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
 
-  const HelpCard = ({ icon: Icon, title, description }: any) => (
+  const HelpCard = ({ icon, title, description }: any) => (
     <TouchableOpacity style={styles.card}>
-      <View style={styles.iconBox}><Icon size={24} color={colors.primary} /></View>
+      <View style={styles.iconBox}><Feather name={icon as any} size={24} color={colors.primary} /></View>
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle}>{title}</Text>
         <Text style={styles.cardDesc}>{description}</Text>
@@ -21,7 +21,7 @@ export default function HelpCenterScreen({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <ArrowLeft color={colors.text} size={24} />
+          <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
         <Text style={styles.title}>Help Center</Text>
         <View style={{ width: 40 }} />
@@ -29,9 +29,9 @@ export default function HelpCenterScreen({ navigation }: any) {
       <ScrollView style={styles.content}>
         <Text style={styles.subtitle}>How can we help you today?</Text>
         <View style={styles.cardsContainer}>
-          <HelpCard icon={FileText} title="Read FAQs" description="Find answers to common questions about using Attendance Pro." />
-          <HelpCard icon={MessageCircle} title="Chat Support" description="Start a live chat with our support team (Available 9AM-5PM)." />
-          <HelpCard icon={Mail} title="Email Us" description="Send us a detailed message at support@attendancepro.com." />
+          <HelpCard icon="file-text" title="Read FAQs" description="Find answers to common questions about using Attendance Pro." />
+          <HelpCard icon="message-circle" title="Chat Support" description="Start a live chat with our support team (Available 9AM-5PM)." />
+          <HelpCard icon="mail" title="Email Us" description="Send us a detailed message at support@attendancepro.com." />
         </View>
         <View style={styles.faqSection}>
           <Text style={styles.faqTitle}>Frequently Asked Questions</Text>

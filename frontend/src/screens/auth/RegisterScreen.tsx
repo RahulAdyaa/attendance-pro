@@ -1,72 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { 
   View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, 
-  Platform, ScrollView, ActivityIndicator, Alert
+  Platform, ScrollView, ActivityIndicator, Alert, Linking
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
-import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
 
-WebBrowser.maybeCompleteAuthSession();
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+const GOOGLE_WEB_CLIENT_ID = '463145998751-ph0v3ia5mh9kmmi4i0cp62v7ftdhgnoj.apps.googleusercontent.com';
+
+GoogleSignin.configure({
+  webClientId: GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: false,
+  scopes: ['profile', 'email']
+});
 
 export default function RegisterScreen({ navigation }: any) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fatherName, setFatherName] = useState('');
+  const [gender, setGender] = useState<'MALE' | 'FEMALE'>('MALE');
   const [role, setRole] = useState<'TEACHER' | 'STUDENT'>('STUDENT');
   const [designation, setDesignation] = useState('Professor');
   const { register, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
 
-  const googleDiscovery = AuthSession.useAutoDiscovery('https://accounts.google.com');
-  const [googleReq, googleRes, promptGoogleAsync] = AuthSession.useAuthRequest({
-      clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || 'dummy-google-client-id.apps.googleusercontent.com',
-      redirectUri: AuthSession.makeRedirectUri(),
-      scopes: ['openid', 'profile', 'email'],
-      responseType: AuthSession.ResponseType.Token,
-    },
-    googleDiscovery
-  );
-
-  const fbDiscovery = {
-    authorizationEndpoint: 'https://www.facebook.com/v17.0/dialog/oauth',
-    tokenEndpoint: 'https://graph.facebook.com/v17.0/oauth/access_token',
+  const handleGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      
+      const tokens = await GoogleSignin.getTokens();
+      
+      if (tokens.accessToken) {
+        await useAuthStore.getState().loginWithSocial('google', tokens.accessToken);
+      } else {
+        throw new Error('No access token returned from Google');
+      }
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('Login cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Login in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('Error', 'Google Play Services are not available on this device');
+      } else {
+        Alert.alert('Google Login Error', error.message || 'Something went wrong');
+        console.error('Google Sign-In Error:', error);
+      }
+    }
   };
-  const [fbReq, fbRes, promptFbAsync] = AuthSession.useAuthRequest({
-      clientId: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_ID || 'dummy-facebook-client-id',
-      redirectUri: AuthSession.makeRedirectUri(),
-      scopes: ['public_profile', 'email'],
-      responseType: AuthSession.ResponseType.Token,
-    },
-    fbDiscovery
-  );
-
-  useEffect(() => {
-    if (googleRes?.type === 'success') {
-      const { access_token } = googleRes.params;
-      if (access_token) {
-        useAuthStore.getState().loginWithSocial('google', access_token).catch((err) => {
-          Alert.alert('Google Login Failed', err.message);
-        });
-      }
-    }
-  }, [googleRes]);
-
-  useEffect(() => {
-    if (fbRes?.type === 'success') {
-      const { access_token } = fbRes.params;
-      if (access_token) {
-        useAuthStore.getState().loginWithSocial('facebook', access_token).catch((err) => {
-          Alert.alert('Facebook Login Failed', err.message);
-        });
-      }
-    }
-  }, [fbRes]);
+  const handleFacebookLogin = () => {
+    Alert.alert('Facebook Login', 'Facebook Login requires a Facebook Developer App. Please use Google or Email/Password registration.', [{ text: 'OK' }]);
+  };
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
@@ -78,7 +69,7 @@ export default function RegisterScreen({ navigation }: any) {
       return;
     }
     try { 
-      await register({ name, email, password, role, designation, fatherName: role === 'STUDENT' ? fatherName : undefined }); 
+      await register({ name, email, password, role, designation, fatherName: role === 'STUDENT' ? fatherName : undefined, gender: role === 'STUDENT' ? gender : undefined }); 
     } catch (err) { /* Error handled by store */ }
   };
 
@@ -107,7 +98,18 @@ export default function RegisterScreen({ navigation }: any) {
           </View>
 
           {role === 'STUDENT' && (
-            <CustomInput label="Father's Name" placeholder="Enter father's name" value={fatherName} onChangeText={setFatherName} />
+            <>
+              <CustomInput label="Father's Name" placeholder="Enter father's name" value={fatherName} onChangeText={setFatherName} />
+              <Text style={styles.label}>Gender</Text>
+              <View style={styles.roleContainer}>
+                <TouchableOpacity style={[styles.roleButton, gender === 'MALE' && styles.activeRole]} onPress={() => setGender('MALE')}>
+                  <Text style={[styles.roleText, gender === 'MALE' && styles.activeRoleText]}>♂ Male</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.roleButton, gender === 'FEMALE' && { backgroundColor: '#E91E6310', borderColor: '#E91E63' }]} onPress={() => setGender('FEMALE')}>
+                  <Text style={[styles.roleText, gender === 'FEMALE' && { color: '#E91E63' }]}>♀ Female</Text>
+                </TouchableOpacity>
+              </View>
+            </>
           )}
 
           {role === 'TEACHER' && (
@@ -136,15 +138,13 @@ export default function RegisterScreen({ navigation }: any) {
           <View style={styles.socialButtonsContainer}>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#ffffff', borderColor: '#ddd' }]} 
-              onPress={() => promptGoogleAsync()}
-              disabled={!googleReq}
+              onPress={handleGoogleLogin}
             >
               <FontAwesome name="google" size={24} color="#DB4437" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.socialButton, { backgroundColor: '#4267B2', borderColor: '#4267B2' }]} 
-              onPress={() => promptFbAsync()}
-              disabled={!fbReq}
+              onPress={handleFacebookLogin}
             >
               <FontAwesome name="facebook" size={24} color="#ffffff" />
             </TouchableOpacity>

@@ -163,7 +163,7 @@ export const joinClass = async (req: AuthRequest, res: Response) => {
 };
 
 export const addStudent = async (req: AuthRequest, res: Response) => {
-  const { classId, studentEmail, studentName, rollNumber, fatherName } = req.body;
+  const { classId, studentEmail, studentName, rollNumber, fatherName, gender } = req.body;
   const userId = req.user.id;
 
   try {
@@ -194,6 +194,7 @@ export const addStudent = async (req: AuthRequest, res: Response) => {
             create: {
               rollNumber: rollNumber || crypto.randomUUID().substring(0, 8),
               fatherName: fatherName || null,
+              gender: gender || null,
               classId: cls.id
             }
           }

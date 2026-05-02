@@ -2,8 +2,11 @@
   "expo": {
     "name": "Attendance Pro",
     "slug": "attendance-pro",
-    "version": "1.0.2",
-    "scheme": "attendance-pro",
+    "version": "1.0.3",
+    "scheme": [
+      "attendance-pro",
+      "com.attendancepro.app"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +30,8 @@
       "@react-native-community/datetimepicker",
       "expo-updates",
       "expo-font",
-      "expo-notifications"
+      "expo-notifications",
+      "@react-native-google-signin/google-signin"
     ],
     "updates": {
       "url": "https://u.expo.dev/55c4030f-c64c-41ca-aa9e-af49c013347d",

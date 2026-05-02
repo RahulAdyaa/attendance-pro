@@ -4,11 +4,11 @@ import {
   RefreshControl, ScrollView, ImageBackground, TouchableOpacity, Modal, TextInput
 } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
-import { CheckCircle, Clock, AlertTriangle, MinusCircle, Calendar as CalendarIcon } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, TabSwitcher, CustomInput, FadeInUp } from '../../components/CustomUI';
 import { useAuthStore } from '../../store/useAuthStore';
-import { Plus, Search } from 'lucide-react-native';
+
 
 const { width } = Dimensions.get('window');
 
@@ -79,13 +79,13 @@ export default function StudentHistory({ navigation }: any) {
 
   const renderHistoryItem = ({ item }: { item: AttendanceRecord }) => {
     const statusConfig = {
-      PRESENT: { label: 'Arrived on time', color: colors.success, icon: CheckCircle },
-      ABSENT: { label: 'Absent', color: colors.danger, icon: MinusCircle },
-      LATE: { label: 'Arrived late', color: colors.warning, icon: Clock },
-      EXCUSED: { label: 'Excused', color: colors.primary, icon: AlertTriangle },
+      PRESENT: { label: 'Arrived on time', color: colors.success, icon: 'check-circle' },
+      ABSENT: { label: 'Absent', color: colors.danger, icon: 'minus-circle' },
+      LATE: { label: 'Arrived late', color: colors.warning, icon: 'clock' },
+      EXCUSED: { label: 'Excused', color: colors.primary, icon: 'alert-triangle' },
     };
     const config = statusConfig[item.status];
-    const Icon = config.icon;
+    const iconName = config.icon;
     const dateStr = new Date(item.session.date).toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const timeStr = '09:00';
 
@@ -93,7 +93,7 @@ export default function StudentHistory({ navigation }: any) {
       <View style={styles.historyCard}>
         <View style={styles.historyHeader}>
           <View style={[styles.historyIconBox, { backgroundColor: config.color + '15' }]}>
-            <Icon size={20} color={config.color} />
+            <Feather name={iconName as any} size={20} color={config.color} />
           </View>
           <View style={styles.historyTextContent}>
             <Text style={styles.historyStatusLabel}>{config.label}</Text>
@@ -139,14 +139,14 @@ export default function StudentHistory({ navigation }: any) {
             style={styles.joinButton}
             onPress={() => setJoinModalVisible(true)}
           >
-            <Plus size={20} color={colors.white} />
+            <Feather name="plus" size={20} color={colors.white} />
             <Text style={styles.joinButtonText}>Join a Class</Text>
           </TouchableOpacity>
         </FadeInUp>
       )}
       <FadeInUp delay={200} style={styles.statusBanner}>
         <View style={[styles.bannerIconBox, { backgroundColor: colors.success + '15' }]}>
-          <CheckCircle size={18} color={colors.success} />
+          <Feather name="check-circle" size={18} color={colors.success} />
         </View>
         <Text style={styles.bannerText}>Your child came to school today, Thanks and good luck!</Text>
       </FadeInUp>
@@ -154,10 +154,10 @@ export default function StudentHistory({ navigation }: any) {
         <Text style={styles.sectionTitle}>Your Child's Presence</Text>
         <TabSwitcher tabs={['This Week', 'This Month', 'This Semester']} activeTab={activeTab} onTabPress={setActiveTab} />
         <View style={styles.statsRow}>
-          <StatBox label="Arrive" value={stats.present} color={colors.success} icon={CheckCircle} />
-          <StatBox label="Sick" value={stats.excused} color={colors.primary} icon={AlertTriangle} />
-          <StatBox label="Leave" value={stats.late} color={colors.warning} icon={Clock} />
-          <StatBox label="Skip" value={stats.absent} color={colors.danger} icon={MinusCircle} />
+          <StatBox label="Arrive" value={stats.present} color={colors.success} icon="check-circle" />
+          <StatBox label="Sick" value={stats.excused} color={colors.primary} icon="alert-triangle" />
+          <StatBox label="Leave" value={stats.late} color={colors.warning} icon="clock" />
+          <StatBox label="Skip" value={stats.absent} color={colors.danger} icon="minus-circle" />
         </View>
       </FadeInUp>
       <FadeInUp delay={400} style={[styles.section, styles.historySection]}>

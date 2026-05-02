@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, TextInput, LayoutAnimation, Platform, UIManager, Animated, Easing, TouchableWithoutFeedback } from 'react-native';
-import { Bell, Edit2, ChevronRight, Menu, Calendar } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import { useAppTheme } from '../hooks/useAppTheme';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -144,10 +144,10 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
     <View style={styles.header}>
       <View style={styles.headerTop}>
         <TouchableOpacity style={styles.iconButton} onPress={onMenuPress}>
-          <Menu color={colors.white} size={24} />
+          <Feather name="menu" color={colors.white} size={24} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton} onPress={onNotificationPress}>
-          <Bell color={colors.white} size={24} />
+          <Feather name="bell" color={colors.white} size={24} />
           {hasNotifications && <View style={styles.notificationDot} />}
         </TouchableOpacity>
       </View>
@@ -161,7 +161,7 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
           <Text style={styles.headerSubtitle}>{userName ? 'Have a wonderful day ahead!' : 'Today'}</Text>
         </View>
         <TouchableOpacity style={styles.dateContainer} onPress={onDatePress}>
-          <Calendar color={colors.white} size={16} />
+          <Feather name="calendar" color={colors.white} size={16} />
           <Text style={styles.dateText}>{date}</Text>
         </TouchableOpacity>
       </View>
@@ -197,7 +197,7 @@ export const ProfileCard = ({ name, role, subRole, image, onEditPress }: { name:
         </View>
       </View>
       <TouchableOpacity style={styles.editBtn} onPress={onEditPress}>
-        <Edit2 size={16} color={colors.text} />
+        <Feather name="edit-2" size={16} color={colors.text} />
       </TouchableOpacity>
     </View>
   </View>
@@ -210,7 +210,7 @@ export const StatBox = ({ label, value, color, icon: Icon, onPress }: { label: s
   return (
   <AnimatedTouchable style={styles.statBox} onPress={onPress} disabled={!onPress}>
     <View style={[styles.iconCircle, { backgroundColor: color + '15' }]}>
-      <Icon size={18} color={color} />
+      {typeof Icon === 'string' ? <Feather name={Icon as any} size={18} color={color} /> : <Icon size={18} color={color} />}
     </View>
     <Text style={styles.statLabel}>{label}</Text>
     <Text style={styles.statValue}>{value}</Text>
@@ -291,10 +291,10 @@ export const MenuItem = ({ label, icon: Icon, onPress, color }: any) => {
   return (
   <AnimatedTouchable style={styles.menuItem} onPress={onPress}>
     <View style={styles.menuIconBox}>
-      <Icon size={20} color={iconColor} />
+      {typeof Icon === 'string' ? <Feather name={Icon as any} size={20} color={iconColor} /> : <Icon size={20} color={iconColor} />}
     </View>
     <Text style={[styles.menuLabel, { color: iconColor }]}>{label}</Text>
-    <ChevronRight size={18} color={colors.textMuted} />
+    <Feather name="chevron-right" size={18} color={colors.textMuted} />
   </AnimatedTouchable>
   );
 };

@@ -14,13 +14,14 @@ const registerSchema = z.object({
   subjects: z.array(z.string()).optional(),
   rollNumber: z.string().optional(),
   fatherName: z.string().optional(),
+  gender: z.string().optional(),
   classCode: z.string().optional(),
 });
 
 export const register = async (req: Request, res: Response) => {
   try {
     const validatedData = registerSchema.parse(req.body);
-    const { email, password, name, role, schoolName, subjects, rollNumber, fatherName, classCode, designation } = validatedData;
+    const { email, password, name, role, schoolName, subjects, rollNumber, fatherName, gender, classCode, designation } = validatedData;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -48,6 +49,7 @@ export const register = async (req: Request, res: Response) => {
             create: {
               rollNumber: rollNumber || '',
               fatherName: fatherName || null,
+              gender: gender || null,
             }
           }
         })

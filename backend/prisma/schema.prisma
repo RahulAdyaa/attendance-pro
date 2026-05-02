@@ -39,6 +39,7 @@ model Student {
   user       User               @relation(fields: [userId], references: [id])
   rollNumber String
   fatherName String?
+  gender     String?   // "MALE" or "FEMALE"
   classId    String?
   class      Class?             @relation(fields: [classId], references: [id])
   attendance AttendanceRecord[]

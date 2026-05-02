@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
 import { BlueHeader, ProfileCard, MenuItem } from '../components/CustomUI';
-import { User, Settings, HelpCircle, LogOut } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 
 export default function ProfileScreen({ navigation }: any) {
   const { user, logout } = useAuthStore();
@@ -27,22 +27,22 @@ export default function ProfileScreen({ navigation }: any) {
       <View style={styles.menuCard}>
         <MenuItem 
           label="Personal Information" 
-          icon={User} 
+          icon="user" 
           onPress={() => navigation.navigate('EditProfile')} 
         />
         <MenuItem 
           label="Settings" 
-          icon={Settings} 
+          icon="settings" 
           onPress={() => navigation.navigate('Settings')} 
         />
         <MenuItem 
           label="Help Center" 
-          icon={HelpCircle} 
+          icon="help-circle" 
           onPress={() => navigation.navigate('HelpCenter')} 
         />
         <MenuItem 
           label="Log Out" 
-          icon={LogOut} 
+          icon="log-out" 
           onPress={logout}
           color={colors.danger}
         />

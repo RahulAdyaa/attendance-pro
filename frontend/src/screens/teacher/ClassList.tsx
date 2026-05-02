@@ -6,7 +6,7 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useDataStore } from '../../store/useDataStore';
-import { Plus, Search, BookOpen, Users, UserPlus, Copy, Check, Trash2 } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FadeInUp, AnimatedModal, AnimatedTouchable } from '../../components/CustomUI';
 
@@ -32,6 +32,7 @@ export default function ClassList({ navigation }: any) {
   const [studentSection, setStudentSection] = useState('');
   const [selectedClass, setSelectedClass] = useState<ClassItem | null>(null);
   const [isAddingStudent, setIsAddingStudent] = useState(false);
+  const [studentGender, setStudentGender] = useState<'MALE' | 'FEMALE'>('MALE');
 
   const copyToClipboard = async (text: string) => {
     await Clipboard.setStringAsync(text);
@@ -86,9 +87,9 @@ export default function ClassList({ navigation }: any) {
       await api.post('/classes/add-student', { 
         classId: selectedClass.id, 
         studentEmail: studentEmail ? studentEmail.toLowerCase().trim() : undefined,
-
         studentName: studentName.trim(),
         fatherName: studentFatherName ? studentFatherName.trim() : undefined,
+        gender: studentGender,
         rollNumber: studentSection ? `SEC-${studentSection.toUpperCase()}` : undefined
       });
       setIsAddingStudent(false);
@@ -96,13 +97,19 @@ export default function ClassList({ navigation }: any) {
       setStudentName('');
       setStudentFatherName('');
       setStudentSection('');
+      setStudentGender('MALE');
       
       if (closeAfterAdd) {
         setStudentModalVisible(false);
       }
       
-      // Update list in background
-      fetchClasses();
+      // Instant +1 update — no second API call needed
+      if (selectedClass) {
+        const updatedClasses = classes.map(c => 
+          c.id === selectedClass.id ? { ...c, studentCount: (c.studentCount || 0) + 1 } : c
+        );
+        useDataStore.getState().setClasses(updatedClasses);
+      }
     } catch (error: any) {
       setIsAddingStudent(false);
       alert(error.response?.data?.error || 'Failed to add student');
@@ -110,8 +117,8 @@ export default function ClassList({ navigation }: any) {
   };
 
   const filteredClasses = classes.filter(cls =>
-    cls.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cls.subject.toLowerCase().includes(searchQuery.toLowerCase())
+    (cls.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (cls.subject || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderClassItem = ({ item, index }: { item: ClassItem, index: number }) => (
@@ -122,25 +129,25 @@ export default function ClassList({ navigation }: any) {
       >
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <View style={styles.iconContainer}><BookOpen size={24} color={colors.primary} /></View>
+            <View style={styles.iconContainer}><Feather name="book-open" size={24} color={colors.primary} /></View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AnimatedTouchable style={styles.codeBadge} onPress={() => copyToClipboard(item.classCode)}>
-                <Text style={styles.codeText}>{item.classCode}</Text>
-                <Copy size={12} color={colors.secondary} style={{ marginLeft: 4 }} />
+              <AnimatedTouchable style={styles.codeBadge} onPress={() => item.classCode && copyToClipboard(item.classCode)}>
+                <Text style={styles.codeText}>{item.classCode || 'N/A'}</Text>
+                <Feather name="copy" size={12} color={colors.secondary} style={{ marginLeft: 4 }} />
               </AnimatedTouchable>
-              <AnimatedTouchable 
+              {item.classCode ? <AnimatedTouchable 
                 style={[styles.iconButton, { marginLeft: 12 }]} 
                 onPress={() => handleDeleteClass(item.id, item.name)}
               >
-                <Trash2 size={20} color={colors.danger} />
-              </AnimatedTouchable>
+                <Feather name="trash-2" size={20} color={colors.danger} />
+              </AnimatedTouchable> : null}
             </View>
           </View>
           <Text style={styles.className}>{item.name}</Text>
           <Text style={styles.subjectText}>{item.subject}</Text>
           <View style={styles.cardFooter}>
             <View style={styles.stat}>
-              <Users size={16} color={colors.textMuted} />
+              <Feather name="users" size={16} color={colors.textMuted} />
               <Text style={styles.statText}>{item.studentCount} Students</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -151,7 +158,7 @@ export default function ClassList({ navigation }: any) {
                   setStudentModalVisible(true);
                 }}
               >
-                <UserPlus size={16} color={colors.secondary} />
+                <Feather name="user-plus" size={16} color={colors.secondary} />
               </AnimatedTouchable>
               <AnimatedTouchable 
                 style={styles.markButton} 
@@ -171,11 +178,11 @@ export default function ClassList({ navigation }: any) {
       <View style={styles.header}>
         <Text style={styles.title}>Your Classes</Text>
         <AnimatedTouchable style={styles.addButton} onPress={() => navigation.navigate('CreateClass')}>
-          <Plus size={24} color={colors.white} />
+          <Feather name="plus" size={24} color={colors.white} />
         </AnimatedTouchable>
       </View>
       <View style={styles.searchContainer}>
-        <Search size={20} color={colors.textMuted} style={styles.searchIcon} />
+        <Feather name="search" size={20} color={colors.textMuted} style={styles.searchIcon} />
         <TextInput style={styles.searchInput} placeholder="Search classes..." placeholderTextColor={colors.textMuted} value={searchQuery} onChangeText={setQuery => setSearchQuery(setQuery)} />
       </View>
       {isLoading ? (
@@ -214,6 +221,24 @@ export default function ClassList({ navigation }: any) {
                 value={studentFatherName} 
                 onChangeText={setStudentFatherName}
               />
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.labelForm}>Gender</Text>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <TouchableOpacity 
+                  style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: studentGender === 'MALE' ? colors.primary : colors.border }]} 
+                  onPress={() => setStudentGender('MALE')}
+                >
+                  <Text style={{ color: studentGender === 'MALE' ? colors.primary : colors.textMuted, fontWeight: 'bold' }}>♂ Male</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: studentGender === 'FEMALE' ? '#E91E63' : colors.border }]} 
+                  onPress={() => setStudentGender('FEMALE')}
+                >
+                  <Text style={{ color: studentGender === 'FEMALE' ? '#E91E63' : colors.textMuted, fontWeight: 'bold' }}>♀ Female</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={{ marginBottom: 20, flexDirection: 'row', gap: 15 }}>
