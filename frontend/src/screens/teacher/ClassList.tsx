@@ -9,6 +9,7 @@ import { useDataStore } from '../../store/useDataStore';
 import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FadeInUp, AnimatedModal, AnimatedTouchable } from '../../components/CustomUI';
+import { useTranslation } from 'react-i18next';
 
 interface ClassItem { id: string; name: string; subject: string; studentCount: number; classCode: string; }
 
@@ -16,6 +17,7 @@ export default function ClassList({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
   const { classes, fetchClasses: fetchClassesCached } = useDataStore();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(classes.length === 0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +38,7 @@ export default function ClassList({ navigation }: any) {
 
   const copyToClipboard = async (text: string) => {
     await Clipboard.setStringAsync(text);
-    Alert.alert('Copied!', 'Class code copied to clipboard');
+    Alert.alert(t('copied'), t('classCodeCopied'));
   };
 
   const fetchClasses = async () => {
@@ -48,19 +50,19 @@ export default function ClassList({ navigation }: any) {
 
   const handleDeleteClass = async (id: string, name: string) => {
     Alert.alert(
-      "Delete Class",
-      `Are you sure you want to delete "${name}"? All attendance records for this class will be permanently removed.`,
+      t('deleteClass'),
+      t('deleteClassConfirm'),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: t('cancel'), style: "cancel" },
         { 
-          text: "Delete", 
+          text: t('delete'), 
           style: "destructive",
           onPress: async () => {
             try {
               await api.delete(`/classes/${id}`);
               fetchClasses();
             } catch (error) {
-              alert('Failed to delete class');
+              alert(t('failedDeleteClass'));
             }
           }
         }
@@ -76,7 +78,7 @@ export default function ClassList({ navigation }: any) {
     try {
       await api.post('/classes', { name: newClassName, subject: newClassSubject });
       setNewClassName(''); setNewClassSubject(''); setModalVisible(false); fetchClasses();
-    } catch (error) { alert('Failed to create class'); }
+    } catch (error) { alert(t('classCreatedError')); }
     finally { setIsCreating(false); }
   };
 
@@ -112,7 +114,7 @@ export default function ClassList({ navigation }: any) {
       }
     } catch (error: any) {
       setIsAddingStudent(false);
-      alert(error.response?.data?.error || 'Failed to add student');
+      alert(error.response?.data?.error || t('failedAddStudent'));
     }
   };
 
@@ -148,7 +150,7 @@ export default function ClassList({ navigation }: any) {
           <View style={styles.cardFooter}>
             <View style={styles.stat}>
               <Feather name="users" size={16} color={colors.textMuted} />
-              <Text style={styles.statText}>{item.studentCount} Students</Text>
+              <Text style={styles.statText}>{item.studentCount} {t('studentsCount')}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
               <AnimatedTouchable 
@@ -164,7 +166,7 @@ export default function ClassList({ navigation }: any) {
                 style={styles.markButton} 
                 onPress={() => navigation.navigate('MarkAttendance', { classId: item.id, className: item.name })}
               >
-                <Text style={styles.markButtonText}>Mark Now</Text>
+                <Text style={styles.markButtonText}>{t('markNow')}</Text>
               </AnimatedTouchable>
             </View>
           </View>
@@ -176,21 +178,21 @@ export default function ClassList({ navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Your Classes</Text>
+        <Text style={styles.title}>{t('yourClasses')}</Text>
         <AnimatedTouchable style={styles.addButton} onPress={() => navigation.navigate('CreateClass')}>
           <Feather name="plus" size={24} color={colors.white} />
         </AnimatedTouchable>
       </View>
       <View style={styles.searchContainer}>
         <Feather name="search" size={20} color={colors.textMuted} style={styles.searchIcon} />
-        <TextInput style={styles.searchInput} placeholder="Search classes..." placeholderTextColor={colors.textMuted} value={searchQuery} onChangeText={setQuery => setSearchQuery(setQuery)} />
+        <TextInput style={styles.searchInput} placeholder={t('searchClasses')} placeholderTextColor={colors.textMuted} value={searchQuery} onChangeText={setQuery => setSearchQuery(setQuery)} />
       </View>
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 40 }} />
       ) : (
         <FlatList data={filteredClasses} renderItem={renderClassItem} keyExtractor={item => item.id} contentContainerStyle={styles.listContent}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={fetchClasses} tintColor={colors.primary} />}
-          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No classes found. Add your first class!</Text></View>}
+          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noClassesFound')}</Text></View>}
         />
       )}
       {/* Modal for adding students remains here */}
@@ -198,11 +200,11 @@ export default function ClassList({ navigation }: any) {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.modalOverlayCenter}>
           <AnimatedModal visible={studentModalVisible} style={{ width: '100%' }}>
           <View style={styles.modalContentCenter}>
-            <Text style={[styles.modalTitle, { textAlign: 'center' }]}>Add Student</Text>
-            <Text style={styles.modalSubtitle}>to {selectedClass?.name} - {selectedClass?.subject}</Text>
+            <Text style={[styles.modalTitle, { textAlign: 'center' }]}>{t('addStudent')}</Text>
+            <Text style={styles.modalSubtitle}>{t('to')} {selectedClass?.name} - {selectedClass?.subject}</Text>
 
             <View style={{ marginBottom: 15 }}>
-              <Text style={styles.labelForm}>Student Name</Text>
+              <Text style={styles.labelForm}>{t('studentNameLabel')}</Text>
               <TextInput 
                 style={styles.input} 
                 placeholder="e.g. John Doe" 
@@ -213,7 +215,7 @@ export default function ClassList({ navigation }: any) {
             </View>
 
             <View style={{ marginBottom: 15 }}>
-              <Text style={styles.labelForm}>Father's Name (Optional)</Text>
+              <Text style={styles.labelForm}>{t('fatherNameOptional')}</Text>
               <TextInput 
                 style={styles.input} 
                 placeholder="e.g. Richard Doe" 
@@ -224,26 +226,26 @@ export default function ClassList({ navigation }: any) {
             </View>
 
             <View style={{ marginBottom: 15 }}>
-              <Text style={styles.labelForm}>Gender</Text>
+              <Text style={styles.labelForm}>{t('gender')}</Text>
               <View style={{ flexDirection: 'row', gap: 10 }}>
                 <TouchableOpacity 
                   style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: studentGender === 'MALE' ? colors.primary : colors.border }]} 
                   onPress={() => setStudentGender('MALE')}
                 >
-                  <Text style={{ color: studentGender === 'MALE' ? colors.primary : colors.textMuted, fontWeight: 'bold' }}>♂ Male</Text>
+                  <Text style={{ color: studentGender === 'MALE' ? colors.primary : colors.textMuted, fontWeight: 'bold' }}>♂ {t('male')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: studentGender === 'FEMALE' ? '#E91E63' : colors.border }]} 
                   onPress={() => setStudentGender('FEMALE')}
                 >
-                  <Text style={{ color: studentGender === 'FEMALE' ? '#E91E63' : colors.textMuted, fontWeight: 'bold' }}>♀ Female</Text>
+                  <Text style={{ color: studentGender === 'FEMALE' ? '#E91E63' : colors.textMuted, fontWeight: 'bold' }}>♀ {t('female')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
 
             <View style={{ marginBottom: 20, flexDirection: 'row', gap: 15 }}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.labelForm}>Section</Text>
+                <Text style={styles.labelForm}>{t('section')}</Text>
                 <TextInput 
                   style={styles.input} 
                   placeholder="e.g. A" 
@@ -253,7 +255,7 @@ export default function ClassList({ navigation }: any) {
                 />
               </View>
               <View style={{ flex: 2 }}>
-                <Text style={styles.labelForm}>Email ID (Optional)</Text>
+                <Text style={styles.labelForm}>{t('emailOptional')}</Text>
                 <TextInput 
                   style={styles.input} 
                   placeholder="student@example.com" 
@@ -272,7 +274,7 @@ export default function ClassList({ navigation }: any) {
                 onPress={() => handleAddStudent(true)} 
                 disabled={isAddingStudent}
               >
-                {isAddingStudent ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryBtnText}>Add Student</Text>}
+                {isAddingStudent ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryBtnText}>{t('addStudent')}</Text>}
               </AnimatedTouchable>
               
               <AnimatedTouchable 
@@ -280,7 +282,7 @@ export default function ClassList({ navigation }: any) {
                 onPress={() => handleAddStudent(false)} 
                 disabled={isAddingStudent}
               >
-                <Text style={styles.secondaryBtnText}>Add & Add Another</Text>
+                <Text style={styles.secondaryBtnText}>{t('addAndAnother')}</Text>
               </AnimatedTouchable>
 
               <AnimatedTouchable 
@@ -288,7 +290,7 @@ export default function ClassList({ navigation }: any) {
                 onPress={() => setStudentModalVisible(false)}
                 disabled={isAddingStudent}
               >
-                <Text style={styles.cancelBtnText}>Cancel</Text>
+                <Text style={styles.cancelBtnText}>{t('cancel')}</Text>
               </AnimatedTouchable>
             </View>
           </View>

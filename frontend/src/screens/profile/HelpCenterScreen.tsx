@@ -2,10 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function HelpCenterScreen({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
 
   const HelpCard = ({ icon, title, description }: any) => (
     <TouchableOpacity style={styles.card}>
@@ -23,25 +25,25 @@ export default function HelpCenterScreen({ navigation }: any) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>Help Center</Text>
+        <Text style={styles.title}>{t('helpCenter')}</Text>
         <View style={{ width: 40 }} />
       </View>
       <ScrollView style={styles.content}>
-        <Text style={styles.subtitle}>How can we help you today?</Text>
+        <Text style={styles.subtitle}>{t('howCanWeHelp')}</Text>
         <View style={styles.cardsContainer}>
-          <HelpCard icon="file-text" title="Read FAQs" description="Find answers to common questions about using Attendance Pro." />
-          <HelpCard icon="message-circle" title="Chat Support" description="Start a live chat with our support team (Available 9AM-5PM)." />
-          <HelpCard icon="mail" title="Email Us" description="Send us a detailed message at support@attendancepro.com." />
+          <HelpCard icon="file-text" title={t('readFaqs')} description={t('readFaqsDesc')} />
+          <HelpCard icon="message-circle" title={t('chatSupport')} description={t('chatSupportDesc')} />
+          <HelpCard icon="mail" title={t('emailUs')} description={t('emailUsDesc')} />
         </View>
         <View style={styles.faqSection}>
-          <Text style={styles.faqTitle}>Frequently Asked Questions</Text>
+          <Text style={styles.faqTitle}>{t('faqs')}</Text>
           <View style={styles.faqItem}>
-            <Text style={styles.faqQuestion}>How do students join my class?</Text>
-            <Text style={styles.faqAnswer}>When you create a class, a unique Class Code is generated. Share this code with your students to enter during their sign-up process.</Text>
+            <Text style={styles.faqQuestion}>{t('faq1Q')}</Text>
+            <Text style={styles.faqAnswer}>{t('faq1A')}</Text>
           </View>
           <View style={styles.faqItem}>
-            <Text style={styles.faqQuestion}>Can I edit an attendance record?</Text>
-            <Text style={styles.faqAnswer}>Currently, once a session is submitted, it is locked. We are working on an edit feature for the next update.</Text>
+            <Text style={styles.faqQuestion}>{t('faq2Q')}</Text>
+            <Text style={styles.faqAnswer}>{t('faq2A')}</Text>
           </View>
         </View>
       </ScrollView>

@@ -14,11 +14,13 @@ import {
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useDataStore } from '../../store/useDataStore';
 import { Feather } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateClassScreen({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
   const { createClass } = useDataStore();
+  const { t } = useTranslation();
   
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
@@ -27,7 +29,7 @@ export default function CreateClassScreen({ navigation }: any) {
 
   const handleCreate = async () => {
     if (!name || !subject) {
-      Alert.alert('Required Fields', 'Please enter at least the class name and subject.');
+      Alert.alert(t('error'), t('enterRequiredClassFields'));
       return;
     }
 
@@ -36,11 +38,11 @@ export default function CreateClassScreen({ navigation }: any) {
     setIsLoading(false);
 
     if (success) {
-      Alert.alert('Success', 'Class created successfully!', [
-        { text: 'Great', onPress: () => navigation.goBack() }
+      Alert.alert(t('success'), t('classCreatedSuccess'), [
+        { text: 'OK', onPress: () => navigation.goBack() }
       ]);
     } else {
-      Alert.alert('Error', 'Failed to create class. Please check your connection.');
+      Alert.alert(t('error'), t('classCreatedError'));
     }
   };
 
@@ -53,7 +55,7 @@ export default function CreateClassScreen({ navigation }: any) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>Create New Class</Text>
+        <Text style={styles.title}>{t('createNewClass')}</Text>
         <View style={{ width: 40 }} />
       </View>
 
@@ -62,48 +64,48 @@ export default function CreateClassScreen({ navigation }: any) {
           <View style={[styles.iconContainer, { backgroundColor: colors.primary + '15' }]}>
             <Feather name="book-open" color={colors.primary} size={30} />
           </View>
-          <Text style={styles.infoTitle}>Setup your classroom</Text>
-          <Text style={styles.infoSubtitle}>Students will be able to join using this class name and subject.</Text>
+          <Text style={styles.infoTitle}>{t('setupClassroom')}</Text>
+          <Text style={styles.infoSubtitle}>{t('setupClassroomDesc')}</Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Class Name (e.g. CS-2024)</Text>
+            <Text style={styles.label}>{t('classNameLabel')}</Text>
             <View style={styles.inputWrapper}>
               <Feather name="layers" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={name} 
                 onChangeText={setName} 
-                placeholder="Enter class name" 
+                placeholder={t('enterClassName')} 
                 placeholderTextColor={colors.textMuted}
               />
             </View>
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Subject</Text>
+            <Text style={styles.label}>{t('subject')}</Text>
             <View style={styles.inputWrapper}>
               <Feather name="book-open" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={subject} 
                 onChangeText={setSubject} 
-                placeholder="e.g. Mathematics" 
+                placeholder={t('enterSubject')} 
                 placeholderTextColor={colors.textMuted}
               />
             </View>
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Section (Optional)</Text>
+            <Text style={styles.label}>{t('section')}</Text>
             <View style={styles.inputWrapper}>
               <Feather name="users" size={20} color={colors.textMuted} style={styles.inputIcon} />
               <TextInput 
                 style={styles.input} 
                 value={section} 
                 onChangeText={setSection} 
-                placeholder="e.g. A, B or Morning" 
+                placeholder={t('enterSection')} 
                 placeholderTextColor={colors.textMuted}
               />
             </View>
@@ -117,7 +119,7 @@ export default function CreateClassScreen({ navigation }: any) {
             {isLoading ? (
               <ActivityIndicator color={colors.white} />
             ) : (
-              <Text style={styles.createButtonText}>Create Class</Text>
+              <Text style={styles.createButtonText}>{t('create')}</Text>
             )}
           </TouchableOpacity>
         </View>

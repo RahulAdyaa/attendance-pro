@@ -6,6 +6,8 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 
+import { useTranslation } from 'react-i18next';
+
 type Status = 'PRESENT' | 'ABSENT' | 'NOT_AVAILABLE';
 interface Student { id: string; name: string; fatherName?: string; gender?: string; status: Status; }
 
@@ -15,6 +17,7 @@ export default function MarkAttendance({ route, navigation }: any) {
   const { classId, className } = route.params;
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
   const [students, setStudents] = useState<Student[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -54,7 +57,7 @@ export default function MarkAttendance({ route, navigation }: any) {
       setStudents(studentsData);
     } catch (error: any) { 
       console.log("fetchStudents Error:", error);
-      Alert.alert('Error', error.response?.data?.error || error.message || 'Failed to load student list'); 
+      Alert.alert(t('error'), error.response?.data?.error || error.message || t('failedLoadStudents')); 
     }
     finally { setIsLoading(false); }
   };
@@ -74,7 +77,7 @@ export default function MarkAttendance({ route, navigation }: any) {
         classId, date: selectedDate.toISOString(),
         records: students.map(s => ({ studentId: s.id, status: s.status }))
       });
-      Alert.alert('Success', 'Attendance recorded successfully', [{ 
+      Alert.alert(t('success'), t('attendanceRecorded'), [{ 
         text: 'OK', 
         onPress: () => {
           if (navigation.canGoBack()) {
@@ -85,7 +88,7 @@ export default function MarkAttendance({ route, navigation }: any) {
         } 
       }]);
     } catch (error: any) { 
-      Alert.alert('Error', error.response?.data?.error || 'Failed to save attendance'); 
+      Alert.alert(t('error'), error.response?.data?.error || t('failedSaveAttendance')); 
     }
     finally { setIsSaving(false); }
   };
@@ -165,10 +168,10 @@ export default function MarkAttendance({ route, navigation }: any) {
 
       <View style={styles.bulkActions}>
         <TouchableOpacity style={styles.bulkButton} onPress={() => handleBulkAction('PRESENT')}>
-          <Text style={[styles.bulkButtonText, { color: colors.present }]}>All Present</Text>
+          <Text style={[styles.bulkButtonText, { color: colors.present }]}>{t('allPresent')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bulkButton} onPress={() => handleBulkAction('ABSENT')}>
-          <Text style={[styles.bulkButtonText, { color: colors.absent }]}>All Absent</Text>
+          <Text style={[styles.bulkButtonText, { color: colors.absent }]}>{t('allAbsent')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -177,7 +180,7 @@ export default function MarkAttendance({ route, navigation }: any) {
         renderItem={renderStudentItem} 
         keyExtractor={item => item.id} 
         contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No students enrolled in this class.</Text></View>}
+        ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noStudentsEnrolled')}</Text></View>}
       />
 
       {showDatePicker && (

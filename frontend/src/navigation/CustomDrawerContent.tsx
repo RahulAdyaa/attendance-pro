@@ -4,6 +4,7 @@ import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawe
 import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
@@ -11,20 +12,21 @@ export default function CustomDrawerContent(props: any) {
   const { user, logout } = useAuthStore();
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
 
   const menuItems = user?.role === 'TEACHER' ? [
-    { label: 'Dashboard', icon: 'home', route: 'Home' },
-    { label: 'My Classes', icon: 'book-open', route: 'Classes' },
-    { label: 'Attendance History', icon: 'clipboard', route: 'Attendances' },
-    { label: 'Generate Reports', icon: 'file-text', route: 'Reports' },
-    { label: 'Profile', icon: 'user', route: 'Profile' },
-    { label: 'Settings', icon: 'settings', route: 'Settings' },
-    { label: 'Help Center', icon: 'help-circle', route: 'HelpCenter' },
+    { label: t('dashboardMenu'), icon: 'home', route: 'Home' },
+    { label: t('myClasses'), icon: 'book-open', route: 'Classes' },
+    { label: t('attendanceHistory'), icon: 'clipboard', route: 'Attendances' },
+    { label: t('generateReports'), icon: 'file-text', route: 'Reports' },
+    { label: t('profile'), icon: 'user', route: 'Profile' },
+    { label: t('settings'), icon: 'settings', route: 'Settings' },
+    { label: t('helpCenter'), icon: 'help-circle', route: 'HelpCenter' },
   ] : [
-    { label: 'My Attendance', icon: 'clipboard', route: 'Home' },
-    { label: 'Profile', icon: 'user', route: 'Profile' },
-    { label: 'Settings', icon: 'settings', route: 'Settings' },
-    { label: 'Help Center', icon: 'help-circle', route: 'HelpCenter' },
+    { label: t('myAttendance'), icon: 'clipboard', route: 'Home' },
+    { label: t('profile'), icon: 'user', route: 'Profile' },
+    { label: t('settings'), icon: 'settings', route: 'Settings' },
+    { label: t('helpCenter'), icon: 'help-circle', route: 'HelpCenter' },
   ];
 
   return (
@@ -35,7 +37,7 @@ export default function CustomDrawerContent(props: any) {
         </View>
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{user?.name}</Text>
-          <Text style={styles.userRole}>{user?.role === 'TEACHER' ? (user.teacher?.designation || 'Teacher') : 'Student'}</Text>
+          <Text style={styles.userRole}>{user?.role === 'TEACHER' ? (user.teacher?.designation || t('teacher')) : t('student')}</Text>
         </View>
       </View>
 
@@ -62,7 +64,7 @@ export default function CustomDrawerContent(props: any) {
 
       <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
         <Feather name="log-out" size={22} color={colors.danger} />
-        <Text style={styles.logoutText}>Logout</Text>
+        <Text style={styles.logoutText}>{t('logout')}</Text>
       </TouchableOpacity>
     </View>
   );

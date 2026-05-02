@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { FontAwesome } from '@expo/vector-icons';
 import { useAppTheme } from '../hooks/useAppTheme';
 import { BlueHeader } from '../components/CustomUI';
+import { useTranslation } from 'react-i18next';
 
 const MOCK_UPDATES = [
   { id: '1', title: 'New Feature: Social Login', description: 'You can now log in using Google or Facebook!', date: 'Today, 10:00 AM', icon: 'star', color: '#FFD700' },
@@ -13,11 +14,12 @@ const MOCK_UPDATES = [
 export default function UpdatesScreen({ navigation }: any) {
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <BlueHeader 
-        title="Updates" 
+        title={t('updates')} 
         onMenuPress={() => navigation.openDrawer()} 
       />
       <FlatList
@@ -39,7 +41,7 @@ export default function UpdatesScreen({ navigation }: any) {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <FontAwesome name="bell-slash" size={48} color={colors.textMuted} style={{ opacity: 0.5 }} />
-            <Text style={[styles.emptyText, { color: colors.textMuted }]}>No new updates</Text>
+            <Text style={[styles.emptyText, { color: colors.textMuted }]}>{t('noNewUpdates')}</Text>
           </View>
         }
       />

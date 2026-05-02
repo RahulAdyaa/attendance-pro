@@ -3,11 +3,13 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Activi
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { Feather } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function EditProfileScreen({ navigation }: any) {
   const { user } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
   const [name, setName] = useState(user?.name || '');
   const [schoolName, setSchoolName] = useState(user?.role === 'TEACHER' ? user?.teacher?.schoolName || '' : '');
   const [email, setEmail] = useState(user?.email || '');
@@ -16,12 +18,12 @@ export default function EditProfileScreen({ navigation }: any) {
 
   const handleSave = async () => {
     if (!name || !email) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert(t('error'), t('fillAllFields'));
       return;
     }
     const success = await updateProfile({ name, email, designation });
     if (success) {
-      Alert.alert('Success', 'Profile updated successfully', [{ text: 'OK', onPress: () => navigation.goBack() }]);
+      Alert.alert(t('success'), t('profileUpdatedSuccess'), [{ text: 'OK', onPress: () => navigation.goBack() }]);
     }
   };
 
@@ -31,23 +33,23 @@ export default function EditProfileScreen({ navigation }: any) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>Edit Profile</Text>
+        <Text style={styles.title}>{t('editProfile')}</Text>
         <View style={{ width: 40 }} />
       </View>
       <ScrollView style={styles.content}>
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Full Name</Text>
-          <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Enter your full name" placeholderTextColor={colors.textMuted} />
+          <Text style={styles.label}>{t('fullName')}</Text>
+          <TextInput style={styles.input} value={name} onChangeText={setName} placeholder={t('enterFullName')} placeholderTextColor={colors.textMuted} />
         </View>
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Email Address</Text>
+          <Text style={styles.label}>{t('emailAddress')}</Text>
           <TextInput style={[styles.input, styles.disabledInput]} value={user?.email || ''} editable={false} />
-          <Text style={styles.helpText}>Email cannot be changed.</Text>
+          <Text style={styles.helpText}>{t('emailCannotBeChanged')}</Text>
         </View>
         {user?.role === 'TEACHER' && (
           <View style={styles.formGroup}>
-            <Text style={styles.label}>School Name</Text>
-            <TextInput style={styles.input} value={schoolName} onChangeText={setSchoolName} placeholder="Enter your school name" placeholderTextColor={colors.textMuted} />
+            <Text style={styles.label}>{t('schoolName')}</Text>
+            <TextInput style={styles.input} value={schoolName} onChangeText={setSchoolName} placeholder={t('enterSchoolName')} placeholderTextColor={colors.textMuted} />
           </View>
         )}
           {user?.role === 'TEACHER' && (
@@ -72,7 +74,7 @@ export default function EditProfileScreen({ navigation }: any) {
             onPress={handleSave}
             disabled={isLoading}
           >
-            {isLoading ? <ActivityIndicator color={colors.white} /> : <Text style={styles.saveButtonText}>Save Changes</Text>}
+            {isLoading ? <ActivityIndicator color={colors.white} /> : <Text style={styles.saveButtonText}>{t('saveChanges')}</Text>}
           </TouchableOpacity>
       </ScrollView>
     </View>

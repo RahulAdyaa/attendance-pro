@@ -28,7 +28,7 @@ export default function StudentHistory({ navigation }: any) {
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState('This Month');
+  const [activeTab, setActiveTab] = useState(t('thisMonth'));
   const [stats, setStats] = useState({ present: 0, absent: 0, late: 0, excused: 0, total: 0 });
   
   // Join Class state
@@ -60,12 +60,12 @@ export default function StudentHistory({ navigation }: any) {
     setIsJoining(true);
     try {
       const response = await api.post('/classes/join', { classCode: classCode.toUpperCase().trim() });
-      alert('Joined class successfully!');
+      alert(t('joinedClassSuccess'));
       setCurrentClass(response.data.class);
       setJoinModalVisible(false);
       fetchHistory();
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to join class');
+      alert(error.response?.data?.error || t('failedToJoinClass'));
     } finally {
       setIsJoining(false);
     }
@@ -90,7 +90,7 @@ export default function StudentHistory({ navigation }: any) {
       PRESENT: { label: t('present'), color: colors.success, icon: 'check-circle' },
       ABSENT: { label: t('absent'), color: colors.danger, icon: 'minus-circle' },
       LATE: { label: t('late'), color: colors.warning, icon: 'clock' },
-      EXCUSED: { label: 'Excused', color: colors.primary, icon: 'alert-triangle' },
+      EXCUSED: { label: t('excused'), color: colors.primary, icon: 'alert-triangle' },
     };
     const config = statusConfig[item.status];
     const iconName = config.icon;
@@ -110,7 +110,7 @@ export default function StudentHistory({ navigation }: any) {
         </View>
         <ImageBackground source={{ uri: `https://images.unsplash.com/photo-1523050853063-915894b9de9f?q=80&w=400` }} style={styles.historyImage} imageStyle={{ borderRadius: 15 }}>
           <TouchableOpacity style={styles.imageOverlayBtn}>
-            <Text style={styles.imageOverlayText}>See full image</Text>
+            <Text style={styles.imageOverlayText}>{t('seeFullImage')}</Text>
           </TouchableOpacity>
         </ImageBackground>
       </View>
@@ -150,7 +150,7 @@ export default function StudentHistory({ navigation }: any) {
         <ProfileCard 
           name={user?.name || t('student')} 
           role={t('student')} 
-          subRole={currentClass ? currentClass.name : "No Class Joined"} 
+          subRole={currentClass ? currentClass.name : t('noClassJoined')} 
         />
       </FadeInUp>
       
@@ -162,7 +162,7 @@ export default function StudentHistory({ navigation }: any) {
             onPress={() => setJoinModalVisible(true)}
           >
             <Feather name="plus" size={20} color={colors.white} />
-            <Text style={styles.joinButtonText}>Join a Class</Text>
+            <Text style={styles.joinButtonText}>{t('joinClass')}</Text>
           </TouchableOpacity>
         </FadeInUp>
       )}
@@ -170,27 +170,27 @@ export default function StudentHistory({ navigation }: any) {
         <View style={[styles.bannerIconBox, { backgroundColor: colors.success + '15' }]}>
           <Feather name="check-circle" size={18} color={colors.success} />
         </View>
-        <Text style={styles.bannerText}>Your child came to school today, Thanks and good luck!</Text>
+        <Text style={styles.bannerText}>{t('childPresenceBanner')}</Text>
       </FadeInUp>
       <FadeInUp delay={300} style={styles.section}>
-        <Text style={styles.sectionTitle}>Your Child's Presence</Text>
-        <TabSwitcher tabs={['This Week', 'This Month', 'This Semester']} activeTab={activeTab} onTabPress={setActiveTab} />
+        <Text style={styles.sectionTitle}>{t('childPresence')}</Text>
+        <TabSwitcher tabs={[t('thisWeek'), t('thisMonth'), t('thisSemester')]} activeTab={activeTab} onTabPress={setActiveTab} />
         <View style={styles.statsRow}>
-          <StatBox label="Arrive" value={stats.present} color={colors.success} icon="check-circle" />
-          <StatBox label="Sick" value={stats.excused} color={colors.primary} icon="alert-triangle" />
-          <StatBox label="Leave" value={stats.late} color={colors.warning} icon="clock" />
-          <StatBox label="Skip" value={stats.absent} color={colors.danger} icon="minus-circle" />
+          <StatBox label={t('arrive')} value={stats.present} color={colors.success} icon="check-circle" />
+          <StatBox label={t('sick')} value={stats.excused} color={colors.primary} icon="alert-triangle" />
+          <StatBox label={t('leave')} value={stats.late} color={colors.warning} icon="clock" />
+          <StatBox label={t('skip')} value={stats.absent} color={colors.danger} icon="minus-circle" />
         </View>
       </FadeInUp>
       <FadeInUp delay={400} style={[styles.section, styles.historySection]}>
         <View style={styles.historyHeaderRow}>
-          <Text style={styles.sectionTitle}>Attendance History</Text>
-          <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>Newest</Text></TouchableOpacity>
+          <Text style={styles.sectionTitle}>{t('attendanceHistory')}</Text>
+          <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>{t('newest')}</Text></TouchableOpacity>
         </View>
         {records.length > 0 ? (
           records.map(item => (<React.Fragment key={item.id}>{renderHistoryItem({ item })}</React.Fragment>))
         ) : (
-          <View style={styles.emptyContainer}><Text style={styles.emptyText}>No attendance records found yet.</Text></View>
+          <View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noAttendanceRecordsYet')}</Text></View>
         )}
       </FadeInUp>
       <View style={{ height: 40 }} />
@@ -199,29 +199,29 @@ export default function StudentHistory({ navigation }: any) {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHandle} />
-            <Text style={styles.modalTitle}>Join Class</Text>
-            <Text style={styles.label}>Enter Class Code</Text>
+            <Text style={styles.modalTitle}>{t('joinClass')}</Text>
+            <Text style={styles.label}>{t('enterClassCode')}</Text>
             <TextInput 
               style={styles.input} 
-              placeholder="E.G. A1B2C3" 
+              placeholder={t('egA1B2C3')} 
               placeholderTextColor={colors.textMuted} 
               value={classCode} 
               onChangeText={setClassCode}
               autoCapitalize="characters"
               maxLength={6}
             />
-            <Text style={styles.helpText}>Ask your teacher for the 6-digit class code.</Text>
+            <Text style={styles.helpText}>{t('askTeacherForCode')}</Text>
             
             <View style={styles.modalButtons}>
               <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setJoinModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>{t('cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={[styles.modalButton, styles.createButton, isJoining && styles.disabledButton]} 
                 onPress={handleJoinClass} 
                 disabled={isJoining}
               >
-                {isJoining ? <ActivityIndicator color={colors.white} /> : <Text style={styles.createButtonText}>Join Now</Text>}
+                {isJoining ? <ActivityIndicator color={colors.white} /> : <Text style={styles.createButtonText}>{t('joinNow')}</Text>}
               </TouchableOpacity>
             </View>
           </View>

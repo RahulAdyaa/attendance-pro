@@ -203,6 +203,15 @@ export default function TeacherDashboard({ navigation }: any) {
           />
         )}
 
+        <Animated.View entering={FadeInDown.delay(100).springify()}>
+          <ProfileCard 
+            name={user?.name || t('teacher')} 
+            role={t('teacher')} 
+            subRole={user?.teacher?.designation || 'HOD'} 
+            onEditPress={() => navigation.navigate('EditProfile')}
+          />
+        </Animated.View>
+
         {/* Language Toggle Button */}
         <Animated.View entering={FadeInDown.delay(50).springify()}>
           <TouchableOpacity 
@@ -214,15 +223,6 @@ export default function TeacherDashboard({ navigation }: any) {
               {i18n.language === 'en' ? t('switchLanguage') : t('switchLanguageEn')}
             </Text>
           </TouchableOpacity>
-        </Animated.View>
-
-        <Animated.View entering={FadeInDown.delay(100).springify()}>
-          <ProfileCard 
-            name={user?.name || t('teacher')} 
-            role={t('teacher')} 
-            subRole={user?.teacher?.designation || 'HOD'} 
-            onEditPress={() => navigation.navigate('EditProfile')}
-          />
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>

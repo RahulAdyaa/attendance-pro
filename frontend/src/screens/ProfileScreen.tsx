@@ -5,43 +5,46 @@ import { useAppTheme } from '../hooks/useAppTheme';
 import { BlueHeader, ProfileCard, MenuItem } from '../components/CustomUI';
 import { Feather } from '@expo/vector-icons';
 
+import { useTranslation } from 'react-i18next';
+
 export default function ProfileScreen({ navigation }: any) {
   const { user, logout } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
   
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <BlueHeader 
-        title="Profile Page" 
+        title={t('profile')} 
         onMenuPress={() => navigation.openDrawer()} 
         onNotificationPress={() => navigation.navigate('Updates')}
       />
       
       <ProfileCard 
         name={user?.name || 'User'} 
-        role={user?.role === 'TEACHER' ? 'Teacher' : 'Student'} 
+        role={user?.role === 'TEACHER' ? t('teacher') : t('student')} 
         subRole={user?.email || ''} 
       />
 
       <View style={styles.menuCard}>
         <MenuItem 
-          label="Personal Information" 
+          label={t('personalInfo')} 
           icon="user" 
           onPress={() => navigation.navigate('EditProfile')} 
         />
         <MenuItem 
-          label="Settings" 
+          label={t('settings')} 
           icon="settings" 
           onPress={() => navigation.navigate('Settings')} 
         />
         <MenuItem 
-          label="Help Center" 
+          label={t('helpCenter')} 
           icon="help-circle" 
           onPress={() => navigation.navigate('HelpCenter')} 
         />
         <MenuItem 
-          label="Log Out" 
+          label={t('logout')} 
           icon="log-out" 
           onPress={logout}
           color={colors.danger}

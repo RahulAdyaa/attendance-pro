@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
+import { useTranslation } from 'react-i18next';
 
 interface Session {
   id: string; date: string; className: string;
@@ -17,6 +18,7 @@ interface Session {
 export default function AttendanceHistory() {
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -81,37 +83,41 @@ export default function AttendanceHistory() {
           </View>
           <View style={styles.sessionInfo}>
             <Text style={styles.className}>{item.className}</Text>
-            <Text style={styles.sessionTime}>Marked at {time}</Text>
+            <Text style={styles.sessionTime}>{t('markedAt')} {time}</Text>
           </View>
           {isExpanded ? <Feather name="chevron-down" size={20} color={colors.textMuted} /> : <Feather name="chevron-right" size={20} color={colors.textMuted} />}
         </View>
         <View style={styles.statsRow}>
           <View style={styles.statDetail}>
             <Feather name="check-circle" size={14} color={colors.present} />
-            <Text style={styles.statText}>{item.present} Present</Text>
+            <Text style={styles.statText}>{item.present} {t('present')}</Text>
           </View>
           <View style={styles.statDetail}>
             <Feather name="x-circle" size={14} color={colors.absent} />
-            <Text style={styles.statText}>{item.absent} Absent</Text>
+            <Text style={styles.statText}>{item.absent} {t('absent')}</Text>
           </View>
           {item.late > 0 && (
             <View style={styles.statDetail}>
               <Feather name="clock" size={14} color={colors.late} />
-              <Text style={styles.statText}>{item.late} Late</Text>
+              <Text style={styles.statText}>{item.late} {t('late')}</Text>
             </View>
           )}
         </View>
 
         {isExpanded && item.records && (
           <View style={styles.expandedContent}>
-            <Text style={styles.expandedTitle}>Student Details</Text>
+            <Text style={styles.expandedTitle}>{t('studentDetails')}</Text>
             {item.records.map((record, index) => {
               const statusColor = record.status === 'PRESENT' ? colors.present : record.status === 'ABSENT' ? colors.absent : record.status === 'LATE' ? colors.late : colors.textMuted;
               return (
                 <View key={index} style={styles.studentRow}>
                   <Text style={styles.studentName}>{record.name}</Text>
                   <View style={[styles.statusBadge, { backgroundColor: statusColor + '15' }]}>
-                    <Text style={[styles.statusBadgeText, { color: statusColor }]}>{record.status}</Text>
+                    <Text style={[styles.statusBadgeText, { color: statusColor }]}>
+                      {record.status === 'PRESENT' ? t('present') : 
+                       record.status === 'ABSENT' ? t('absent') : 
+                       record.status === 'LATE' ? t('late') : record.status}
+                    </Text>
                   </View>
                 </View>
               );
@@ -125,7 +131,7 @@ export default function AttendanceHistory() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>History</Text>
+        <Text style={styles.title}>{t('history')}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {selectedDate && (
             <TouchableOpacity style={styles.clearDateBtn} onPress={() => setSelectedDate(null)}>
@@ -138,7 +144,7 @@ export default function AttendanceHistory() {
         </View>
       </View>
       {selectedDate && (
-        <Text style={styles.dateFilterLabel}>Showing attendance for: {selectedDate.toDateString()}</Text>
+        <Text style={styles.dateFilterLabel}>{t('showingAttendanceFor')} {selectedDate.toDateString()}</Text>
       )}
       <View style={styles.filterSection}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
@@ -159,7 +165,7 @@ export default function AttendanceHistory() {
           data={filteredSessions} keyExtractor={(item) => item.id} renderItem={renderSessionItem}
           contentContainerStyle={styles.listContainer}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={fetchHistory} tintColor={colors.primary} />}
-          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>No sessions found for this date.</Text></View>}
+          ListEmptyComponent={<View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noSessionsFound')}</Text></View>}
         />
       )}
 
@@ -182,7 +188,7 @@ export default function AttendanceHistory() {
             <View style={{ backgroundColor: colors.surface, paddingBottom: 30, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 15, borderBottomWidth: 1, borderBottomColor: colors.border }}>
                 <TouchableOpacity onPress={() => setShowDatePicker(false)}>
-                  <Text style={{ color: colors.primary, fontWeight: 'bold', fontSize: 16 }}>Done</Text>
+                  <Text style={{ color: colors.primary, fontWeight: 'bold', fontSize: 16 }}>{t('done')}</Text>
                 </TouchableOpacity>
               </View>
               <DateTimePicker

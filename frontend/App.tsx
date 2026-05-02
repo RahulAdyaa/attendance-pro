@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './src/i18n';
 import { StatusBar, Platform, LogBox, View, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Notifications from 'expo-notifications';

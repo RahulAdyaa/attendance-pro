@@ -8,15 +8,26 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
 
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+let GoogleSignin: any = null;
+let statusCodes: any = {};
 
 const GOOGLE_WEB_CLIENT_ID = '463145998751-ph0v3ia5mh9kmmi4i0cp62v7ftdhgnoj.apps.googleusercontent.com';
 
-GoogleSignin.configure({
-  webClientId: GOOGLE_WEB_CLIENT_ID,
-  offlineAccess: false,
-  scopes: ['profile', 'email']
-});
+try {
+  const GoogleModule = require('@react-native-google-signin/google-signin');
+  GoogleSignin = GoogleModule.GoogleSignin;
+  statusCodes = GoogleModule.statusCodes;
+  
+  GoogleSignin.configure({
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+    offlineAccess: false,
+    scopes: ['profile', 'email']
+  });
+} catch (e) {
+  console.log('GoogleSignin native module not available (running in Expo Go)');
+}
+
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -29,8 +40,14 @@ export default function RegisterScreen({ navigation }: any) {
   const { register, isLoading, error: authError } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
 
   const handleGoogleLogin = async () => {
+    if (!GoogleSignin) {
+      Alert.alert(t('error'), t('googleExpoError'));
+      return;
+    }
+
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -43,29 +60,29 @@ export default function RegisterScreen({ navigation }: any) {
         throw new Error('No access token returned from Google');
       }
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
         console.log('Login cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes?.IN_PROGRESS) {
         console.log('Login in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert('Error', 'Google Play Services are not available on this device');
+      } else if (error.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert(t('error'), t('googlePlayError'));
       } else {
-        Alert.alert('Google Login Error', error.message || 'Something went wrong');
+        Alert.alert(t('error'), error.message || t('somethingWentWrong'));
         console.error('Google Sign-In Error:', error);
       }
     }
   };
   const handleFacebookLogin = () => {
-    Alert.alert('Facebook Login', 'Facebook Login requires a Facebook Developer App. Please use Google or Email/Password registration.', [{ text: 'OK' }]);
+    Alert.alert(t('comingSoon'), t('facebookComingSoon'), [{ text: 'OK' }]);
   };
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert(t('error'), t('fillAllFields'));
       return;
     }
     if (password.length < 8) {
-      Alert.alert('Error', 'Password must be at least 8 characters long');
+      Alert.alert(t('error'), t('passwordMinLength'));
       return;
     }
     try { 
@@ -78,35 +95,35 @@ export default function RegisterScreen({ navigation }: any) {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.logoCircle}><Text style={styles.logoText}>t</Text></View>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Join Attendance Marker today</Text>
+          <Text style={styles.title}>{t('createAccount')}</Text>
+          <Text style={styles.subtitle}>{t('joinToday')}</Text>
         </View>
         <View style={styles.form}>
           {authError && (<View style={styles.errorContainer}><Text style={styles.errorText}>{authError}</Text></View>)}
-          <CustomInput label="Full Name" placeholder="Enter your full name" value={name} onChangeText={setName} />
-          <CustomInput label="Email Address" placeholder="Enter your email" value={email} onChangeText={setEmail} keyboardType="email-address" />
-          <CustomInput label="Password" placeholder="Create a password (min 8 chars)" value={password} onChangeText={setPassword} secureTextEntry />
+          <CustomInput label={t('name')} placeholder={t('name')} value={name} onChangeText={setName} />
+          <CustomInput label={t('email')} placeholder={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" />
+          <CustomInput label={t('password')} placeholder={t('password')} value={password} onChangeText={setPassword} secureTextEntry />
           
-          <Text style={styles.label}>I am a...</Text>
+          <Text style={styles.label}>{t('iAmA')}</Text>
           <View style={styles.roleContainer}>
             <TouchableOpacity style={[styles.roleButton, role === 'STUDENT' && styles.activeRole]} onPress={() => setRole('STUDENT')}>
-              <Text style={[styles.roleText, role === 'STUDENT' && styles.activeRoleText]}>Student</Text>
+              <Text style={[styles.roleText, role === 'STUDENT' && styles.activeRoleText]}>{t('student')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.roleButton, role === 'TEACHER' && styles.activeRole]} onPress={() => setRole('TEACHER')}>
-              <Text style={[styles.roleText, role === 'TEACHER' && styles.activeRoleText]}>Teacher</Text>
+              <Text style={[styles.roleText, role === 'TEACHER' && styles.activeRoleText]}>{t('teacher')}</Text>
             </TouchableOpacity>
           </View>
 
           {role === 'STUDENT' && (
             <>
-              <CustomInput label="Father's Name" placeholder="Enter father's name" value={fatherName} onChangeText={setFatherName} />
-              <Text style={styles.label}>Gender</Text>
+              <CustomInput label={t('fatherName')} placeholder={t('fatherName')} value={fatherName} onChangeText={setFatherName} />
+              <Text style={styles.label}>{t('gender')}</Text>
               <View style={styles.roleContainer}>
                 <TouchableOpacity style={[styles.roleButton, gender === 'MALE' && styles.activeRole]} onPress={() => setGender('MALE')}>
-                  <Text style={[styles.roleText, gender === 'MALE' && styles.activeRoleText]}>♂ Male</Text>
+                  <Text style={[styles.roleText, gender === 'MALE' && styles.activeRoleText]}>♂ {t('male')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.roleButton, gender === 'FEMALE' && { backgroundColor: '#E91E6310', borderColor: '#E91E63' }]} onPress={() => setGender('FEMALE')}>
-                  <Text style={[styles.roleText, gender === 'FEMALE' && { color: '#E91E63' }]}>♀ Female</Text>
+                  <Text style={[styles.roleText, gender === 'FEMALE' && { color: '#E91E63' }]}>♀ {t('female')}</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -114,7 +131,7 @@ export default function RegisterScreen({ navigation }: any) {
 
           {role === 'TEACHER' && (
             <View style={styles.designationSection}>
-              <Text style={styles.label}>Select Designation</Text>
+              <Text style={styles.label}>{t('selectDesignation')}</Text>
               <View style={styles.designationGrid}>
                 {['HOD', 'Professor', 'Lecturer', 'Assistant Prof', 'Principal'].map((d) => (
                   <TouchableOpacity 
@@ -130,10 +147,10 @@ export default function RegisterScreen({ navigation }: any) {
           )}
 
           <TouchableOpacity style={[styles.registerButton, isLoading && styles.disabledButton]} onPress={handleRegister} disabled={isLoading}>
-            {isLoading ? (<ActivityIndicator color={colors.white} />) : (<Text style={styles.registerButtonText}>Register</Text>)}
+            {isLoading ? (<ActivityIndicator color={colors.white} />) : (<Text style={styles.registerButtonText}>{t('register')}</Text>)}
           </TouchableOpacity>
           <View style={styles.dividerContainer}>
-            <View style={styles.dividerLine} /><Text style={styles.dividerText}>OR CONTINUE WITH</Text><View style={styles.dividerLine} />
+            <View style={styles.dividerLine} /><Text style={styles.dividerText}>{t('orContinueWith')}</Text><View style={styles.dividerLine} />
           </View>
           <View style={styles.socialButtonsContainer}>
             <TouchableOpacity 
@@ -150,8 +167,8 @@ export default function RegisterScreen({ navigation }: any) {
             </TouchableOpacity>
           </View>
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={styles.linkText}>Login</Text></TouchableOpacity>
+            <Text style={styles.footerText}>{t('haveAccount')} </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={styles.linkText}>{t('login')}</Text></TouchableOpacity>
           </View>
         </View>
       </ScrollView>

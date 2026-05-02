@@ -110,6 +110,8 @@ export const AnimatedTouchable = ({ onPress, children, style, disabled }: any) =
 };
 
 
+import { useTranslation } from 'react-i18next';
+
 // 1. New Rounded Blue Header
 interface BlueHeaderProps {
   title: string;
@@ -132,12 +134,13 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
 }) => {
   const styles = useStyles();
   const { colors } = useAppTheme();
+  const { t } = useTranslation();
   
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 18) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return t('goodMorning');
+    if (hour < 18) return t('goodAfternoon');
+    return t('goodEvening');
   };
 
   return (
@@ -158,7 +161,7 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
           ) : (
             <Text style={styles.headerTitle}>{title}</Text>
           )}
-          <Text style={styles.headerSubtitle}>{userName ? 'Have a wonderful day ahead!' : 'Today'}</Text>
+          <Text style={styles.headerSubtitle}>{userName ? t('wonderfulDay') : t('today')}</Text>
         </View>
         <TouchableOpacity style={styles.dateContainer} onPress={onDatePress}>
           <Feather name="calendar" color={colors.white} size={16} />

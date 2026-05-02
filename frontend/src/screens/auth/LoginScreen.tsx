@@ -17,15 +17,24 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
 import { CustomInput } from '../../components/CustomUI';
 
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-
 const GOOGLE_WEB_CLIENT_ID = '463145998751-ph0v3ia5mh9kmmi4i0cp62v7ftdhgnoj.apps.googleusercontent.com';
 
-GoogleSignin.configure({
-  webClientId: GOOGLE_WEB_CLIENT_ID,
-  offlineAccess: false,
-  scopes: ['profile', 'email']
-});
+let GoogleSignin: any = null;
+let statusCodes: any = {};
+
+try {
+  const GoogleModule = require('@react-native-google-signin/google-signin');
+  GoogleSignin = GoogleModule.GoogleSignin;
+  statusCodes = GoogleModule.statusCodes;
+
+  GoogleSignin.configure({
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+    offlineAccess: false,
+    scopes: ['profile', 'email']
+  });
+} catch (e) {
+  console.log('GoogleSignin native module not available (running in Expo Go)');
+}
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
@@ -41,6 +50,11 @@ export default function LoginScreen({ navigation }: any) {
   };
 
   const handleGoogleLogin = async () => {
+    if (!GoogleSignin) {
+      Alert.alert(t('error'), t('googleExpoError'));
+      return;
+    }
+
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -52,32 +66,32 @@ export default function LoginScreen({ navigation }: any) {
         throw new Error('No access token returned from Google');
       }
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
         console.log('Login cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes?.IN_PROGRESS) {
         console.log('Login in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert(t('error'), 'Google Play Services are not available on this device');
+      } else if (error.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert(t('error'), t('googlePlayError'));
       } else {
-        Alert.alert(t('error'), error.message || 'Something went wrong');
+        Alert.alert(t('error'), error.message || t('somethingWentWrong'));
         console.error('Google Sign-In Error:', error);
       }
     }
   };
 
   const handleFacebookLogin = () => {
-    Alert.alert("Coming Soon", "Facebook login will be available in the next update.");
+    Alert.alert(t('comingSoon'), t('facebookComingSoon'));
   };
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert(t('error'), 'Please fill in all fields');
+      Alert.alert(t('error'), t('fillAllFields'));
       return;
     }
     try {
       await login(email, password);
     } catch (err: any) {
-      Alert.alert(t('error'), err.message || 'Login failed');
+      Alert.alert(t('error'), err.message || t('loginFailed'));
     }
   };
 
@@ -132,7 +146,7 @@ export default function LoginScreen({ navigation }: any) {
           />
 
           <TouchableOpacity style={styles.forgotPass}>
-            <Text style={styles.forgotText}>Forgot Password?</Text>
+            <Text style={styles.forgotText}>{t('forgotPassword')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
@@ -152,7 +166,7 @@ export default function LoginScreen({ navigation }: any) {
           
           <View style={styles.dividerContainer}>
             <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>OR CONTINUE WITH</Text>
+            <Text style={styles.dividerText}>{t('orContinueWith')}</Text>
             <View style={styles.dividerLine} />
           </View>
 
@@ -195,6 +209,11 @@ const useStyles = () => {
     padding: 25,
     paddingTop: 80,
   },
+  langToggleContainer: {
+    marginBottom: 20,
+  },
+  langToggle: { flexDirection: 'row', alignItems: 'center', alignSelf: 'center', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 20 },
+  langToggleText: { fontSize: 14, fontWeight: '700', marginLeft: 8 },
   header: {
     marginBottom: 40,
     alignItems: 'center',

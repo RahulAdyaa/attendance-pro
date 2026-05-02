@@ -29,90 +29,147 @@ export default function Reports() {
     try {
       const response = await api.get(`/attendance/history/${cls.id}`);
       const history = response.data;
+  const { classes } = useClassStore();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { t } = useTranslation();
 
-      if (history.length === 0) {
-        Alert.alert('No Data', 'No attendance records found for this class.');
+  const generateCSV = async (classItem: any) => {
+    setIsGenerating(true);
+    try {
+      // 1. Fetch all attendance records for this class
+      const q = query(collection(db, 'attendance'), where('classId', '==', classItem.id));
+      const querySnapshot = await getDocs(q);
+      
+      const records: any[] = [];
+      querySnapshot.forEach((doc) => {
+        records.push(doc.data());
+      });
+
+      if (records.length === 0) {
+        Alert.alert(t('noData'), t('noAttendanceRecordsFound'));
+        setIsGenerating(false);
         return;
       }
 
-      // Generate CSV content
-      let csvContent = 'Date,Subject,Class,Student Name,Roll Number,Status\n';
-      
-      history.forEach((session: any) => {
-        const date = new Date(session.date).toLocaleDateString();
-        session.records.forEach((record: any) => {
-          csvContent += `"${date}","${cls.subject}","${cls.name}","${record.student?.user?.name || 'Unknown'}","${record.student?.rollNumber || 'N/A'}","${record.status}"\n`;
+      // 2. Format data to CSV
+      // Collect unique dates
+      const datesSet = new Set<string>();
+      records.forEach(r => datesSet.add(r.date));
+      const dates = Array.from(datesSet).sort();
+
+      // Collect all student info
+      const studentMap = new Map<string, any>(); // studentId -> student data
+      classItem.students.forEach((s: any) => {
+        studentMap.set(s.id, { ...s, attendance: {} });
+      });
+
+      // Populate attendance
+      records.forEach(r => {
+        r.records.forEach((sr: any) => {
+          if (studentMap.has(sr.studentId)) {
+            studentMap.get(sr.studentId).attendance[r.date] = sr.status;
+          }
         });
       });
 
-      const fileName = `Attendance_Report_${cls.name.replace(/\s+/g, '_')}.csv`;
-      const fileUri = FileSystem.documentDirectory + fileName;
+      // Create CSV Header
+      let csvContent = 'Roll No,Student Name,Father Name,' + dates.join(',') + ',Total Present,Total Absent\n';
 
-      await FileSystem.writeAsStringAsync(fileUri, csvContent, { encoding: FileSystem.EncodingType.UTF8 });
+      // Create Rows
+      const studentsArray = Array.from(studentMap.values()).sort((a, b) => a.rollNumber.localeCompare(b.rollNumber));
       
+      studentsArray.forEach(s => {
+        let presentCount = 0;
+        let absentCount = 0;
+        const rowData = dates.map(d => {
+          const status = s.attendance[d] || '-';
+          if (status === 'PRESENT') presentCount++;
+          if (status === 'ABSENT') absentCount++;
+          return status === 'PRESENT' ? 'P' : (status === 'ABSENT' ? 'A' : (status === 'LATE' ? 'L' : '-'));
+        });
+
+        // Escape names that might have commas
+        const safeName = `"${s.name}"`;
+        const safeFatherName = `"${s.fatherName || ''}"`;
+        
+        csvContent += `${s.rollNumber},${safeName},${safeFatherName},${rowData.join(',')},${presentCount},${absentCount}\n`;
+      });
+
+      // 3. Save file locally
+      const fileName = `${classItem.name.replace(/\s+/g, '_')}_Attendance_Report.csv`;
+      const fileUri = FileSystem.documentDirectory + fileName;
+      
+      await FileSystem.writeAsStringAsync(fileUri, csvContent, { encoding: FileSystem.EncodingType.UTF8 });
+
+      // 4. Share file
       if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(fileUri);
+        await Sharing.shareAsync(fileUri, {
+          mimeType: 'text/csv',
+          dialogTitle: `${t('share')} ${classItem.name} ${t('report')}`,
+          UTI: 'public.comma-separated-values-text'
+        });
       } else {
-        Alert.alert('Success', `Report saved to ${fileUri}`);
+        Alert.alert(t('error'), t('sharingNotAvailable'));
       }
-    } catch (error) {
-      console.log('Export error:', error);
-      Alert.alert('Error', 'Failed to generate report');
+
+    } catch (error: any) {
+      console.error("Error generating report:", error);
+      Alert.alert(t('error'), t('failedToGenerateReport'));
     } finally {
-      setIsExporting(false);
+      setIsGenerating(false);
     }
   };
 
-  const renderClassItem = ({ item, index }: any) => (
-    <Animated.View entering={FadeInDown.delay(index * 50).springify()}>
-      <TouchableOpacity 
-        style={styles.classCard} 
-        onPress={() => exportClassReport(item)}
-        activeOpacity={0.7}
-      >
-        <View style={styles.cardIconBox}>
-          <Feather name="file-text" color={colors.primary} size={24} />
+  const renderClassItem = ({ item }: { item: any }) => (
+    <TouchableOpacity 
+      style={styles.classCard} 
+      onPress={() => generateCSV(item)}
+      disabled={isGenerating}
+    >
+      <View style={styles.classInfo}>
+        <View style={styles.iconBox}>
+          <Feather name="file-text" size={24} color={colors.primary} />
         </View>
-        <View style={styles.cardInfo}>
+        <View>
           <Text style={styles.className}>{item.name}</Text>
           <Text style={styles.subjectText}>{item.subject}</Text>
         </View>
-        <Feather name="download" color={colors.textMuted} size={20} />
-      </TouchableOpacity>
-    </Animated.View>
+      </View>
+      <Feather name="download" size={20} color={colors.primary} />
+    </TouchableOpacity>
   );
 
-  if (isLoading) {
-    return (<View style={[styles.container, styles.centered]}><ActivityIndicator size="large" color={colors.primary} /></View>);
-  }
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Detailed Reports</Text>
-        <Text style={styles.headerSubtitle}>Export attendance logs as CSV</Text>
+        <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuBtn}>
+          <Feather name="menu" size={24} color={colors.text} />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerTitle}>{t('detailedReports')}</Text>
+          <Text style={styles.headerSubtitle}>{t('exportLogsCSV')}</Text>
+        </View>
       </View>
 
       <FlatList
         data={classes}
+        keyExtractor={(item) => item.id}
         renderItem={renderClassItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Feather name="calendar" size={48} color={colors.textMuted} />
-            <Text style={styles.emptyText}>No classes found. Create a class first to see reports.</Text>
+            <Text style={styles.emptyText}>{t('noClassesReports')}</Text>
           </View>
         }
       />
 
-      {isExporting && (
+      {isGenerating && (
         <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color={colors.white} />
-          <Text style={styles.loadingText}>Generating Report...</Text>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={styles.loadingText}>{t('generatingReport')}</Text>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

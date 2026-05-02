@@ -31,7 +31,8 @@
       "expo-updates",
       "expo-font",
       "expo-notifications",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "expo-localization"
     ],
     "updates": {
       "url": "https://u.expo.dev/55c4030f-c64c-41ca-aa9e-af49c013347d",

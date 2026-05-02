@@ -4,12 +4,14 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 import { useThemeStore } from '../../store/useThemeStore';
 import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
+import { useTranslation } from 'react-i18next';
 
 export default function SettingsScreen({ navigation }: any) {
   const [notifications, setNotifications] = useState(true);
   const { isDarkMode, setTheme } = useThemeStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
+  const { t } = useTranslation();
 
   // Password Modal State
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -20,28 +22,28 @@ export default function SettingsScreen({ navigation }: any) {
 
   const handlePasswordChange = async () => {
     if (!oldPassword || !newPassword || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert(t('error'), t('fillAllFields'));
       return;
     }
     if (newPassword !== confirmPassword) {
-      Alert.alert('Error', 'New passwords do not match');
+      Alert.alert(t('error'), t('passwordsDoNotMatch'));
       return;
     }
     if (newPassword.length < 8) {
-      Alert.alert('Error', 'Password must be at least 8 characters long');
+      Alert.alert(t('error'), t('passwordLengthError'));
       return;
     }
 
     setIsLoading(true);
     try {
       await api.put('/auth/password', { oldPassword, newPassword });
-      Alert.alert('Success', 'Your password has been changed successfully');
+      Alert.alert(t('success'), t('passwordChangeSuccess'));
       setShowPasswordModal(false);
       setOldPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (error: any) {
-      Alert.alert('Error', error.response?.data?.error || 'Failed to change password');
+      Alert.alert(t('error'), error.response?.data?.error || t('failedToChangePassword'));
     } finally {
       setIsLoading(false);
     }
@@ -65,17 +67,17 @@ export default function SettingsScreen({ navigation }: any) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.title}>{t('settings')}</Text>
         <View style={{ width: 40 }} />
       </View>
 
       <ScrollView style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
+          <Text style={styles.sectionTitle}>{t('preferences')}</Text>
           <View style={styles.card}>
             <SettingRow 
               icon="bell" 
-              title="Push Notifications" 
+              title={t('pushNotifications')} 
               rightElement={
                 <Switch 
                   value={notifications} 
@@ -87,7 +89,7 @@ export default function SettingsScreen({ navigation }: any) {
             <View style={styles.divider} />
             <SettingRow 
               icon="moon" 
-              title="Dark Mode" 
+              title={t('darkMode')} 
               rightElement={
                 <Switch 
                   value={isDarkMode} 
@@ -100,12 +102,12 @@ export default function SettingsScreen({ navigation }: any) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Account & Security</Text>
+          <Text style={styles.sectionTitle}>{t('accountSecurity')}</Text>
           <View style={styles.card}>
             <TouchableOpacity onPress={() => setShowPasswordModal(true)}>
               <SettingRow 
                 icon="shield" 
-                title="Change Password" 
+                title={t('changePassword')} 
                 rightElement={<Text style={styles.chevron}>›</Text>} 
               />
             </TouchableOpacity>
@@ -113,7 +115,7 @@ export default function SettingsScreen({ navigation }: any) {
             <TouchableOpacity onPress={() => navigation.navigate('HelpCenter')}>
               <SettingRow 
                 icon="help-circle" 
-                title="Help & Support" 
+                title={t('helpSupport')} 
                 rightElement={<Text style={styles.chevron}>›</Text>} 
               />
             </TouchableOpacity>
@@ -126,18 +128,18 @@ export default function SettingsScreen({ navigation }: any) {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Change Password</Text>
+              <Text style={styles.modalTitle}>{t('changePassword')}</Text>
               <TouchableOpacity onPress={() => setShowPasswordModal(false)}>
                 <Feather name="x" color={colors.text} size={24} />
               </TouchableOpacity>
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Current Password</Text>
+              <Text style={styles.inputLabel}>{t('currentPassword')}</Text>
               <TextInput
                 style={styles.input}
                 secureTextEntry
-                placeholder="Enter current password"
+                placeholder={t('enterCurrentPassword')}
                 placeholderTextColor={colors.textMuted}
                 value={oldPassword}
                 onChangeText={setOldPassword}
@@ -145,11 +147,11 @@ export default function SettingsScreen({ navigation }: any) {
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>New Password</Text>
+              <Text style={styles.inputLabel}>{t('newPassword')}</Text>
               <TextInput
                 style={styles.input}
                 secureTextEntry
-                placeholder="Enter new password"
+                placeholder={t('enterNewPassword')}
                 placeholderTextColor={colors.textMuted}
                 value={newPassword}
                 onChangeText={setNewPassword}
@@ -157,11 +159,11 @@ export default function SettingsScreen({ navigation }: any) {
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Confirm New Password</Text>
+              <Text style={styles.inputLabel}>{t('confirmNewPassword')}</Text>
               <TextInput
                 style={styles.input}
                 secureTextEntry
-                placeholder="Confirm new password"
+                placeholder={t('enterConfirmNewPassword')}
                 placeholderTextColor={colors.textMuted}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -172,7 +174,7 @@ export default function SettingsScreen({ navigation }: any) {
               {isLoading ? (
                 <ActivityIndicator color={colors.white} />
               ) : (
-                <Text style={styles.submitButtonText}>Update Password</Text>
+                <Text style={styles.submitButtonText}>{t('updatePassword')}</Text>
               )}
             </TouchableOpacity>
           </View>
