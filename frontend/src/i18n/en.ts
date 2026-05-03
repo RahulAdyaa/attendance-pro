@@ -88,7 +88,7 @@ export default {
   section: "Section (Optional)",
   enterSection: "e.g. A, B or Morning",
   enterRequiredClassFields: "Please enter at least the class name and subject.",
-  classCreatedSuccess: "Class created successfully!",
+  classCreatedSuccess: "Class created successfully!😀",
   classCreatedError: "Failed to create class. Please check your connection.",
   // Profile specific
   personalInfo: "Personal Information",
@@ -98,7 +98,7 @@ export default {
   copied: "Copied!",
   classCodeCopied: "Class code copied to clipboard",
   deleteClass: "Delete Class",
-  deleteClassConfirm: "Are you sure you want to delete this class? All attendance records will be permanently removed.",
+  deleteClassConfirm: "Are you sure you want to delete this class? All attendance records will be permanently removed.😥",
   delete: "Delete",
   failedDeleteClass: "Failed to delete class",
   failedAddStudent: "Failed to add student",
