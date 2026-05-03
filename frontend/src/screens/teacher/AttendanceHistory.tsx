@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView,
   ActivityIndicator, RefreshControl, Platform, LayoutAnimation, Modal
 } from 'react-native';
@@ -73,7 +73,7 @@ export default function AttendanceHistory() {
   const renderSessionItem = ({ item }: { item: Session }) => {
     const { day, month, time } = formatDate(item.date);
     const isExpanded = expandedSessionId === item.id;
-    
+
     return (
       <TouchableOpacity style={styles.sessionCard} onPress={() => toggleExpand(item.id)} activeOpacity={0.8}>
         <View style={styles.sessionHeader}>
@@ -114,9 +114,9 @@ export default function AttendanceHistory() {
                   <Text style={styles.studentName}>{record.name}</Text>
                   <View style={[styles.statusBadge, { backgroundColor: statusColor + '15' }]}>
                     <Text style={[styles.statusBadgeText, { color: statusColor }]}>
-                      {record.status === 'PRESENT' ? t('present') : 
-                       record.status === 'ABSENT' ? t('absent') : 
-                       record.status === 'LATE' ? t('late') : record.status}
+                      {record.status === 'PRESENT' ? t('present') :
+                        record.status === 'ABSENT' ? t('absent') :
+                          record.status === 'LATE' ? t('late') : record.status}
                     </Text>
                   </View>
                 </View>
@@ -131,7 +131,7 @@ export default function AttendanceHistory() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('history')}</Text>
+        <Text style={styles.title}>{t('Attendance History')}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {selectedDate && (
             <TouchableOpacity style={styles.clearDateBtn} onPress={() => setSelectedDate(null)}>
