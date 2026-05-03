@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import './src/i18n';
-import { StatusBar, Platform, LogBox, View, Text } from 'react-native';
+import { StatusBar, Platform, LogBox, View, Text, Alert } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Notifications from 'expo-notifications';
+import * as Updates from 'expo-updates';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuthStore } from './src/store/useAuthStore';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -52,8 +53,23 @@ export default function App() {
   const { isDarkMode, colors } = useAppTheme();
 
   useEffect(() => {
+    checkForOTAUpdate();
     setupNotificationsOnce();
   }, []);
+
+  const checkForOTAUpdate = async () => {
+    if (__DEV__) return; // Skip in development
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (e) {
+      // Silently fail — don't crash the app over update checks
+      console.log('OTA update check failed:', e);
+    }
+  };
 
   const setupNotificationsOnce = async () => {
     try {
