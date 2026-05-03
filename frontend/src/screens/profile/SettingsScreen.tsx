@@ -5,13 +5,21 @@ import { useThemeStore } from '../../store/useThemeStore';
 import { Feather } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsScreen({ navigation }: any) {
   const [notifications, setNotifications] = useState(true);
   const { isDarkMode, setTheme } = useThemeStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isPunjabi = i18n.language === 'pa';
+
+  const toggleLanguage = async () => {
+    const newLang = isPunjabi ? 'en' : 'pa';
+    await i18n.changeLanguage(newLang);
+    await AsyncStorage.setItem('settings.lang', newLang);
+  };
 
   // Password Modal State
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -95,6 +103,19 @@ export default function SettingsScreen({ navigation }: any) {
                   value={isDarkMode} 
                   onValueChange={setTheme} 
                   trackColor={{ false: '#ccc', true: colors.primary }}
+                />
+              } 
+            />
+            <View style={styles.divider} />
+            <SettingRow 
+              icon="globe" 
+              title={isPunjabi ? 'ਪੰਜਾਬੀ' : 'English → ਪੰਜਾਬੀ'} 
+              rightElement={
+                <Switch 
+                  value={isPunjabi} 
+                  onValueChange={toggleLanguage} 
+                  trackColor={{ false: '#ccc', true: '#FF9800' }}
+                  thumbColor={isPunjabi ? '#FF9800' : '#f4f3f4'}
                 />
               } 
             />
