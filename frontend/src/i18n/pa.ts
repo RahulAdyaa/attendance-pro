@@ -2,7 +2,7 @@ export default {
   // Common
   welcome: "ਜੀ ਆਇਆਂ ਨੂੰ",
   login: "ਲਾਗਿਨ",
-  register: "ਰਜਿਸਟਰ",
+  register: "ਰਜਿਸਟਰ ਕਰੋ",
   email: "ਈਮੇਲ",
   password: "ਪਾਸਵਰਡ",
   name: "ਪੂਰਾ ਨਾਮ",
@@ -17,13 +17,13 @@ export default {
   submit: "ਜਮ੍ਹਾਂ ਕਰੋ",
   cancel: "ਰੱਦ ਕਰੋ",
   save: "ਸੇਵ ਕਰੋ",
-  loading: "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+  loading: "ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
   error: "ਗਲਤੀ",
   success: "ਸਫਲਤਾ",
   logout: "ਲਾਗਆਉਟ",
-  home: "ਹੋਮ",
+  home: "ਮੁੱਖ ਪੰਨਾ",
   profile: "ਪ੍ਰੋਫਾਈਲ",
-  settings: "ਸੈਟਿੰਗਜ਼",
+  settings: "ਸੈਟਿੰਗਾਂ",
 
   // Login/Register Specific
   loginSubtitle: "ਆਪਣੇ ਖਾਤੇ ਵਿੱਚ ਸਾਈਨ ਇਨ ਕਰੋ",
@@ -44,11 +44,11 @@ export default {
   totalClasses: "ਕੁੱਲ ਕਲਾਸਾਂ",
   totalStudents: "ਕੁੱਲ ਵਿਦਿਆਰਥੀ",
   recentAttendance: "ਤਾਜ਼ਾ ਹਾਜ਼ਰੀ",
-  quickActions: "ਤੇਜ਼ ਕਾਰਵਾਈਆਂ",
-  markAttendance: "ਹਾਜ਼ਰੀ ਲਗਾਓ",
-  viewReports: "ਰਿਪੋਰਟਾਂ ਦੇਖੋ",
+  quickActions: "ਤੁਰੰਤ ਕਾਰਵਾਈਆਂ",
+  markAttendance: "ਹਾਜ਼ਰੀ ਦਰਜ ਕਰੋ",
+  viewReports: "ਰਿਪੋਰਟਾਂ ਵੇਖੋ",
   createClass: "ਕਲਾਸ ਬਣਾਓ",
-  viewClasses: "ਕਲਾਸਾਂ ਦੇਖੋ",
+  viewClasses: "ਕਲਾਸਾਂ ਵੇਖੋ",
 
   // Settings
   language: "ਭਾਸ਼ਾ",
@@ -63,7 +63,7 @@ export default {
   attendanceHistory: "ਹਾਜ਼ਰੀ ਦਾ ਇਤਿਹਾਸ",
   present: "ਹਾਜ਼ਰ",
   absent: "ਗੈਰ-ਹਾਜ਼ਰ",
-  late: "ਲੇਟ",
+  late: "ਦੇਰ ਨਾਲ",
 
   // Mark Attendance specific
   allPresent: "ਸਾਰੇ ਹਾਜ਼ਰ",
@@ -192,14 +192,14 @@ export default {
   googlePlayError: "ਇਸ ਡਿਵਾਈਸ 'ਤੇ ਗੂਗਲ ਪਲੇ ਸੇਵਾਵਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹਨ",
   somethingWentWrong: "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ",
   loginFailed: "ਲੌਗਇਨ ਅਸਫਲ ਰਿਹਾ",
-  
+
   // Custom UI
   goodMorning: "ਰਾਮ ਰਾਮ ਜੀ",
   goodAfternoon: "ਰਾਮ ਰਾਮ ਜੀ",
   goodEvening: "ਰਾਮ ਰਾਮ ਜੀ",
   wonderfulDay: "ਤੁਹਾਡਾ ਦਿਨ ਵਧੀਆ ਰਹੇ!",
   today: "ਅੱਜ",
-  
+
   // Drawer
   dashboardMenu: "ਡੈਸ਼ਬੋਰਡ",
   myClasses: "ਮੇਰੀਆਂ ਕਲਾਸਾਂ",
