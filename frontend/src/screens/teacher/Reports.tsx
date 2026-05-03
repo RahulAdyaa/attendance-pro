@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import api from '../../utils/api';
@@ -71,7 +70,7 @@ export default function Reports({ navigation }: any) {
   };
 
   const renderClassItem = ({ item, index }: any) => (
-    <Animated.View entering={FadeInDown.delay(index * 50).springify()}>
+    <View>
       <TouchableOpacity 
         style={styles.classCard} 
         onPress={() => exportClassReport(item)}
@@ -86,7 +85,7 @@ export default function Reports({ navigation }: any) {
         </View>
         <Feather name="download" color={colors.textMuted} size={20} />
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 
   if (isLoading) {
