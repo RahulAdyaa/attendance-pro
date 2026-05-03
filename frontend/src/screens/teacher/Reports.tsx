@@ -40,10 +40,14 @@ export default function Reports({ navigation }: any) {
       // Generate CSV content
       let csvContent = 'Date,Subject,Class,Student Name,Roll Number,Status\n';
       
+      const escapeCSV = (str: string | undefined | null) => str ? String(str).replace(/"/g, '""') : '';
+
       history.forEach((session: any) => {
         const date = new Date(session.date).toLocaleDateString();
         session.records.forEach((record: any) => {
-          csvContent += `"${date}","${cls.subject}","${cls.name}","${record.student?.user?.name || 'Unknown'}","${record.student?.rollNumber || 'N/A'}","${record.status}"\n`;
+          const studentName = record.student?.user?.name || 'Unknown';
+          const rollNumber = record.student?.rollNumber || 'N/A';
+          csvContent += `"${escapeCSV(date)}","${escapeCSV(cls.subject)}","${escapeCSV(cls.name)}","${escapeCSV(studentName)}","${escapeCSV(rollNumber)}","${escapeCSV(record.status)}"\n`;
         });
       });
 
