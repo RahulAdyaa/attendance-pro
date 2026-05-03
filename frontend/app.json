@@ -2,7 +2,7 @@
   "expo": {
     "name": "Attendance Pro",
     "slug": "attendance-pro",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "scheme": [
       "attendance-pro",
       "com.attendancepro.app"
@@ -31,12 +31,13 @@
       "expo-updates",
       "expo-font",
       "expo-notifications",
-      "@react-native-google-signin/google-signin",
-      "expo-localization"
+      "@react-native-google-signin/google-signin"
     ],
     "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
       "url": "https://u.expo.dev/55c4030f-c64c-41ca-aa9e-af49c013347d",
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 30000
     },
     "runtimeVersion": {
       "policy": "appVersion"
