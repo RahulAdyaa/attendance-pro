@@ -5,6 +5,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import TutorialModal from '../components/TutorialModal';
 
 const { width } = Dimensions.get('window');
 
@@ -13,6 +14,7 @@ export default function CustomDrawerContent(props: any) {
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
   const { t } = useTranslation();
+  const [showTutorial, setShowTutorial] = React.useState(false);
 
   const menuItems = user?.role === 'TEACHER' ? [
     { label: t('dashboardMenu'), icon: 'home', route: 'Home' },
@@ -62,10 +64,25 @@ export default function CustomDrawerContent(props: any) {
         ))}
       </ScrollView>
 
-      <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
-        <Feather name="log-out" size={22} color={colors.danger} />
-        <Text style={styles.logoutText}>{t('logout')}</Text>
-      </TouchableOpacity>
+      <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 }}>
+        <TouchableOpacity style={styles.tutorialBtn} onPress={() => setShowTutorial(true)}>
+          <View style={styles.tutorialIconBg}>
+            <Feather name="info" size={20} color={colors.primary} />
+          </View>
+          <Text style={styles.tutorialText}>{t('appTutorial', 'App Tutorial')}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
+          <Feather name="log-out" size={22} color={colors.danger} />
+          <Text style={styles.logoutText}>{t('logout')}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <TutorialModal 
+        visible={showTutorial} 
+        onClose={() => setShowTutorial(false)} 
+        role={user?.role} 
+      />
     </View>
   );
 }
@@ -131,12 +148,28 @@ const useStyles = () => {
       color: colors.primary,
       fontWeight: '700',
     },
+    tutorialBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 25,
+      paddingVertical: 15,
+    },
+    tutorialIconBg: {
+      backgroundColor: colors.primary + '20',
+      padding: 6,
+      borderRadius: 12,
+    },
+    tutorialText: {
+      marginLeft: 15,
+      fontSize: 16,
+      color: colors.primary,
+      fontWeight: '600',
+    },
     logoutBtn: {
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 25,
-      borderTopWidth: 1,
-      borderTopColor: colors.border,
+      paddingHorizontal: 25,
+      paddingVertical: 15,
       marginBottom: 20,
     },
     logoutText: {

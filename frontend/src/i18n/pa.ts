@@ -235,4 +235,21 @@ export default {
   close: "ਬੰਦ ਕਰੋ",
   showingFilteredStudents: "ਫਿਲਟਰ ਕੀਤੇ ਵਿਦਿਆਰਥੀ",
   clearFilter: "ਸਾਫ਼ ਕਰੋ",
+
+  // Tutorial
+  tutorialDashTitle: "ਡੈਸ਼ਬੋਰਡ ਦੀ ਝਲਕ",
+  tutorialDashDesc: "ਆਪਣੀਆਂ ਕੁੱਲ ਕਲਾਸਾਂ, ਵਿਦਿਆਰਥੀਆਂ, ਅਤੇ ਤਾਜ਼ਾ ਹਾਜ਼ਰੀ ਦੀ ਇੱਕ ਝਲਕ ਸਿੱਧੇ ਹੋਮ ਸਕ੍ਰੀਨ ਤੋਂ ਪ੍ਰਾਪਤ ਕਰੋ।",
+  tutorialMarkTitle: "ਹਾਜ਼ਰੀ ਲਗਾਓ",
+  tutorialMarkDesc: "ਵਿਦਿਆਰਥੀਆਂ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਹਾਜ਼ਰ, ਗੈਰ-ਹਾਜ਼ਰ, ਜਾਂ ਲੇਟ ਮਾਰਕ ਕਰੋ। ਸਮਾਂ ਬਚਾਉਣ ਲਈ \"ਸਾਰੇ ਹਾਜ਼ਰ\" ਬਟਨ ਵੀ ਵਰਤ ਸਕਦੇ ਹੋ।",
+  tutorialHistoryTitle: "ਹਾਜ਼ਰੀ ਦਾ ਇਤਿਹਾਸ",
+  tutorialHistoryDesc: "ਪਿਛਲੇ ਸੈਸ਼ਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ। ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਸੂਚੀ ਫਿਲਟਰ ਕਰਨ ਲਈ ਹਾਜ਼ਰ/ਗੈਰ-ਹਾਜ਼ਰ/ਲੇਟ ਬੈਜਾਂ 'ਤੇ ਟੈਪ ਕਰੋ।",
+  tutorialReportTitle: "ਰਿਪੋਰਟਾਂ ਤਿਆਰ ਕਰੋ",
+  tutorialReportDesc: "ਕਿਸੇ ਵੀ ਕਲਾਸ ਅਤੇ ਤਰੀਕ ਲਈ ਹਾਜ਼ਰੀ ਡੇਟਾ ਨੂੰ ਇੱਕ ਵਿਸਤ੍ਰਿਤ PDF ਰਿਪੋਰਟ ਵਜੋਂ ਐਕਸਪੋਰਟ ਕਰੋ।",
+  tutorialStudentDashTitle: "ਤੁਹਾਡੀ ਹਾਜ਼ਰੀ",
+  tutorialStudentDashDesc: "ਆਪਣੀ ਕੁੱਲ ਹਾਜ਼ਰੀ ਪ੍ਰਤੀਸ਼ਤਤਾ ਟ੍ਰੈਕ ਕਰੋ ਅਤੇ ਦੇਖੋ ਕਿ ਤੁਸੀਂ ਕਿੰਨੀਆਂ ਕਲਾਸਾਂ ਵਿੱਚ ਹਾਜ਼ਰ ਹੋਏ ਹੋ।",
+  tutorialStudentHistoryTitle: "ਸੈਸ਼ਨ ਇਤਿਹਾਸ",
+  tutorialStudentHistoryDesc: "ਆਪਣੀਆਂ ਪਿਛਲੀਆਂ ਕਲਾਸਾਂ ਦਾ ਵਿਸਤ੍ਰਿਤ ਇਤਿਹਾਸ ਵੇਖੋ ਅਤੇ ਹਰੇਕ ਲਈ ਆਪਣਾ ਸਟੇਟਸ ਚੈੱਕ ਕਰੋ।",
+  appTutorial: "ਐਪ ਟਿਊਟੋਰਿਅਲ",
+  gotIt: "ਠੀਕ ਹੈ!",
+  next: "ਅਗਲਾ"
 };

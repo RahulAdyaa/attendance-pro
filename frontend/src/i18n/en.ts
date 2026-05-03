@@ -234,4 +234,21 @@ export default {
   close: "Close",
   showingFilteredStudents: "Filtered Students",
   clearFilter: "Clear",
+
+  // Tutorial
+  tutorialDashTitle: "Dashboard Overview",
+  tutorialDashDesc: "Get a quick glance at your total classes, students, and recent attendance right from the home screen.",
+  tutorialMarkTitle: "Mark Attendance",
+  tutorialMarkDesc: "Easily mark students as Present, Absent, or Late. You can also use the \"All Present\" button to save time.",
+  tutorialHistoryTitle: "Attendance History",
+  tutorialHistoryDesc: "Review past sessions. Tap on Present/Absent/Late badges to quickly filter the student list.",
+  tutorialReportTitle: "Generate Reports",
+  tutorialReportDesc: "Export attendance data for any class and date range into a detailed PDF report.",
+  tutorialStudentDashTitle: "Your Attendance",
+  tutorialStudentDashDesc: "Track your overall attendance percentage and see how many classes you have attended.",
+  tutorialStudentHistoryTitle: "Session History",
+  tutorialStudentHistoryDesc: "View a detailed history of your past classes and check your status for each one.",
+  appTutorial: "App Tutorial",
+  gotIt: "Got it!",
+  next: "Next"
 };
