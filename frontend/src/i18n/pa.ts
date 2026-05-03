@@ -233,4 +233,6 @@ export default {
   unknown: "ਅਣਜਾਣ",
   sonOf: "ਪੁੱਤਰ",
   close: "ਬੰਦ ਕਰੋ",
+  showingFilteredStudents: "ਫਿਲਟਰ ਕੀਤੇ ਵਿਦਿਆਰਥੀ",
+  clearFilter: "ਸਾਫ਼ ਕਰੋ",
 };

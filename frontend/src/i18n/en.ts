@@ -232,4 +232,6 @@ export default {
   unknown: "Unknown",
   sonOf: "s/o",
   close: "Close",
+  showingFilteredStudents: "Filtered Students",
+  clearFilter: "Clear",
 };

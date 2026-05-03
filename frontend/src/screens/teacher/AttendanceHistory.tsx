@@ -27,6 +27,7 @@ export default function AttendanceHistory() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [expandedSessionId, setExpandedSessionId] = useState<string | null>(null);
+  const [sessionDetailFilter, setSessionDetailFilter] = useState<string>('ALL');
 
   const fetchHistory = async () => {
     try {
@@ -52,7 +53,12 @@ export default function AttendanceHistory() {
 
   const toggleExpand = (id: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpandedSessionId(prev => prev === id ? null : id);
+    if (expandedSessionId === id) {
+      setExpandedSessionId(null);
+    } else {
+      setExpandedSessionId(id);
+      setSessionDetailFilter('ALL');
+    }
   };
 
   const filteredSessions = sessions.filter(s => {
@@ -88,26 +94,52 @@ export default function AttendanceHistory() {
           {isExpanded ? <Feather name="chevron-down" size={20} color={colors.textMuted} /> : <Feather name="chevron-right" size={20} color={colors.textMuted} />}
         </View>
         <View style={styles.statsRow}>
-          <View style={styles.statDetail}>
+          <TouchableOpacity 
+            style={[styles.statDetail, sessionDetailFilter === 'PRESENT' && isExpanded && { backgroundColor: colors.present + '20', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 4, marginRight: 14 }]}
+            onPress={() => isExpanded && setSessionDetailFilter(prev => prev === 'PRESENT' ? 'ALL' : 'PRESENT')}
+            disabled={!isExpanded}
+            activeOpacity={0.7}
+          >
             <Feather name="check-circle" size={14} color={colors.present} />
             <Text style={styles.statText}>{item.present} {t('present')}</Text>
-          </View>
-          <View style={styles.statDetail}>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.statDetail, sessionDetailFilter === 'ABSENT' && isExpanded && { backgroundColor: colors.absent + '20', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 4, marginRight: 14 }]}
+            onPress={() => isExpanded && setSessionDetailFilter(prev => prev === 'ABSENT' ? 'ALL' : 'ABSENT')}
+            disabled={!isExpanded}
+            activeOpacity={0.7}
+          >
             <Feather name="x-circle" size={14} color={colors.absent} />
             <Text style={styles.statText}>{item.absent} {t('absent')}</Text>
-          </View>
+          </TouchableOpacity>
           {item.late > 0 && (
-            <View style={styles.statDetail}>
+            <TouchableOpacity 
+              style={[styles.statDetail, sessionDetailFilter === 'LATE' && isExpanded && { backgroundColor: colors.late + '20', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 4, marginRight: 14 }]}
+              onPress={() => isExpanded && setSessionDetailFilter(prev => prev === 'LATE' ? 'ALL' : 'LATE')}
+              disabled={!isExpanded}
+              activeOpacity={0.7}
+            >
               <Feather name="clock" size={14} color={colors.late} />
               <Text style={styles.statText}>{item.late} {t('late')}</Text>
-            </View>
+            </TouchableOpacity>
           )}
         </View>
 
         {isExpanded && item.records && (
           <View style={styles.expandedContent}>
-            <Text style={styles.expandedTitle}>{t('studentDetails')}</Text>
-            {item.records.map((record, index) => {
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.expandedTitle, { marginBottom: 0 }]}>
+                {sessionDetailFilter === 'ALL' ? t('studentDetails') : t('showingFilteredStudents')}
+              </Text>
+              {sessionDetailFilter !== 'ALL' && (
+                <TouchableOpacity onPress={() => setSessionDetailFilter('ALL')}>
+                  <Text style={{ color: colors.primary, fontSize: 13, fontWeight: 'bold' }}>{t('clearFilter')}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            {item.records
+              .filter(record => sessionDetailFilter === 'ALL' || record.status === sessionDetailFilter)
+              .map((record, index) => {
               const statusColor = record.status === 'PRESENT' ? colors.present : record.status === 'ABSENT' ? colors.absent : record.status === 'LATE' ? colors.late : colors.textMuted;
               return (
                 <View key={index} style={styles.studentRow}>
