@@ -243,7 +243,7 @@ export default function TeacherDashboard({ navigation }: any) {
                 <Feather name="plus" size={24} color={colors.primary} />
               </View>
               <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
-              <Text style={styles.actionDesc}>Start a new session</Text>
+              <Text style={styles.actionDesc}>{t('startNewSession')}</Text>
             </AnimatedTouchable>
 
             <AnimatedTouchable style={styles.actionCard} onPress={() => navigation.navigate('Attendance')}>
@@ -251,7 +251,7 @@ export default function TeacherDashboard({ navigation }: any) {
                 <Feather name="clock" size={24} color={colors.warning} />
               </View>
               <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
-              <Text style={styles.actionDesc}>Review past logs</Text>
+              <Text style={styles.actionDesc}>{t('reviewPastLogs')}</Text>
             </AnimatedTouchable>
           </View>
         </Animated.View>
@@ -259,10 +259,10 @@ export default function TeacherDashboard({ navigation }: any) {
         <Animated.View entering={FadeInDown.delay(400).springify()} style={styles.alertBanner}>
           <View style={styles.alertTop}>
             <Feather name="trending-up" size={20} color={colors.success} />
-            <Text style={styles.alertTitle}>Performance Audit</Text>
+            <Text style={styles.alertTitle}>{t('performanceAudit')}</Text>
           </View>
           <Text style={styles.alertText}>
-            Your class attendance is currently at **{stats.attendanceRate}%**. Keep monitoring the trends to maintain high engagement.
+            {t('attendanceRateMessage', { rate: stats.attendanceRate })}
           </Text>
           <TouchableOpacity style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
             <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
@@ -303,7 +303,7 @@ export default function TeacherDashboard({ navigation }: any) {
         <View style={styles.modalOverlay}>
           <View style={styles.centerModalContent}>
             <View style={styles.modalHandle} />
-            <Text style={styles.modalTitle}>Select a Class</Text>
+            <Text style={styles.modalTitle}>{t('selectClass')}</Text>
             <ScrollView style={{ width: '100%', maxHeight: 300 }}>
               {classes.map((cls, idx) => (
                 <Animated.View key={cls.id} entering={FadeInRight.delay(idx * 50)}>
@@ -318,7 +318,7 @@ export default function TeacherDashboard({ navigation }: any) {
               ))}
             </ScrollView>
             <TouchableOpacity style={[styles.modalButton, styles.cancelButton, { marginTop: 20 }]} onPress={() => setIsClassSelectorOpen(false)}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text style={styles.cancelButtonText}>{t('cancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -332,14 +332,14 @@ export default function TeacherDashboard({ navigation }: any) {
             <Text style={styles.modalTitle}>{selectedClass?.name} - {selectorType}</Text>
             <ScrollView style={{ flex: 1, width: '100%' }}>
               {studentsList.length === 0 ? (
-                <View style={styles.emptyContainer}><Text style={styles.emptyText}>No students found</Text></View>
+                <View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noStudentsFound')}</Text></View>
               ) : (
                 studentsList.map((student, index) => (
                   <Animated.View key={index} entering={FadeInDown.delay(index * 30)}>
                     <View style={styles.studentItem}>
                       <Text style={styles.studentName}>
-                        {student.name || student.user?.name || 'Unknown'} 
-                        {student.fatherName ? ` (s/o ${student.fatherName})` : ''}
+                        {student.name || student.user?.name || t('unknown')} 
+                        {student.fatherName ? ` (${t('sonOf')} ${student.fatherName})` : ''}
                       </Text>
                       {student.rollNumber && <Text style={styles.studentRoll}>{student.rollNumber}</Text>}
                     </View>
@@ -348,7 +348,7 @@ export default function TeacherDashboard({ navigation }: any) {
               )}
             </ScrollView>
             <TouchableOpacity style={[styles.modalButton, styles.cancelButton, { marginTop: 20, width: '100%' }]} onPress={() => setIsStudentsListOpen(false)}>
-              <Text style={styles.cancelButtonText}>Close</Text>
+              <Text style={styles.cancelButtonText}>{t('close')}</Text>
             </TouchableOpacity>
           </View>
         </View>

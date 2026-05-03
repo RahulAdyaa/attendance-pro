@@ -194,9 +194,9 @@ export default {
   loginFailed: "ਲੌਗਇਨ ਅਸਫਲ ਰਿਹਾ",
   
   // Custom UI
-  goodMorning: "ਸੁਪਰਭਾਤ",
-  goodAfternoon: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ",
-  goodEvening: "ਸ਼ੁਭ ਸ਼ਾਮ",
+  goodMorning: "ਰਾਮ ਰਾਮ ਜੀ",
+  goodAfternoon: "ਰਾਮ ਰਾਮ ਜੀ",
+  goodEvening: "ਰਾਮ ਰਾਮ ਜੀ",
   wonderfulDay: "ਤੁਹਾਡਾ ਦਿਨ ਵਧੀਆ ਰਹੇ!",
   today: "ਅੱਜ",
   
@@ -222,4 +222,15 @@ export default {
   selectRoleSubtitle: "ਤੁਸੀਂ ਅਟੈਂਡੈਂਸ ਪ੍ਰੋ ਨੂੰ ਕਿਵੇਂ ਵਰਤੋਗੇ?",
   teacherRoleDesc: "ਕਲਾਸਾਂ ਬਣਾਓ ਅਤੇ ਹਾਜ਼ਰੀ ਲਗਾਓ",
   studentRoleDesc: "ਆਪਣੇ ਹਾਜ਼ਰੀ ਰਿਕਾਰਡ ਦੇਖੋ",
+
+  // Dashboard strings
+  startNewSession: "ਨਵਾਂ ਸੈਸ਼ਨ ਸ਼ੁਰੂ ਕਰੋ",
+  reviewPastLogs: "ਪੁਰਾਣੇ ਰਿਕਾਰਡ ਦੇਖੋ",
+  performanceAudit: "ਕਾਰਗੁਜ਼ਾਰੀ ਰਿਪੋਰਟ",
+  attendanceRateMessage: "ਤੁਹਾਡੀ ਕਲਾਸ ਦੀ ਹਾਜ਼ਰੀ ਦਰ ਇਸ ਵੇਲੇ {{rate}}% ਹੈ। ਉੱਚੀ ਸ਼ਮੂਲੀਅਤ ਬਣਾਈ ਰੱਖਣ ਲਈ ਰੁਝਾਨਾਂ 'ਤੇ ਨਜ਼ਰ ਰੱਖੋ।",
+  selectClass: "ਕਲਾਸ ਚੁਣੋ",
+  noStudentsFound: "ਕੋਈ ਵਿਦਿਆਰਥੀ ਨਹੀਂ ਮਿਲਿਆ",
+  unknown: "ਅਣਜਾਣ",
+  sonOf: "ਪੁੱਤਰ",
+  close: "ਬੰਦ ਕਰੋ",
 };

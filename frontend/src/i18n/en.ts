@@ -221,4 +221,15 @@ export default {
   selectRoleSubtitle: "How will you use Attendance Pro?",
   teacherRoleDesc: "Create classes & mark attendance",
   studentRoleDesc: "View your attendance records",
+
+  // Dashboard strings
+  startNewSession: "Start a new session",
+  reviewPastLogs: "Review past logs",
+  performanceAudit: "Performance Audit",
+  attendanceRateMessage: "Your class attendance is currently at {{rate}}%. Keep monitoring the trends to maintain high engagement.",
+  selectClass: "Select a Class",
+  noStudentsFound: "No students found",
+  unknown: "Unknown",
+  sonOf: "s/o",
+  close: "Close",
 };

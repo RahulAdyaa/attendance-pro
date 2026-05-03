@@ -27,31 +27,31 @@ export const lightColors = {
 };
 
 export const darkColors = {
-  primary: '#818CF8',          // Lighter indigo for dark mode
-  primaryDark: '#6366F1',
-  primaryLight: '#A5B4FC',
-  background: '#0F172A',      // Deep navy
-  surface: '#1E293B',         // Dark slate
-  surfaceAlt: '#334155',
-  text: '#F1F5F9',            // Bright white
+  primary: '#A5B4FC',          // Soft indigo for readability
+  primaryDark: '#818CF8',
+  primaryLight: '#C7D2FE',
+  background: '#0C1220',      // Very deep navy-black
+  surface: '#162032',         // Clearly distinct card surface
+  surfaceAlt: '#1E2D45',      // Alt surfaces stand out
+  text: '#F1F5F9',            // Crisp white text
   textSecondary: '#CBD5E1',
-  textMuted: '#64748B',       // Muted slate
-  success: '#34D399',
-  warning: '#FBBF24',
-  danger: '#F87171',
+  textMuted: '#7C8DB5',       // Softer muted for dark bg
+  success: '#6EE7B7',         // Brighter green for dark
+  warning: '#FCD34D',         // Brighter amber
+  danger: '#FCA5A5',          // Softer red for dark
   white: '#FFFFFF',
   black: '#000000',
-  border: '#334155',
-  shadow: '#00000060',
-  present: '#34D399',
-  absent: '#F87171',
-  late: '#FBBF24',
-  excused: '#64748B',
-  secondary: '#22D3EE',
-  accent: '#A78BFA',
-  gradient1: '#6366F1',
-  gradient2: '#8B5CF6',
-  cardGlow: '#818CF810',
+  border: '#243352',          // Visible border on dark cards
+  shadow: '#00000080',
+  present: '#6EE7B7',
+  absent: '#FCA5A5',
+  late: '#FCD34D',
+  excused: '#7C8DB5',
+  secondary: '#67E8F9',
+  accent: '#C4B5FD',
+  gradient1: '#818CF8',
+  gradient2: '#A78BFA',
+  cardGlow: '#A5B4FC10',
 };
 
 export const colors = lightColors;
