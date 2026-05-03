@@ -8,7 +8,8 @@ import {
   Platform, 
   ScrollView,
   ActivityIndicator,
-  Alert
+  Alert,
+  Modal
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
@@ -49,6 +50,10 @@ export default function LoginScreen({ navigation }: any) {
     i18n.changeLanguage(newLang);
   };
 
+  const [showRolePicker, setShowRolePicker] = useState(false);
+  const [pendingGoogleToken, setPendingGoogleToken] = useState<string | null>(null);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
   const handleGoogleLogin = async () => {
     if (!GoogleSignin) {
       Alert.alert(t('error'), t('googleExpoError'));
@@ -56,12 +61,14 @@ export default function LoginScreen({ navigation }: any) {
     }
 
     try {
+      setIsGoogleLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const tokens = await GoogleSignin.getTokens();
       
       if (tokens.accessToken) {
-        await useAuthStore.getState().loginWithSocial('google', tokens.accessToken);
+        setPendingGoogleToken(tokens.accessToken);
+        setShowRolePicker(true);
       } else {
         throw new Error('No access token returned from Google');
       }
@@ -76,6 +83,20 @@ export default function LoginScreen({ navigation }: any) {
         Alert.alert(t('error'), error.message || t('somethingWentWrong'));
         console.error('Google Sign-In Error:', error);
       }
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const completeGoogleLogin = async (role: 'TEACHER' | 'STUDENT') => {
+    setShowRolePicker(false);
+    if (pendingGoogleToken) {
+      try {
+        await useAuthStore.getState().loginWithSocial('google', pendingGoogleToken, role);
+      } catch (err: any) {
+        Alert.alert(t('error'), err.message || t('somethingWentWrong'));
+      }
+      setPendingGoogleToken(null);
     }
   };
 
@@ -193,6 +214,50 @@ export default function LoginScreen({ navigation }: any) {
           </View>
         </Animated.View>
       </ScrollView>
+
+      {/* Role Picker Modal */}
+      <Modal visible={showRolePicker} animationType="fade" transparent={true} onRequestClose={() => setShowRolePicker(false)}>
+        <View style={styles.roleModalOverlay}>
+          <View style={styles.roleModalContent}>
+            <Text style={styles.roleModalTitle}>{t('selectRole')}</Text>
+            <Text style={styles.roleModalSubtitle}>{t('selectRoleSubtitle')}</Text>
+
+            <TouchableOpacity 
+              style={styles.roleOption} 
+              onPress={() => completeGoogleLogin('TEACHER')}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.roleIconBox, { backgroundColor: colors.primary + '20' }]}>
+                <Feather name="briefcase" size={28} color={colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.roleOptionTitle}>{t('teacher')}</Text>
+                <Text style={styles.roleOptionDesc}>{t('teacherRoleDesc')}</Text>
+              </View>
+              <Feather name="chevron-right" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.roleOption} 
+              onPress={() => completeGoogleLogin('STUDENT')}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.roleIconBox, { backgroundColor: '#10B981' + '20' }]}>
+                <Feather name="book-open" size={28} color="#10B981" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.roleOptionTitle}>{t('student')}</Text>
+                <Text style={styles.roleOptionDesc}>{t('studentRoleDesc')}</Text>
+              </View>
+              <Feather name="chevron-right" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.roleCancelBtn} onPress={() => { setShowRolePicker(false); setPendingGoogleToken(null); }}>
+              <Text style={styles.roleCancelText}>{t('cancel')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 }
@@ -344,6 +409,71 @@ const useStyles = () => {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.text,
+  },
+  roleModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 30,
+  },
+  roleModalContent: {
+    backgroundColor: colors.surface,
+    borderRadius: 24,
+    padding: 28,
+    width: '100%',
+    maxWidth: 360,
+  },
+  roleModalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 6,
+  },
+  roleModalSubtitle: {
+    fontSize: 14,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  roleOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  roleIconBox: {
+    width: 50,
+    height: 50,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  roleOptionTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  roleOptionDesc: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: 2,
+  },
+  roleCancelBtn: {
+    alignItems: 'center',
+    paddingVertical: 14,
+    marginTop: 4,
+  },
+  roleCancelText: {
+    fontSize: 15,
+    color: colors.textMuted,
+    fontWeight: '600',
   },
   });
 };

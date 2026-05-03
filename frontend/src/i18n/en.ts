@@ -215,4 +215,10 @@ export default {
   report: "Report",
   sharingNotAvailable: "Sharing is not available on this device",
   failedToGenerateReport: "Failed to generate report.",
+
+  // Role Picker
+  selectRole: "Choose Your Role",
+  selectRoleSubtitle: "How will you use Attendance Pro?",
+  teacherRoleDesc: "Create classes & mark attendance",
+  studentRoleDesc: "View your attendance records",
 };

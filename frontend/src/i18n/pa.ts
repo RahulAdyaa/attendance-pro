@@ -216,4 +216,10 @@ export default {
   report: "ਰਿਪੋਰਟ",
   sharingNotAvailable: "ਸ਼ੇਅਰਿੰਗ ਇਸ ਡਿਵਾਈਸ 'ਤੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
   failedToGenerateReport: "ਰਿਪੋਰਟ ਤਿਆਰ ਕਰਨ ਵਿੱਚ ਅਸਫਲ।",
+
+  // Role Picker
+  selectRole: "ਆਪਣੀ ਭੂਮਿਕਾ ਚੁਣੋ",
+  selectRoleSubtitle: "ਤੁਸੀਂ ਅਟੈਂਡੈਂਸ ਪ੍ਰੋ ਨੂੰ ਕਿਵੇਂ ਵਰਤੋਗੇ?",
+  teacherRoleDesc: "ਕਲਾਸਾਂ ਬਣਾਓ ਅਤੇ ਹਾਜ਼ਰੀ ਲਗਾਓ",
+  studentRoleDesc: "ਆਪਣੇ ਹਾਜ਼ਰੀ ਰਿਕਾਰਡ ਦੇਖੋ",
 };
