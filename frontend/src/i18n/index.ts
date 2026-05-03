@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import en from './en';
@@ -18,7 +17,7 @@ const languageDetectorPlugin = {
         if (language) {
           return callback(language);
         } else {
-          return callback(Localization.getLocales()[0].languageCode ?? 'en');
+          return callback('en');
         }
       });
     } catch (error) {
