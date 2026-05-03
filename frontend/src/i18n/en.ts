@@ -52,7 +52,7 @@ export default {
 
   // Settings
   language: "Language",
-  switchLanguage: "ਸਵਿੱਚ ਟੂ ਪੰਜਾਬੀ (Switch to Punjabi)",
+  switchLanguage: "ਸਵਿੱਚ ਟੂ ਪੰਜਾਬੀ  (Switch to Punjabi)",
   switchLanguageEn: "Switch to English",
   theme: "Theme",
   darkMode: "Dark Mode",

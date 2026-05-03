@@ -17,7 +17,7 @@ export default function CustomDrawerContent(props: any) {
   const menuItems = user?.role === 'TEACHER' ? [
     { label: t('dashboardMenu'), icon: 'home', route: 'Home' },
     { label: t('myClasses'), icon: 'book-open', route: 'Classes' },
-    { label: t('attendanceHistory'), icon: 'clipboard', route: 'Attendances' },
+    { label: t('attendanceHistory'), icon: 'clipboard', route: 'Attendance' },
     { label: t('generateReports'), icon: 'file-text', route: 'Reports' },
     { label: t('profile'), icon: 'user', route: 'Profile' },
     { label: t('settings'), icon: 'settings', route: 'Settings' },
