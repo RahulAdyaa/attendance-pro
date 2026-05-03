@@ -121,14 +121,12 @@ export default {
   done: "ਹੋ ਗਿਆ",
 
   // Settings specific
-  fillAllFields: "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਖੇਤਰ ਭਰੋ",
   passwordsDoNotMatch: "ਨਵੇਂ ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾਂਦੇ",
   passwordLengthError: "ਪਾਸਵਰਡ ਘੱਟੋ-ਘੱਟ 8 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
   passwordChangeSuccess: "ਤੁਹਾਡਾ ਪਾਸਵਰਡ ਸਫਲਤਾਪੂਰਵਕ ਬਦਲ ਦਿੱਤਾ ਗਿਆ ਹੈ",
   failedToChangePassword: "ਪਾਸਵਰਡ ਬਦਲਣ ਵਿੱਚ ਅਸਫਲ",
   preferences: "ਤਰਜੀਹਾਂ",
   pushNotifications: "ਪੁਸ਼ ਸੂਚਨਾਵਾਂ",
-  darkMode: "ਡਾਰਕ ਮੋਡ",
   accountSecurity: "ਖਾਤਾ ਅਤੇ ਸੁਰੱਖਿਆ",
   changePassword: "ਪਾਸਵਰਡ ਬਦਲੋ",
   helpSupport: "ਸਹਾਇਤਾ ਅਤੇ ਸਮਰਥਨ",
@@ -169,7 +167,6 @@ export default {
   egA1B2C3: "ਉਦਾਹਰਣ ਲਈ A1B2C3",
 
   // Help Center
-  helpCenter: "ਸਹਾਇਤਾ ਕੇਂਦਰ",
   howCanWeHelp: "ਅੱਜ ਅਸੀਂ ਤੁਹਾਡੀ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦੇ ਹਾਂ?",
   readFaqs: "ਸਵਾਲ ਪੜ੍ਹੋ",
   readFaqsDesc: "ਹਾਜ਼ਰੀ ਪ੍ਰੋ ਦੀ ਵਰਤੋਂ ਕਰਨ ਬਾਰੇ ਆਮ ਸਵਾਲਾਂ ਦੇ ਜਵਾਬ ਲੱਭੋ।",
@@ -189,19 +186,13 @@ export default {
 
   // Auth Screen
   forgotPassword: "ਪਾਸਵਰਡ ਭੁੱਲ ਗਏ?",
-  orContinueWith: "ਜਾਂ ਇਸ ਨਾਲ ਜਾਰੀ ਰੱਖੋ",
-  comingSoon: "ਜਲਦ ਆ ਰਿਹਾ ਹੈ",
+  comingSoon: "ਜਲਦ ਆ ਰਿਹਾ է",
   facebookComingSoon: "ਫੇਸਬੁੱਕ ਲੌਗਇਨ ਅਗਲੇ ਅੱਪਡੇਟ ਵਿੱਚ ਉਪਲਬਧ ਹੋਵੇਗਾ।",
   googleExpoError: "ਗੂਗਲ ਲੌਗਇਨ ਸਿਰਫ ਐਪ ਵਿੱਚ ਉਪਲਬਧ ਹੈ, ਐਕਸਪੋ ਗੋ ਵਿੱਚ ਨਹੀਂ।",
   googlePlayError: "ਇਸ ਡਿਵਾਈਸ 'ਤੇ ਗੂਗਲ ਪਲੇ ਸੇਵਾਵਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹਨ",
   somethingWentWrong: "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ",
-  loginFailed: "ਲੌਗਇਨ ਅਸਫਲ",
-  createAccount: "ਖਾਤਾ ਬਣਾਓ",
-  joinToday: "ਅੱਜ ਹੀ ਅਟੈਂਡੈਂਸ ਪ੍ਰੋ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ",
-  iAmA: "ਮੈਂ ਹਾਂ",
-  haveAccount: "ਕੀ ਪਹਿਲਾਂ ਹੀ ਖਾਤਾ ਹੈ?",
-  passwordMinLength: "ਪਾਸਵਰਡ ਘੱਟੋ-ਘੱਟ 8 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
-
+  loginFailed: "ਲੌਗਇਨ ਅਸਫਲ ਰਿਹਾ",
+  
   // Custom UI
   goodMorning: "ਸੁਪਰਭਾਤ",
   goodAfternoon: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ",
@@ -213,7 +204,6 @@ export default {
   dashboardMenu: "ਡੈਸ਼ਬੋਰਡ",
   myClasses: "ਮੇਰੀਆਂ ਕਲਾਸਾਂ",
   generateReports: "ਰਿਪੋਰਟਾਂ ਤਿਆਰ ਕਰੋ",
-  myAttendance: "ਮੇਰੀ ਹਾਜ਼ਰੀ",
 
   // Reports
   detailedReports: "ਵਿਸਤ੍ਰਿਤ ਰਿਪੋਰਟਾਂ",
@@ -224,7 +214,6 @@ export default {
   noAttendanceRecordsFound: "ਇਸ ਕਲਾਸ ਲਈ ਕੋਈ ਹਾਜ਼ਰੀ ਰਿਕਾਰਡ ਨਹੀਂ ਮਿਲਿਆ।",
   share: "ਸਾਂਝਾ ਕਰੋ",
   report: "ਰਿਪੋਰਟ",
-  error: "ਗਲਤੀ",
   sharingNotAvailable: "ਸ਼ੇਅਰਿੰਗ ਇਸ ਡਿਵਾਈਸ 'ਤੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
   failedToGenerateReport: "ਰਿਪੋਰਟ ਤਿਆਰ ਕਰਨ ਵਿੱਚ ਅਸਫਲ।",
 };

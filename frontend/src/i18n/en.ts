@@ -121,14 +121,12 @@ export default {
   done: "Done",
 
   // Settings specific
-  fillAllFields: "Please fill in all fields",
   passwordsDoNotMatch: "New passwords do not match",
   passwordLengthError: "Password must be at least 8 characters long",
   passwordChangeSuccess: "Your password has been changed successfully",
   failedToChangePassword: "Failed to change password",
   preferences: "Preferences",
   pushNotifications: "Push Notifications",
-  darkMode: "Dark Mode",
   accountSecurity: "Account & Security",
   changePassword: "Change Password",
   helpSupport: "Help & Support",
@@ -169,7 +167,6 @@ export default {
   egA1B2C3: "E.G. A1B2C3",
 
   // Help Center
-  helpCenter: "Help Center",
   howCanWeHelp: "How can we help you today?",
   readFaqs: "Read FAQs",
   readFaqsDesc: "Find answers to common questions about using Attendance Pro.",
@@ -189,19 +186,12 @@ export default {
 
   // Auth Screen
   forgotPassword: "Forgot Password?",
-  orContinueWith: "OR CONTINUE WITH",
   comingSoon: "Coming Soon",
   facebookComingSoon: "Facebook login will be available in the next update.",
   googleExpoError: "Google Login is only available in the standalone app, not in Expo Go.",
   googlePlayError: "Google Play Services are not available on this device",
   somethingWentWrong: "Something went wrong",
   loginFailed: "Login failed",
-  createAccount: "Create Account",
-  joinToday: "Join Attendance Pro today",
-  iAmA: "I am a",
-  haveAccount: "Already have an account?",
-  passwordMinLength: "Password must be at least 8 characters",
-  
   // Custom UI
   goodMorning: "Good morning",
   goodAfternoon: "Good afternoon",
@@ -213,7 +203,6 @@ export default {
   dashboardMenu: "Dashboard",
   myClasses: "My Classes",
   generateReports: "Generate Reports",
-  myAttendance: "My Attendance",
   
   // Reports
   detailedReports: "Detailed Reports",
@@ -224,7 +213,6 @@ export default {
   noAttendanceRecordsFound: "No attendance records found for this class.",
   share: "Share",
   report: "Report",
-  error: "Error",
   sharingNotAvailable: "Sharing is not available on this device",
   failedToGenerateReport: "Failed to generate report.",
 };
