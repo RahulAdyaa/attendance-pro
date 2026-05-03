@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, TabSwitcher, CustomInput, FadeInUp } from '../../components/CustomUI';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -20,7 +21,9 @@ interface AttendanceRecord {
   session: { date: string; class: { name: string } }
 }
 
-export default function StudentHistory({ navigation }: any) {
+const WalkthroughView = walkthroughable(View);
+
+function StudentHistoryScreen({ navigation, route, start }: any) {
   const { user } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
@@ -84,6 +87,15 @@ export default function StudentHistory({ navigation }: any) {
     fetchHistory();
     fetchStudentClass();
   }, []);
+
+  useEffect(() => {
+    if (route.params?.startTutorial && start) {
+      setTimeout(() => {
+        start();
+        navigation.setParams({ startTutorial: false });
+      }, 500);
+    }
+  }, [route.params?.startTutorial, start]);
 
   const renderHistoryItem = ({ item }: { item: AttendanceRecord }) => {
     const statusConfig = {
@@ -175,23 +187,29 @@ export default function StudentHistory({ navigation }: any) {
       <FadeInUp delay={300} style={styles.section}>
         <Text style={styles.sectionTitle}>{t('childPresence')}</Text>
         <TabSwitcher tabs={[t('thisWeek'), t('thisMonth'), t('thisSemester')]} activeTab={activeTab} onTabPress={setActiveTab} />
-        <View style={styles.statsRow}>
-          <StatBox label={t('arrive')} value={stats.present} color={colors.success} icon="check-circle" />
-          <StatBox label={t('sick')} value={stats.excused} color={colors.primary} icon="alert-triangle" />
-          <StatBox label={t('leave')} value={stats.late} color={colors.warning} icon="clock" />
-          <StatBox label={t('skip')} value={stats.absent} color={colors.danger} icon="minus-circle" />
-        </View>
+        <CopilotStep text={t('tutorialStudentDashDesc')} order={1} name="studentDashboard">
+          <WalkthroughView style={styles.statsRow}>
+            <StatBox label={t('arrive')} value={stats.present} color={colors.success} icon="check-circle" />
+            <StatBox label={t('sick')} value={stats.excused} color={colors.primary} icon="alert-triangle" />
+            <StatBox label={t('leave')} value={stats.late} color={colors.warning} icon="clock" />
+            <StatBox label={t('skip')} value={stats.absent} color={colors.danger} icon="minus-circle" />
+          </WalkthroughView>
+        </CopilotStep>
       </FadeInUp>
       <FadeInUp delay={400} style={[styles.section, styles.historySection]}>
-        <View style={styles.historyHeaderRow}>
-          <Text style={styles.sectionTitle}>{t('attendanceHistory')}</Text>
-          <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>{t('newest')}</Text></TouchableOpacity>
-        </View>
-        {records.length > 0 ? (
-          records.map(item => (<React.Fragment key={item.id}>{renderHistoryItem({ item })}</React.Fragment>))
-        ) : (
-          <View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noAttendanceRecordsYet')}</Text></View>
-        )}
+        <CopilotStep text={t('tutorialStudentHistoryDesc')} order={2} name="studentHistory">
+          <WalkthroughView style={{ paddingHorizontal: 0 }}>
+            <View style={styles.historyHeaderRow}>
+              <Text style={styles.sectionTitle}>{t('attendanceHistory')}</Text>
+              <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>{t('newest')}</Text></TouchableOpacity>
+            </View>
+            {records.length > 0 ? (
+              records.map(item => (<React.Fragment key={item.id}>{renderHistoryItem({ item })}</React.Fragment>))
+            ) : (
+              <View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noAttendanceRecordsYet')}</Text></View>
+            )}
+          </WalkthroughView>
+        </CopilotStep>
       </FadeInUp>
       <View style={{ height: 40 }} />
 
@@ -230,6 +248,17 @@ export default function StudentHistory({ navigation }: any) {
     </ScrollView>
   );
 }
+
+export default copilot({
+  overlay: 'svg',
+  animated: true,
+  labels: {
+    previous: 'Back',
+    next: 'Next',
+    skip: 'Skip',
+    finish: 'Done'
+  }
+})(StudentHistoryScreen);
 
 const useStyles = () => {
   const { colors } = useAppTheme();

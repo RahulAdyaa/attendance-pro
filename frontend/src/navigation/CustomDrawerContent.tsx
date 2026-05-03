@@ -5,7 +5,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useAppTheme } from '../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import TutorialModal from '../components/TutorialModal';
+
 
 const { width } = Dimensions.get('window');
 
@@ -65,7 +65,13 @@ export default function CustomDrawerContent(props: any) {
       </ScrollView>
 
       <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 }}>
-        <TouchableOpacity style={styles.tutorialBtn} onPress={() => setShowTutorial(true)}>
+        <TouchableOpacity 
+          style={styles.tutorialBtn} 
+          onPress={() => {
+            props.navigation.closeDrawer();
+            props.navigation.navigate('Home', { startTutorial: true });
+          }}
+        >
           <View style={styles.tutorialIconBg}>
             <Feather name="info" size={20} color={colors.primary} />
           </View>
@@ -77,12 +83,6 @@ export default function CustomDrawerContent(props: any) {
           <Text style={styles.logoutText}>{t('logout')}</Text>
         </TouchableOpacity>
       </View>
-
-      <TutorialModal 
-        visible={showTutorial} 
-        onClose={() => setShowTutorial(false)} 
-        role={user?.role} 
-      />
     </View>
   );
 }

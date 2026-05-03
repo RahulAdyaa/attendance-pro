@@ -22,6 +22,7 @@ import Animated, {
   useSharedValue,
   withSpring
 } from 'react-native-reanimated';
+import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -31,8 +32,10 @@ import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, AnimatedTouchable } from '../../components/CustomUI';
 
 const { width } = Dimensions.get('window');
+const WalkthroughView = walkthroughable(View);
+const WalkthroughTouchable = walkthroughable(TouchableOpacity);
 
-export default function TeacherDashboard({ navigation }: any) {
+function TeacherDashboardScreen({ navigation, route, start }: any) {
   const { user } = useAuthStore();
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
@@ -106,6 +109,16 @@ export default function TeacherDashboard({ navigation }: any) {
     
     return () => clearInterval(interval);
   }, [activeDate]);
+
+  useEffect(() => {
+    if (route.params?.startTutorial && start) {
+      // Slight delay to ensure screen is rendered
+      setTimeout(() => {
+        start();
+        navigation.setParams({ startTutorial: false });
+      }, 500);
+    }
+  }, [route.params?.startTutorial, start]);
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'pa' : 'en';
@@ -227,32 +240,42 @@ export default function TeacherDashboard({ navigation }: any) {
 
         <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>{t('dashboardTitle')}</Text>
-          <View style={styles.statsRow}>
-            <StatBox label={t('student')} value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
-            <StatBox label={t('present')} value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
-            <StatBox label={t('absent')} value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
-            <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
-          </View>
+          <CopilotStep text={t('tutorialDashDesc')} order={1} name="dashboardOverview">
+            <WalkthroughView style={styles.statsRow}>
+              <StatBox label={t('student')} value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
+              <StatBox label={t('present')} value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
+              <StatBox label={t('absent')} value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
+              <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
+            </WalkthroughView>
+          </CopilotStep>
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>{t('quickActions')}</Text>
           <View style={styles.actionsGrid}>
-            <AnimatedTouchable style={styles.actionCard} onPress={() => handleStatClick('MARK')}>
-              <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
-                <Feather name="plus" size={24} color={colors.primary} />
-              </View>
-              <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
-              <Text style={styles.actionDesc}>{t('startNewSession')}</Text>
-            </AnimatedTouchable>
+            <CopilotStep text={t('tutorialMarkDesc')} order={2} name="markAttendance">
+              <WalkthroughView style={{ flex: 1, marginRight: 8 }}>
+                <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => handleStatClick('MARK')}>
+                  <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
+                    <Feather name="plus" size={24} color={colors.primary} />
+                  </View>
+                  <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
+                  <Text style={styles.actionDesc}>{t('startNewSession')}</Text>
+                </AnimatedTouchable>
+              </WalkthroughView>
+            </CopilotStep>
 
-            <AnimatedTouchable style={styles.actionCard} onPress={() => navigation.navigate('Attendance')}>
-              <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
-                <Feather name="clock" size={24} color={colors.warning} />
-              </View>
-              <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
-              <Text style={styles.actionDesc}>{t('reviewPastLogs')}</Text>
-            </AnimatedTouchable>
+            <CopilotStep text={t('tutorialHistoryDesc')} order={3} name="attendanceHistory">
+              <WalkthroughView style={{ flex: 1, marginLeft: 8 }}>
+                <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => navigation.navigate('Attendance')}>
+                  <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
+                    <Feather name="clock" size={24} color={colors.warning} />
+                  </View>
+                  <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
+                  <Text style={styles.actionDesc}>{t('reviewPastLogs')}</Text>
+                </AnimatedTouchable>
+              </WalkthroughView>
+            </CopilotStep>
           </View>
         </Animated.View>
 
@@ -264,10 +287,12 @@ export default function TeacherDashboard({ navigation }: any) {
           <Text style={styles.alertText}>
             {t('attendanceRateMessage', { rate: stats.attendanceRate })}
           </Text>
-          <TouchableOpacity style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
-            <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
-            <Feather name="arrow-right" size={16} color={colors.primary} />
-          </TouchableOpacity>
+          <CopilotStep text={t('tutorialReportDesc')} order={4} name="viewReports">
+            <WalkthroughTouchable style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
+              <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
+              <Feather name="arrow-right" size={16} color={colors.primary} />
+            </WalkthroughTouchable>
+          </CopilotStep>
         </Animated.View>
         
         <View style={{ height: 40 }} />
@@ -356,6 +381,17 @@ export default function TeacherDashboard({ navigation }: any) {
     </View>
   );
 }
+
+export default copilot({
+  overlay: 'svg',
+  animated: true,
+  labels: {
+    previous: 'Back',
+    next: 'Next',
+    skip: 'Skip',
+    finish: 'Done'
+  }
+})(TeacherDashboardScreen);
 
 const useStyles = () => {
   const { colors } = useAppTheme();
