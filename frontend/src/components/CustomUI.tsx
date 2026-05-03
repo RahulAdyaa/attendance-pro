@@ -145,22 +145,27 @@ export const BlueHeader: React.FC<BlueHeaderProps> = ({
 
   return (
     <View style={styles.header}>
+      {/* Decorative circles */}
+      <View style={styles.headerDecor1} />
+      <View style={styles.headerDecor2} />
       <View style={styles.headerTop}>
         <TouchableOpacity style={styles.iconButton} onPress={onMenuPress}>
-          <Feather name="menu" color={colors.white} size={24} />
+          <Feather name="menu" color={colors.white} size={22} />
         </TouchableOpacity>
+        <View style={styles.headerBrandPill}>
+          <Text style={styles.headerBrandText}>Attendance Pro</Text>
+        </View>
         <TouchableOpacity style={styles.iconButton} onPress={onNotificationPress}>
-          <Feather name="bell" color={colors.white} size={24} />
+          <Feather name="bell" color={colors.white} size={22} />
           {hasNotifications && <View style={styles.notificationDot} />}
         </TouchableOpacity>
       </View>
       <View style={styles.headerBottom}>
         <View style={styles.headerTextContainer}>
           {userName ? (
-            <Text style={styles.headerTitle}>Hi {userName}, {getGreeting()} 👋</Text>
-          ) : (
-            <Text style={styles.headerTitle}>{title}</Text>
-          )}
+            <Text style={styles.headerGreeting}>{getGreeting()} 👋</Text>
+          ) : null}
+          <Text style={styles.headerTitle}>{userName || title}</Text>
           <Text style={styles.headerSubtitle}>{userName ? t('wonderfulDay') : t('today')}</Text>
         </View>
         <TouchableOpacity style={styles.dateContainer} onPress={onDatePress}>
@@ -207,16 +212,16 @@ export const ProfileCard = ({ name, role, subRole, image, onEditPress }: { name:
   );
 };
 
-// 3. Vertical Stat Box
+// 3. Vertical Stat Box — Premium with colored top border
 export const StatBox = ({ label, value, color, icon: Icon, onPress }: { label: string, value: string | number, color: string, icon: any, onPress?: () => void }) => {
   const styles = useStyles();
   return (
-  <AnimatedTouchable style={styles.statBox} onPress={onPress} disabled={!onPress}>
-    <View style={[styles.iconCircle, { backgroundColor: color + '15' }]}>
+  <AnimatedTouchable style={[styles.statBox, { borderTopWidth: 3, borderTopColor: color }]} onPress={onPress} disabled={!onPress}>
+    <View style={[styles.iconCircle, { backgroundColor: color + '18' }]}>
       {typeof Icon === 'string' ? <Feather name={Icon as any} size={18} color={color} /> : <Icon size={18} color={color} />}
     </View>
+    <Text style={[styles.statValue, { color }]}>{value}</Text>
     <Text style={styles.statLabel}>{label}</Text>
-    <Text style={styles.statValue}>{value}</Text>
   </AnimatedTouchable>
   );
 };
@@ -345,52 +350,6 @@ const useStyles = () => {
     fontSize: 15,
     color: colors.text,
   },
-  headerBackground: {
-    backgroundColor: colors.primary,
-    height: 200,
-    borderBottomLeftRadius: 35,
-    borderBottomRightRadius: 35,
-    paddingTop: 60,
-    paddingHorizontal: 25,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerLogoBox: {
-    width: 32,
-    height: 32,
-    backgroundColor: colors.white,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoText: {
-    color: colors.primary,
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  headerTitleBox: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: colors.white,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerDate: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 12,
-    marginTop: 2,
-  },
-  notificationBtn: {
-    width: 32,
-    height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   notificationDot: {
     position: 'absolute',
     top: 5,
@@ -405,25 +364,29 @@ const useStyles = () => {
   profileCard: {
     backgroundColor: colors.surface,
     marginHorizontal: 25,
-    borderRadius: 25,
+    borderRadius: 22,
     marginTop: -80, // Overlap
     padding: 20,
-    elevation: 8,
+    elevation: 12,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.15,
+    shadowRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   profileInner: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   avatarContainer: {
-    width: 65,
-    height: 65,
-    borderRadius: 32,
+    width: 60,
+    height: 60,
+    borderRadius: 18,
     overflow: 'hidden',
-    backgroundColor: colors.background,
+    backgroundColor: colors.primary + '15',
+    borderWidth: 2,
+    borderColor: colors.primary + '30',
   },
   avatar: {
     width: '100%',
@@ -435,7 +398,7 @@ const useStyles = () => {
   },
   placeholderText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '800',
     color: colors.primary,
   },
   profileInfo: {
@@ -444,62 +407,76 @@ const useStyles = () => {
   },
   profileName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '800',
     color: colors.text,
+    letterSpacing: -0.3,
   },
   tagRow: {
     flexDirection: 'row',
-    marginTop: 6,
+    marginTop: 8,
   },
   roleTag: {
-    backgroundColor: colors.primary + '1A', // 10% opacity
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
+    backgroundColor: colors.primary + '18',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
     marginRight: 6,
   },
   tagText: {
     color: colors.primary,
-    fontSize: 10,
-    fontWeight: '600',
+    fontSize: 11,
+    fontWeight: '700',
   },
   subRoleTag: {
     backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   subRoleText: {
     color: colors.textMuted,
   },
   editBtn: {
-    padding: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: colors.surfaceAlt,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   statBox: {
     backgroundColor: colors.surface,
-    padding: 15,
-    borderRadius: 20,
+    padding: 14,
+    borderRadius: 18,
     alignItems: 'center',
     width: (width - 70) / 4,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
+    elevation: 4,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderTopWidth: 3,
   },
   iconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   statLabel: {
     fontSize: 10,
     color: colors.textMuted,
-    marginBottom: 4,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginTop: 4,
   },
   statValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '800',
     color: colors.text,
   },
   tabsContainer: {
@@ -529,55 +506,102 @@ const useStyles = () => {
   },
   header: {
     backgroundColor: colors.primary,
-    height: 250,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    height: 270,
+    borderBottomLeftRadius: 35,
+    borderBottomRightRadius: 35,
+    paddingTop: Platform.OS === 'ios' ? 60 : 45,
     paddingHorizontal: 25,
+    overflow: 'hidden',
+  },
+  headerDecor1: {
+    position: 'absolute',
+    top: -40,
+    right: -40,
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  headerDecor2: {
+    position: 'absolute',
+    bottom: 20,
+    left: -30,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: 'rgba(255,255,255,0.05)',
   },
   headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 25,
+  },
+  headerBrandPill: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  headerBrandText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
   iconButton: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   headerBottom: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     paddingRight: 10,
   },
   headerTextContainer: {
     flex: 1,
     marginRight: 10,
   },
-
+  headerGreeting: {
+    color: 'rgba(255,255,255,0.75)',
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 4,
+  },
+  headerTitle: {
+    color: colors.white,
+    fontSize: 26,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
   headerSubtitle: {
-    color: 'rgba(255,255,255,0.85)',
+    color: 'rgba(255,255,255,0.7)',
     fontSize: 13,
     fontWeight: '500',
+    marginTop: 4,
   },
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 15,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   dateText: {
     color: colors.white,
     marginLeft: 6,
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   });
 };
