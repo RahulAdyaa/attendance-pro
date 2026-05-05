@@ -31,10 +31,25 @@ export default function ClassList({ navigation }: any) {
   const [studentEmail, setStudentEmail] = useState('');
   const [studentName, setStudentName] = useState('');
   const [studentFatherName, setStudentFatherName] = useState('');
-  const [studentSection, setStudentSection] = useState('');
+  const [studentRollNumber, setStudentRollNumber] = useState('');
   const [selectedClass, setSelectedClass] = useState<ClassItem | null>(null);
   const [isAddingStudent, setIsAddingStudent] = useState(false);
   const [studentGender, setStudentGender] = useState<'MALE' | 'FEMALE'>('MALE');
+  
+  // View/Delete Students Modal state
+  const [studentsListVisible, setStudentsListVisible] = useState(false);
+  const [studentsList, setStudentsList] = useState<any[]>([]);
+  const [isLoadingStudents, setIsLoadingStudents] = useState(false);
+  const [viewingClass, setViewingClass] = useState<ClassItem | null>(null);
+
+  // Edit Student Modal state
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editingStudent, setEditingStudent] = useState<any>(null);
+  const [editName, setEditName] = useState('');
+  const [editFatherName, setEditFatherName] = useState('');
+  const [editRollNumber, setEditRollNumber] = useState('');
+  const [editGender, setEditGender] = useState<'MALE' | 'FEMALE'>('MALE');
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
 
   const copyToClipboard = async (text: string) => {
     await Clipboard.setStringAsync(text);
@@ -92,13 +107,13 @@ export default function ClassList({ navigation }: any) {
         studentName: studentName.trim(),
         fatherName: studentFatherName ? studentFatherName.trim() : undefined,
         gender: studentGender,
-        rollNumber: studentSection ? `SEC-${studentSection.toUpperCase()}` : undefined
+        rollNumber: studentRollNumber ? studentRollNumber.trim() : undefined
       });
       setIsAddingStudent(false);
       setStudentEmail('');
       setStudentName('');
       setStudentFatherName('');
-      setStudentSection('');
+      setStudentRollNumber('');
       setStudentGender('MALE');
       
       if (closeAfterAdd) {
@@ -116,6 +131,88 @@ export default function ClassList({ navigation }: any) {
       setIsAddingStudent(false);
       alert(error.response?.data?.error || t('failedAddStudent'));
     }
+  };
+
+  const fetchStudentsList = async (cls: ClassItem) => {
+    setViewingClass(cls);
+    setIsLoadingStudents(true);
+    setStudentsListVisible(true);
+    try {
+      const res = await api.get(`/classes/${cls.id}`);
+      const students = (res.data.students || []).map((s: any) => ({
+        id: s.id,
+        name: s.user?.name || 'Unknown',
+        rollNumber: s.rollNumber,
+        fatherName: s.fatherName,
+        gender: s.gender,
+      }));
+      setStudentsList(students);
+    } catch (error) {
+      alert(t('failedLoadStudents', 'Failed to load students'));
+    }
+    setIsLoadingStudents(false);
+  };
+
+  const handleRemoveStudent = (studentId: string, studentName: string) => {
+    if (!viewingClass) return;
+    Alert.alert(
+      t('removeStudent', 'Remove Student'),
+      t('confirmRemoveStudent', `Are you sure you want to remove ${studentName} from this class?`),
+      [
+        { text: t('cancel'), style: 'cancel' },
+        {
+          text: t('remove', 'Remove'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.post('/classes/remove-student', { classId: viewingClass.id, studentId });
+              setStudentsList(prev => prev.filter(s => s.id !== studentId));
+              // Update count in cached classes
+              const updatedClasses = classes.map(c =>
+                c.id === viewingClass.id ? { ...c, studentCount: Math.max(0, (c.studentCount || 0) - 1) } : c
+              );
+              useDataStore.getState().setClasses(updatedClasses);
+            } catch (error) {
+              alert(t('failedRemoveStudent', 'Failed to remove student'));
+            }
+          }
+        }
+      ]
+    );
+  };
+
+  const openEditStudent = (student: any) => {
+    setEditingStudent(student);
+    setEditName(student.name || '');
+    setEditFatherName(student.fatherName || '');
+    setEditRollNumber(student.rollNumber || '');
+    setEditGender(student.gender || 'MALE');
+    setEditModalVisible(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!viewingClass || !editingStudent) return;
+    setIsSavingEdit(true);
+    try {
+      await api.post('/classes/update-student', {
+        classId: viewingClass.id,
+        studentId: editingStudent.id,
+        studentName: editName.trim(),
+        fatherName: editFatherName.trim() || null,
+        rollNumber: editRollNumber.trim() || null,
+        gender: editGender,
+      });
+      // Update local list
+      setStudentsList(prev => prev.map(s =>
+        s.id === editingStudent.id
+          ? { ...s, name: editName.trim(), fatherName: editFatherName.trim(), rollNumber: editRollNumber.trim(), gender: editGender }
+          : s
+      ));
+      setEditModalVisible(false);
+    } catch (error) {
+      alert(t('failedUpdateStudent', 'Failed to update student'));
+    }
+    setIsSavingEdit(false);
   };
 
   const filteredClasses = classes.filter(cls =>
@@ -161,6 +258,12 @@ export default function ClassList({ navigation }: any) {
                 }}
               >
                 <Feather name="user-plus" size={16} color={colors.secondary} />
+              </AnimatedTouchable>
+              <AnimatedTouchable 
+                style={[styles.markButton, { backgroundColor: colors.warning + '15', marginRight: 8 }]} 
+                onPress={() => fetchStudentsList(item)}
+              >
+                <Feather name="users" size={16} color={colors.warning} />
               </AnimatedTouchable>
               <AnimatedTouchable 
                 style={styles.markButton} 
@@ -245,13 +348,14 @@ export default function ClassList({ navigation }: any) {
 
             <View style={{ marginBottom: 20, flexDirection: 'row', gap: 15 }}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.labelForm}>{t('section')}</Text>
+                <Text style={styles.labelForm}>{t('rollNumber', 'Roll Number')}</Text>
                 <TextInput 
                   style={styles.input} 
-                  placeholder="e.g. A" 
+                  placeholder="e.g. 1" 
                   placeholderTextColor={colors.textMuted} 
-                  value={studentSection} 
-                  onChangeText={setStudentSection}
+                  value={studentRollNumber} 
+                  onChangeText={setStudentRollNumber}
+                  keyboardType="default"
                 />
               </View>
               <View style={{ flex: 2 }}>
@@ -289,6 +393,139 @@ export default function ClassList({ navigation }: any) {
                 style={styles.cancelBtn} 
                 onPress={() => setStudentModalVisible(false)}
                 disabled={isAddingStudent}
+              >
+                <Text style={styles.cancelBtnText}>{t('cancel')}</Text>
+              </AnimatedTouchable>
+            </View>
+          </View>
+          </AnimatedModal>
+        </KeyboardAvoidingView>
+      </Modal>
+
+      {/* Students List Modal */}
+      <Modal animationType="slide" transparent={true} visible={studentsListVisible} onRequestClose={() => setStudentsListVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { maxHeight: '80%' }]}>
+            <View style={styles.modalHandle} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={styles.modalTitle}>{viewingClass?.name}</Text>
+              <TouchableOpacity onPress={() => setStudentsListVisible(false)}>
+                <Feather name="x" size={24} color={colors.textMuted} />
+              </TouchableOpacity>
+            </View>
+            <Text style={{ color: colors.textMuted, fontSize: 14, marginBottom: 15 }}>
+              {studentsList.length} {t('studentsCount')}
+            </Text>
+            {isLoadingStudents ? (
+              <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 30 }} />
+            ) : studentsList.length === 0 ? (
+              <Text style={{ color: colors.textMuted, textAlign: 'center', marginTop: 30 }}>{t('noStudentsYet', 'No students in this class yet')}</Text>
+            ) : (
+              <FlatList
+                data={studentsList}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.primary + '20', justifyContent: 'center', alignItems: 'center', marginRight: 12 }}>
+                      <Text style={{ color: colors.primary, fontWeight: 'bold', fontSize: 16 }}>{item.name?.charAt(0) || '?'}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ color: colors.text, fontWeight: '600', fontSize: 15 }} numberOfLines={1}>{item.name}</Text>
+                      <Text style={{ color: colors.textMuted, fontSize: 12, marginTop: 2 }}>
+                        {item.rollNumber ? `${t('rollNumber', 'Roll No.')}: ${item.rollNumber}` : ''}
+                        {item.rollNumber && item.fatherName ? ' • ' : ''}
+                        {item.fatherName ? `${item.gender === 'FEMALE' ? 'D/O' : 'S/O'} ${item.fatherName}` : ''}
+                      </Text>
+                    </View>
+                    <TouchableOpacity 
+                      style={{ padding: 8, borderRadius: 8, backgroundColor: colors.primary + '15', marginRight: 6 }}
+                      onPress={() => openEditStudent(item)}
+                    >
+                      <Feather name="edit-2" size={18} color={colors.primary} />
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={{ padding: 8, borderRadius: 8, backgroundColor: colors.danger + '15' }}
+                      onPress={() => handleRemoveStudent(item.id, item.name)}
+                    >
+                      <Feather name="trash-2" size={18} color={colors.danger} />
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Edit Student Modal */}
+      <Modal animationType="fade" transparent={true} visible={editModalVisible} onRequestClose={() => setEditModalVisible(false)}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.modalOverlayCenter}>
+          <AnimatedModal visible={editModalVisible} style={styles.modalContentCenter}>
+          <View>
+            <Text style={styles.modalTitle}>{t('editStudent', 'Edit Student')}</Text>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.labelForm}>{t('studentNameLabel')}</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={t('studentNameLabel')}
+                placeholderTextColor={colors.textMuted}
+                value={editName}
+                onChangeText={setEditName}
+              />
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.labelForm}>{t('fatherNameOptional')}</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={t('fatherNameOptional')}
+                placeholderTextColor={colors.textMuted}
+                value={editFatherName}
+                onChangeText={setEditFatherName}
+              />
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.labelForm}>{t('rollNumber', 'Roll No.')}</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g. 1"
+                placeholderTextColor={colors.textMuted}
+                value={editRollNumber}
+                onChangeText={setEditRollNumber}
+              />
+            </View>
+
+            <View style={{ marginBottom: 20 }}>
+              <Text style={styles.labelForm}>{t('gender', 'Gender')}</Text>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <TouchableOpacity
+                  style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: editGender === 'MALE' ? colors.primary : colors.border }]}
+                  onPress={() => setEditGender('MALE')}
+                >
+                  <Text style={{ color: editGender === 'MALE' ? colors.primary : colors.textMuted, fontWeight: 'bold' }}>♂ {t('male')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.input, { flex: 1, alignItems: 'center', borderWidth: 2, borderColor: editGender === 'FEMALE' ? '#E91E63' : colors.border }]}
+                  onPress={() => setEditGender('FEMALE')}
+                >
+                  <Text style={{ color: editGender === 'FEMALE' ? '#E91E63' : colors.textMuted, fontWeight: 'bold' }}>♀ {t('female')}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={{ gap: 12 }}>
+              <AnimatedTouchable
+                style={[styles.primaryBtn, isSavingEdit && styles.disabledBtn]}
+                onPress={handleSaveEdit}
+                disabled={isSavingEdit}
+              >
+                {isSavingEdit ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryBtnText}>{t('saveChanges', 'Save Changes')}</Text>}
+              </AnimatedTouchable>
+              <AnimatedTouchable
+                style={styles.cancelBtn}
+                onPress={() => setEditModalVisible(false)}
               >
                 <Text style={styles.cancelBtnText}>{t('cancel')}</Text>
               </AnimatedTouchable>

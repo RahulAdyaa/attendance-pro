@@ -22,7 +22,7 @@ import Animated, {
   useSharedValue,
   withSpring
 } from 'react-native-reanimated';
-import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
+
 import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -32,10 +32,9 @@ import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, AnimatedTouchable } from '../../components/CustomUI';
 
 const { width } = Dimensions.get('window');
-const WalkthroughView = walkthroughable(View);
-const WalkthroughTouchable = walkthroughable(TouchableOpacity);
 
-function TeacherDashboardScreen({ navigation, route, start }: any) {
+
+function TeacherDashboardScreen({ navigation, route }: any) {
   const { user } = useAuthStore();
   const { colors, isDarkMode } = useAppTheme();
   const styles = useStyles();
@@ -110,15 +109,7 @@ function TeacherDashboardScreen({ navigation, route, start }: any) {
     return () => clearInterval(interval);
   }, [activeDate]);
 
-  useEffect(() => {
-    if (route.params?.startTutorial && start) {
-      // Slight delay to ensure screen is rendered
-      setTimeout(() => {
-        start();
-        navigation.setParams({ startTutorial: false });
-      }, 500);
-    }
-  }, [route.params?.startTutorial, start]);
+
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'pa' : 'en';
@@ -240,42 +231,36 @@ function TeacherDashboardScreen({ navigation, route, start }: any) {
 
         <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>{t('dashboardTitle')}</Text>
-          <CopilotStep text={t('tutorialDashDesc')} order={1} name="dashboardOverview">
-            <WalkthroughView style={styles.statsRow}>
-              <StatBox label={t('student')} value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
-              <StatBox label={t('present')} value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
-              <StatBox label={t('absent')} value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
-              <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
-            </WalkthroughView>
-          </CopilotStep>
+          <View style={styles.statsRow}>
+            <StatBox label={t('student')} value={stats.totalStudents} color={colors.primary} icon="users" onPress={() => handleStatClick('ALL')} />
+            <StatBox label={t('present')} value={stats.totalPresent} color={colors.success} icon="check-circle" onPress={() => handleStatClick('PRESENT')} />
+            <StatBox label={t('absent')} value={stats.totalAbsent} color={colors.danger} icon="trending-down" onPress={() => handleStatClick('ABSENT')} />
+            <StatBox label="Rate" value={`${stats.attendanceRate}%`} color={colors.warning} icon="trending-up" />
+          </View>
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>{t('quickActions')}</Text>
           <View style={styles.actionsGrid}>
-            <CopilotStep text={t('tutorialMarkDesc')} order={2} name="markAttendance">
-              <WalkthroughView style={{ flex: 1, marginRight: 8 }}>
-                <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => handleStatClick('MARK')}>
-                  <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
-                    <Feather name="plus" size={24} color={colors.primary} />
-                  </View>
-                  <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
-                  <Text style={styles.actionDesc}>{t('startNewSession')}</Text>
-                </AnimatedTouchable>
-              </WalkthroughView>
-            </CopilotStep>
+            <View style={{ flex: 1, marginRight: 8 }}>
+              <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => handleStatClick('MARK')}>
+                <View style={[styles.actionIconBox, { backgroundColor: colors.primary + '15' }]}>
+                  <Feather name="plus" size={24} color={colors.primary} />
+                </View>
+                <Text style={styles.actionLabel}>{t('markAttendance')}</Text>
+                <Text style={styles.actionDesc}>{t('startNewSession')}</Text>
+              </AnimatedTouchable>
+            </View>
 
-            <CopilotStep text={t('tutorialHistoryDesc')} order={3} name="attendanceHistory">
-              <WalkthroughView style={{ flex: 1, marginLeft: 8 }}>
-                <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => navigation.navigate('Attendance')}>
-                  <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
-                    <Feather name="clock" size={24} color={colors.warning} />
-                  </View>
-                  <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
-                  <Text style={styles.actionDesc}>{t('reviewPastLogs')}</Text>
-                </AnimatedTouchable>
-              </WalkthroughView>
-            </CopilotStep>
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              <AnimatedTouchable style={[styles.actionCard, { width: '100%' }]} onPress={() => navigation.navigate('Attendance')}>
+                <View style={[styles.actionIconBox, { backgroundColor: colors.warning + '15' }]}>
+                  <Feather name="clock" size={24} color={colors.warning} />
+                </View>
+                <Text style={styles.actionLabel}>{t('attendanceHistory')}</Text>
+                <Text style={styles.actionDesc}>{t('reviewPastLogs')}</Text>
+              </AnimatedTouchable>
+            </View>
           </View>
         </Animated.View>
 
@@ -287,12 +272,10 @@ function TeacherDashboardScreen({ navigation, route, start }: any) {
           <Text style={styles.alertText}>
             {t('attendanceRateMessage', { rate: stats.attendanceRate })}
           </Text>
-          <CopilotStep text={t('tutorialReportDesc')} order={4} name="viewReports">
-            <WalkthroughTouchable style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
-              <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
-              <Feather name="arrow-right" size={16} color={colors.primary} />
-            </WalkthroughTouchable>
-          </CopilotStep>
+          <TouchableOpacity style={styles.alertBtn} onPress={() => navigation.navigate('Reports')}>
+            <Text style={styles.alertBtnText}>{t('viewReports')}</Text>
+            <Feather name="arrow-right" size={16} color={colors.primary} />
+          </TouchableOpacity>
         </Animated.View>
         
         <View style={{ height: 40 }} />
@@ -382,16 +365,7 @@ function TeacherDashboardScreen({ navigation, route, start }: any) {
   );
 }
 
-export default copilot({
-  overlay: 'svg',
-  animated: true,
-  labels: {
-    previous: 'Back',
-    next: 'Next',
-    skip: 'Skip',
-    finish: 'Done'
-  }
-})(TeacherDashboardScreen);
+export default TeacherDashboardScreen;
 
 const useStyles = () => {
   const { colors } = useAppTheme();
@@ -400,7 +374,7 @@ const useStyles = () => {
     centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     section: { marginTop: 30 },
     sectionTitle: { fontSize: 18, fontWeight: '800', color: colors.text, paddingHorizontal: 25, marginBottom: 15, letterSpacing: -0.3 },
-    statsRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 25 },
+    statsRow: { flexDirection: 'row', paddingHorizontal: 20 },
     actionsGrid: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 25 },
     actionCard: { backgroundColor: colors.surface, width: (width - 65) / 2, padding: 22, borderRadius: 22, elevation: 6, shadowColor: colors.primary, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.08, shadowRadius: 16, borderWidth: 1, borderColor: colors.border },
     actionIconBox: { width: 50, height: 50, borderRadius: 16, justifyContent: 'center', alignItems: 'center', marginBottom: 16 },

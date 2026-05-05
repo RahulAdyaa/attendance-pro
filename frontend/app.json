@@ -36,7 +36,7 @@
     "updates": {
       "enabled": true,
       "checkAutomatically": "ON_LOAD",
-      "url": "https://u.expo.dev/55c4030f-c64c-41ca-aa9e-af49c013347d",
+      "url": "https://u.expo.dev/aa4edfb9-3eb7-4cf4-9088-b8d270139e68",
       "fallbackToCacheTimeout": 30000
     },
     "runtimeVersion": {
@@ -45,9 +45,9 @@
     "extra": {
       "API_URL": "https://backend-theta-two-72.vercel.app/api",
       "eas": {
-        "projectId": "55c4030f-c64c-41ca-aa9e-af49c013347d"
+        "projectId": "aa4edfb9-3eb7-4cf4-9088-b8d270139e68"
       }
     },
-    "owner": "rahuladya"
+    "owner": "rahuladya2"
   }
 }

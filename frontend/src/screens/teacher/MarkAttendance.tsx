@@ -130,7 +130,7 @@ export default function MarkAttendance({ route, navigation }: any) {
         <View style={styles.statusGroup}>
           <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="PRESENT" label="P" color={colors.present} />
           <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="ABSENT" label="A" color={colors.absent} />
-          <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="NOT_AVAILABLE" label="N/A" color={colors.textMuted} />
+          <StatusButton studentId={item.id} currentStatus={item.status} targetStatus="NOT_AVAILABLE" label={t('leaveShort', 'L')} color={colors.textMuted} />
         </View>
       </View>
     </Animated.View>

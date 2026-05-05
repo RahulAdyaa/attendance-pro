@@ -65,18 +65,7 @@ export default function CustomDrawerContent(props: any) {
       </ScrollView>
 
       <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 }}>
-        <TouchableOpacity 
-          style={styles.tutorialBtn} 
-          onPress={() => {
-            props.navigation.closeDrawer();
-            props.navigation.navigate('Home', { startTutorial: true });
-          }}
-        >
-          <View style={styles.tutorialIconBg}>
-            <Feather name="info" size={20} color={colors.primary} />
-          </View>
-          <Text style={styles.tutorialText}>{t('appTutorial', 'App Tutorial')}</Text>
-        </TouchableOpacity>
+
 
         <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
           <Feather name="log-out" size={22} color={colors.danger} />

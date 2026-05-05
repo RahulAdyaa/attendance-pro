@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
+
 import api from '../../utils/api';
 import { BlueHeader, ProfileCard, StatBox, TabSwitcher, CustomInput, FadeInUp } from '../../components/CustomUI';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -21,9 +21,9 @@ interface AttendanceRecord {
   session: { date: string; class: { name: string } }
 }
 
-const WalkthroughView = walkthroughable(View);
 
-function StudentHistoryScreen({ navigation, route, start }: any) {
+
+function StudentHistoryScreen({ navigation, route }: any) {
   const { user } = useAuthStore();
   const { colors } = useAppTheme();
   const styles = useStyles();
@@ -88,14 +88,7 @@ function StudentHistoryScreen({ navigation, route, start }: any) {
     fetchStudentClass();
   }, []);
 
-  useEffect(() => {
-    if (route.params?.startTutorial && start) {
-      setTimeout(() => {
-        start();
-        navigation.setParams({ startTutorial: false });
-      }, 500);
-    }
-  }, [route.params?.startTutorial, start]);
+
 
   const renderHistoryItem = ({ item }: { item: AttendanceRecord }) => {
     const statusConfig = {
@@ -187,18 +180,15 @@ function StudentHistoryScreen({ navigation, route, start }: any) {
       <FadeInUp delay={300} style={styles.section}>
         <Text style={styles.sectionTitle}>{t('childPresence')}</Text>
         <TabSwitcher tabs={[t('thisWeek'), t('thisMonth'), t('thisSemester')]} activeTab={activeTab} onTabPress={setActiveTab} />
-        <CopilotStep text={t('tutorialStudentDashDesc')} order={1} name="studentDashboard">
-          <WalkthroughView style={styles.statsRow}>
+          <View style={styles.statsRow}>
             <StatBox label={t('arrive')} value={stats.present} color={colors.success} icon="check-circle" />
             <StatBox label={t('sick')} value={stats.excused} color={colors.primary} icon="alert-triangle" />
             <StatBox label={t('leave')} value={stats.late} color={colors.warning} icon="clock" />
             <StatBox label={t('skip')} value={stats.absent} color={colors.danger} icon="minus-circle" />
-          </WalkthroughView>
-        </CopilotStep>
+          </View>
       </FadeInUp>
       <FadeInUp delay={400} style={[styles.section, styles.historySection]}>
-        <CopilotStep text={t('tutorialStudentHistoryDesc')} order={2} name="studentHistory">
-          <WalkthroughView style={{ paddingHorizontal: 0 }}>
+          <View style={{ paddingHorizontal: 0 }}>
             <View style={styles.historyHeaderRow}>
               <Text style={styles.sectionTitle}>{t('attendanceHistory')}</Text>
               <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>{t('newest')}</Text></TouchableOpacity>
@@ -208,8 +198,7 @@ function StudentHistoryScreen({ navigation, route, start }: any) {
             ) : (
               <View style={styles.emptyContainer}><Text style={styles.emptyText}>{t('noAttendanceRecordsYet')}</Text></View>
             )}
-          </WalkthroughView>
-        </CopilotStep>
+          </View>
       </FadeInUp>
       <View style={{ height: 40 }} />
 
@@ -249,16 +238,7 @@ function StudentHistoryScreen({ navigation, route, start }: any) {
   );
 }
 
-export default copilot({
-  overlay: 'svg',
-  animated: true,
-  labels: {
-    previous: 'Back',
-    next: 'Next',
-    skip: 'Skip',
-    finish: 'Done'
-  }
-})(StudentHistoryScreen);
+export default StudentHistoryScreen;
 
 const useStyles = () => {
   const { colors } = useAppTheme();
@@ -270,7 +250,7 @@ const useStyles = () => {
     bannerText: { flex: 1, fontSize: 13, color: colors.textSecondary, lineHeight: 18 },
     section: { marginTop: 30 },
     sectionTitle: { fontSize: 18, fontWeight: '700', color: colors.text, paddingHorizontal: 25 },
-    statsRow: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 25, marginTop: 10 },
+    statsRow: { flexDirection: 'row', paddingHorizontal: 20, marginTop: 10 },
     historySection: { backgroundColor: colors.surface, marginTop: 35, paddingVertical: 25, borderTopLeftRadius: 35, borderTopRightRadius: 35 },
     historyHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
     filterBtn: { backgroundColor: colors.primary + '15', paddingHorizontal: 15, paddingVertical: 6, borderRadius: 10, marginRight: 25 },

@@ -218,10 +218,10 @@ export const StatBox = ({ label, value, color, icon: Icon, onPress }: { label: s
   return (
   <AnimatedTouchable style={[styles.statBox, { borderTopWidth: 3, borderTopColor: color }]} onPress={onPress} disabled={!onPress}>
     <View style={[styles.iconCircle, { backgroundColor: color + '18' }]}>
-      {typeof Icon === 'string' ? <Feather name={Icon as any} size={18} color={color} /> : <Icon size={18} color={color} />}
+      {typeof Icon === 'string' ? <Feather name={Icon as any} size={16} color={color} /> : <Icon size={16} color={color} />}
     </View>
-    <Text style={[styles.statValue, { color }]}>{value}</Text>
-    <Text style={styles.statLabel}>{label}</Text>
+    <Text style={[styles.statValue, { color }]} numberOfLines={1} adjustsFontSizeToFit>{value}</Text>
+    <Text style={styles.statLabel} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>{label}</Text>
   </AnimatedTouchable>
   );
 };
@@ -445,10 +445,11 @@ const useStyles = () => {
   },
   statBox: {
     backgroundColor: colors.surface,
-    padding: 14,
+    padding: 10,
     borderRadius: 18,
     alignItems: 'center',
-    width: (width - 70) / 4,
+    flex: 1,
+    marginHorizontal: 4,
     elevation: 4,
     shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 4 },
@@ -459,23 +460,24 @@ const useStyles = () => {
     borderTopWidth: 3,
   },
   iconCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
+    width: 32,
+    height: 32,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   statLabel: {
-    fontSize: 10,
+    fontSize: 9,
     color: colors.textMuted,
-    fontWeight: '600',
+    fontWeight: '700',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginTop: 4,
+    letterSpacing: 0.3,
+    marginTop: 2,
+    textAlign: 'center',
   },
   statValue: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '800',
     color: colors.text,
   },

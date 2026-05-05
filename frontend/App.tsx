@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import './src/i18n';
 import { StatusBar, Platform, LogBox, View, Text, Alert } from 'react-native';
